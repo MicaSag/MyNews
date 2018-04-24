@@ -1,7 +1,9 @@
-package com.android.sagot.mynews;
+package com.android.sagot.mynews.Controllers.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.android.sagot.mynews.R;
 
 public class MainActivity extends AppCompatActivity {
 
