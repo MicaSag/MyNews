@@ -4,32 +4,48 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.android.sagot.mynews.Controllers.Fragments.PageFragment;
+import com.android.sagot.mynews.Controllers.Fragments.BusinessFragment;
+import com.android.sagot.mynews.Controllers.Fragments.MostPopularFragment;
+import com.android.sagot.mynews.Controllers.Fragments.TopStoriesFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
-    // 1 - Array of colors that will be passed to PageFragment
-    private int[] colors;
-
-    // 2 - Default Constructor
-    public PageAdapter(FragmentManager mgr, int[] colors) {
+    // Default Constructor
+    public PageAdapter(FragmentManager mgr) {
         super(mgr);
-        this.colors = colors;
     }
 
     @Override
     public int getCount() {
-        return(5); // 3 - Number of page to show
+        return(3); // Number of page to show
     }
 
     @Override
     public Fragment getItem(int position) {
-        // 4 - Page to return
-        return(PageFragment.newInstance(position, this.colors[position]));
+        // Page to return
+        switch (position){
+            case 0: //Page number 1
+                return TopStoriesFragment.newInstance();
+            case 1: //Page number 2
+                return MostPopularFragment.newInstance();
+            case 2: //Page number 3
+                return BusinessFragment.newInstance();
+            default:
+                return null;
+        }
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Page "+position;
+        switch (position){
+            case 0: //Page number 1
+                return "TOP STORIES";
+            case 1: //Page number 2
+                return "MOST POPULAR";
+            case 2: //Page number 3
+                return "BUSINESS";
+            default:
+                return null;
+        }
     }
 }
