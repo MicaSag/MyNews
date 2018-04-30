@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.sagot.mynews.Adapters.PageAdapter;
@@ -49,6 +50,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureToolBar(){
         this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the toolbar  and add it to the Toolbar
+        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
+        return true;
     }
 
     // Configure Drawer Layout
