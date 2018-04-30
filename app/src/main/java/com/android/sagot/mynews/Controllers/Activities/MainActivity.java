@@ -39,18 +39,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // ---------------------------------------------------------------------------------------------
-    //                                     NAVIGATION DRAWER
+    //                                     TOOLBAR
     // ---------------------------------------------------------------------------------------------
 
     // ---------------------
     // CONFIGURATION
     // ---------------------
 
-    // Configure Toolbar
     private void configureToolBar(){
-        this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
+        this.toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
+
+    // ---------------------
+    // ACTIONS
+    // ---------------------
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,7 +62,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    // Configure Drawer Layout
+    // ---------------------------------------------------------------------------------------------
+    //                                     NAVIGATION DRAWER
+    // ---------------------------------------------------------------------------------------------
+
+    // ---------------------
+    // CONFIGURATION
+    // ---------------------
+
+    // Configure Drawer Layout and connects him the ToolBar and the NavigationView
     private void configureDrawerLayout(){
         this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
