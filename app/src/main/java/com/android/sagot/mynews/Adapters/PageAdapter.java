@@ -27,4 +27,9 @@ public class PageAdapter extends FragmentPagerAdapter {
         // 4 - Page to return
         return(PageFragment.newInstance(position, this.colors[position]));
     }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return "Page "+position;
+    }
 }

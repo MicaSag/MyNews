@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -32,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureNavigationView();
 
         // VIEW PAGER
-        //Configure ViewPager
-        this.configureViewPager();
+        //Configure ViewPager with tab layout
+        this.configureViewPagerAndTabs();
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -108,12 +109,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // CONFIGURATION
     // ---------------------
 
-    private void configureViewPager(){
+    private void configureViewPagerAndTabs(){
         // Get ViewPager from layout
         ViewPager pager = (ViewPager)findViewById(R.id.activity_main_viewpager);
         // Set Adapter PageAdapter and glue it together
         pager.setAdapter(new PageAdapter(getSupportFragmentManager(),
                 getResources().getIntArray(R.array.colorPagesViewPager)) {
         });
+
+        // TAB_LAYOUT Implementation
+        // Get TabLayout from layout
+        TabLayout tabs= (TabLayout)findViewById(R.id.activity_main_tabs);
+        // Glue TabLayout and ViewPager together
+        tabs.setupWithViewPager(pager);
+        // Design purpose. Tabs have the same width
+        tabs.setTabMode(TabLayout.MODE_FIXED);
     }
 }
