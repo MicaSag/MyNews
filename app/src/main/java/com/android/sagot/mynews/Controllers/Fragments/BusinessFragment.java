@@ -3,6 +3,7 @@ package com.android.sagot.mynews.Controllers.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.android.sagot.mynews.R;
  */
 public class BusinessFragment extends Fragment {
 
+    private static final String TAG = BusinessFragment.class.getSimpleName();
 
     public BusinessFragment() {
         // Required empty public constructor
@@ -31,4 +33,9 @@ public class BusinessFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_business, container, false);
     }
 
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume() called");
+        super.onResume();
+    }
 }

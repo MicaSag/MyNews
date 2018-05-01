@@ -19,7 +19,8 @@ import android.widget.Toast;
 import com.android.sagot.mynews.Adapters.PageAdapter;
 import com.android.sagot.mynews.R;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener {
 
     // FOR TRACES
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+    // TABLAYOUT for glue to ViewPager
+    private TabLayout tabs;
 
     // VIEWPAGER
     private ViewPager pager;
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
         this.configureNavigationView();
 
-        // VIEW PAGER
+        // VIEW PAGER & TAB LAYOUT
         //Configure ViewPager with tab layout
         this.configureViewPagerAndTabs();
     }
@@ -134,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureNavigationView() {
         Log.d(TAG, "configureNavigationView: ");
         this.navigationView = findViewById(R.id.activity_main_nav_view);
+        // Subscribes to listen the navigationView
         navigationView.setNavigationItemSelectedListener(this);
         // Mark as selected the menu item corresponding to First tab 'TOP STORIES'
         this.navigationView.getMenu().getItem(0).setChecked(true);
@@ -182,7 +187,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+    // ---------------------------------------------------------------------------------------------
+    //                                     VIEW PAGER & TAB LAYOUT
+    // ---------------------------------------------------------------------------------------------
 
+    private void configureViewPagerAndTabs(){
+        Log.d(TAG, "configureViewPagerAndTabs: ");
+       this.configureViewPager();
+       this.configureTabLayout();
+    }
     // ---------------------------------------------------------------------------------------------
     //                                     VIEW PAGER
     // ---------------------------------------------------------------------------------------------
@@ -191,20 +204,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // CONFIGURATION
     // ---------------------
 
-    private void configureViewPagerAndTabs(){
+    private void configureViewPager(){
         Log.d(TAG, "configureViewPagerAndTabs: ");
         // Get ViewPager from layout
         pager = findViewById(R.id.activity_main_viewpager);
         // Set Adapter PageAdapter and glue it together
-        pager.setAdapter(new PageAdapter(getSupportFragmentManager()) {
+        pager.setAdapter(new PageAdapter(getSupportFragmentManager(),this.navigationView) {
         });
 
-        // TAB_LAYOUT Implementation
+    }
+    // ---------------------------------------------------------------------------------------------
+    //                                     TAB LAYOUT
+    // ---------------------------------------------------------------------------------------------
+
+    // ---------------------
+    // CONFIGURATION
+    // ---------------------
+
+    private void configureTabLayout(){
+        Log.d(TAG, "configureTabLayout() called");
         // Get TabLayout from layout
-        TabLayout tabs= findViewById(R.id.activity_main_tabs);
+        tabs= findViewById(R.id.activity_main_tabs);
         // Glue TabLayout and ViewPager together
         tabs.setupWithViewPager(pager);
         // Design purpose. Tabs have the same width
         tabs.setTabMode(TabLayout.MODE_FIXED);
+        // Subscribes to listen the tab layout
+        tabs.addOnTabSelectedListener(this);
+    }
+
+    // ---------------------
+    // ACTIONS
+    // ---------------------
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        Log.d(TAG, "onTabSelected() called with: tab = [" + tab + "]");
+        // Mark as selected the menu item corresponding to First tab 'TOP STORIES'
+        this.navigationView.getMenu().getItem(tab.getPosition()).setChecked(true);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 }

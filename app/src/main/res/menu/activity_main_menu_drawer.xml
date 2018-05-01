@@ -2,24 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    
-    <item android:title="News">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/activity_main_drawer_top_stories"
-                    android:icon="@android:drawable/btn_default"
-                    android:title="Top Stories" />
-                <item
-                    android:id="@+id/activity_main_drawer_most_popular"
-                    android:icon="@android:drawable/btn_default"
-                    android:title="Most Popular" />
-                <item
-                    android:id="@+id/activity_main_drawer_business"
-                    android:icon="@android:drawable/btn_default"
-                    android:title="Business" />
-            </group>
-        </menu>
-    </item>
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/activity_main_drawer_top_stories"
+            android:icon="@drawable/ic_search_white_24dp"
+        android:title="Top Stories" />
+        <item
+            android:id="@+id/activity_main_drawer_most_popular"
+            android:icon="@drawable/ic_more_vert_white_24dp"
+            android:title="Most Popular" />
+        <item
+            android:id="@+id/activity_main_drawer_business"
+            android:icon="@drawable/ic_more_vert_white_24dp"
+            android:title="Business" />
+    </group>
 </menu>
