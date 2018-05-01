@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.android.sagot.mynews.Controllers.Fragments.BusinessFragment;
 import com.android.sagot.mynews.Controllers.Fragments.MostPopularFragment;
+import com.android.sagot.mynews.Controllers.Fragments.SportsFragment;
 import com.android.sagot.mynews.Controllers.Fragments.TopStoriesFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
@@ -21,7 +22,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return(3); // Number of page to show
+        return(4); // Number of page to show
     }
 
     @Override
@@ -30,12 +31,14 @@ public class PageAdapter extends FragmentPagerAdapter {
 
         // Page to return
         switch (position){
-            case 0: //Page number 0
+            case 0: //Page number 1
                 return TopStoriesFragment.newInstance();
-            case 1: //Page number 1
+            case 1: //Page number 2
                 return MostPopularFragment.newInstance();
-            case 2: //Page number 2
+            case 2: //Page number 3
                 return BusinessFragment.newInstance();
+            case 3: //Page number 4
+                return SportsFragment.newInstance();
             default:
                 return null;
         }
@@ -50,6 +53,8 @@ public class PageAdapter extends FragmentPagerAdapter {
                 return "MOST POPULAR";
             case 2: //Page number 3
                 return "BUSINESS";
+            case 3: //Page number 4
+                return "SPORTS";
             default:
                 return null;
         }

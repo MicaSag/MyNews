@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Controllers.Fragments.TopStoriesFragment"
     android:gravity="center"
-    android:background="#EDD9CF">
+    android:background="@color/topStoriesFragment">
 
     <TextView
         android:id="@+id/fragment_page_top_stories_title"

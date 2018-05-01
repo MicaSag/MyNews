@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Controllers.Fragments.BusinessFragment"
     android:gravity="center"
-    android:background="#EDD9CF">
+    android:background="@color/businessFragment">
 
     <TextView
         android:id="@+id/fragment_page_business_title"

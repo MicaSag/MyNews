@@ -6,11 +6,19 @@
 
     <!-- Array of colors that will be used by ViewPagerTabsLayout as background colors -->
     <array name="colorTabsLayout">
-        <item>#EDD9CF</item>
-        <item>#BED4D6</item>
-        <item>#ADCEB7</item>
-        <item>#F7CF8B</item>
-        <item>#FD96A2</item>
+        <item>#1b7835</item>
+        <item>#be093f</item>
+        <item>#1f36de</item>
+        <item>#ef601e</item>
+        <item>#8558d9</item>
     </array>
+    <color name="topStoriesTabFragment">#1b7835</color>
+
+    <!-- colors that will be used by ViewPagerFragment as background colors -->
+    <color name="topStoriesFragment">#a7e7b9</color>
+    <color name="mostPopularFragment">#e991ab</color>
+    <color name="businessFragment">#9ba1cc</color>
+    <color name="sportsFragment">#cfa38f</color>
+    <color name="otherFragment">#baabd6</color>
 
 </resources>

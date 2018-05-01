@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_TOP_STORIES = 0;
     private static final int FRAGMENT_MOST_POPULAR = 1;
     private static final int FRAGMENT_BUSINESS = 2;
+    private static final int FRAGMENT_SPORTS = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.activity_main_drawer_business:
                 // Positioning the Business Page
                 pager.setCurrentItem(FRAGMENT_BUSINESS);
+                break;
+            case R.id.activity_main_drawer_sports:
+                // Positioning the Sports Page
+                pager.setCurrentItem(FRAGMENT_SPORTS);
                 break;
             default:
                 break;

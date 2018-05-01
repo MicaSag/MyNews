@@ -16,5 +16,9 @@
             android:id="@+id/activity_main_drawer_business"
             android:icon="@drawable/ic_more_vert_white_24dp"
             android:title="Business" />
+        <item
+            android:id="@+id/activity_main_drawer_sports"
+            android:icon="@drawable/ic_more_vert_white_24dp"
+            android:title="Sports" />
     </group>
 </menu>
