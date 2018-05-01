@@ -1,6 +1,5 @@
 package com.android.sagot.mynews.Adapters;
 
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,12 +14,9 @@ public class PageAdapter extends FragmentPagerAdapter {
     // FOR TRACES
     private static final String TAG = PageAdapter.class.getSimpleName();
 
-    private NavigationView navigationView;
-
     // Default Constructor
-    public PageAdapter(FragmentManager mgr,NavigationView navigationView) {
+    public PageAdapter(FragmentManager mgr) {
         super(mgr);
-        this.navigationView = navigationView;
     }
 
     @Override

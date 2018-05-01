@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Get ViewPager from layout
         pager = findViewById(R.id.activity_main_viewpager);
         // Set Adapter PageAdapter and glue it together
-        pager.setAdapter(new PageAdapter(getSupportFragmentManager(),this.navigationView) {
+        pager.setAdapter(new PageAdapter(getSupportFragmentManager()) {
         });
 
     }
@@ -240,8 +240,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         Log.d(TAG, "onTabSelected() called with: tab = [" + tab + "]");
+        int position = tab.getPosition();
         // Mark as selected the menu item corresponding to First tab 'TOP STORIES'
-        this.navigationView.getMenu().getItem(tab.getPosition()).setChecked(true);
+        this.navigationView.getMenu().getItem(position).setChecked(true);
+
+        // Change Color of the Tab selected
+        this.tabs.setBackgroundColor(getResources().obtainTypedArray(R.array.colorTabsLayout)
+                .getColor(position,0));
     }
 
     @Override
