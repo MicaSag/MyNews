@@ -7,9 +7,21 @@
         android:title="Rechercher">
     </item>
     <item
-        android:id="@+id/activity_main_menu_toolbar_options"
+        android:id="@+id/activity_main_menu_toolbar_overflow_notifications"
         android:icon="@drawable/ic_more_vert_white_24dp"
-        app:showAsAction="ifRoom"
-        android:title="Paramètres">
+        app:showAsAction="never"
+        android:title="Notifications">
+    </item>
+    <item
+        android:id="@+id/activity_main_menu_toolbar_overflow_help"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        app:showAsAction="never"
+        android:title="Help">
+    </item>
+    <item
+        android:id="@+id/activity_main_menu_toolbar_overflow_about"
+        android:icon="@drawable/ic_more_vert_white_24dp"
+        app:showAsAction="never"
+        android:title="About">
     </item>
 </menu>

@@ -1,5 +1,6 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.sagot.mynews.Adapters.PageAdapter;
 import com.android.sagot.mynews.R;
@@ -47,8 +49,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------
 
     private void configureToolBar(){
+        // Get the toolbar view inside the activity layout
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Change the toolbar Tittle
+        setTitle("My News");
+        // Sets the Toolbar
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //Inflate the toolbar  and add it to the Toolbar
+        // With one search button
+        // With one options menu button
+        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
+        return true;
     }
 
     // ---------------------
@@ -56,10 +71,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //Inflate the toolbar  and add it to the Toolbar
-        getMenuInflater().inflate(R.menu.activity_main_menu_toolbar, menu);
-        return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle actions on menu items
+        switch (item.getItemId()) {
+            case R.id.activity_main_menu_toolbar_search:
+                Intent searchActivity = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchActivity);
+                return true;
+            case R.id.activity_main_menu_toolbar_overflow_notifications:
+                Toast.makeText(this, "Select Notifications", Toast.LENGTH_LONG).show();
+                searchActivity = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchActivity);
+                return true;
+            case R.id.activity_main_menu_toolbar_overflow_help:
+                Toast.makeText(this, "Select Help", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.activity_main_menu_toolbar_overflow_about:
+                Toast.makeText(this, "Select About", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // ---------------------------------------------------------------------------------------------
