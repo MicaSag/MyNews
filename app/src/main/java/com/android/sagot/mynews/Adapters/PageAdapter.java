@@ -54,7 +54,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 2: //Page number 3
                 return "BUSINESS";
             case 3: //Page number 4
-                return "SPORTS";
+                return "SPORTS SPORTSSSSS ET RESPORTTTTTTTTTTT";
             default:
                 return null;
         }

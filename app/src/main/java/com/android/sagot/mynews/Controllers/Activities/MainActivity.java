@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Glue TabLayout and ViewPager together
         tabs.setupWithViewPager(pager);
         // Design purpose. Tabs have the same width
-        tabs.setTabMode(TabLayout.MODE_FIXED);
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         // Subscribes to listen the tab layout
         tabs.addOnTabSelectedListener(this);
     }
