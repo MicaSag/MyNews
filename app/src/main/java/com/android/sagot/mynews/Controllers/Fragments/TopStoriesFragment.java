@@ -9,12 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.sagot.mynews.Models.NYTimesStreams.NYTimesTopStories;
+import com.android.sagot.mynews.Models.NYTimesStreams.Result;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.NYTimesStreams;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -37,7 +38,7 @@ public class TopStoriesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // Method that will create a new instance of PageFragment, and add data to its bundle.
+    // Method that will create a new instance of TopStoriesFragment, and add data to its bundle.
     public static TopStoriesFragment newInstance() {
         return(new TopStoriesFragment());
     }
@@ -52,7 +53,7 @@ public class TopStoriesFragment extends Fragment {
         ButterKnife.bind(this, mTopStoriesView);
 
         // Call the Stream Top Stories of the New York Times
-        this.streamShowString();
+        this.executeHttpRequestWithRetrofit();
 
         return mTopStoriesView;
     }
@@ -68,48 +69,58 @@ public class TopStoriesFragment extends Fragment {
     // ACTIONS
     // -----------------
 
-    @OnClick(R.id.fragment_top_stories_button)
-    public void submit(View view) {
-        this.streamShowString();
-    }
 
-    // ------------------------------
-    //  Reactive X
-    // ------------------------------
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
 
-    // Create Observable
-    private Observable<String> getObservable(){
-        return Observable.just("Cool !");
-    }
-
-    // Create Subscriber
-    private DisposableObserver<String> getSubscriber(){
-        return new DisposableObserver<String>() {
+    // 1 - Execute our Stream
+    private void executeHttpRequestWithRetrofit(){
+        // Update UI
+        this.updateUIWhenStartingHTTPRequest();
+        // Execute the stream subscribing to Observable defined inside NYTimesStreams
+        this.disposable = NYTimesStreams.streamFetchTopStoriesFollowing("sports").subscribeWith(new DisposableObserver<NYTimesTopStories>() {
             @Override
-            public void onNext(String item) {
-                mTextView.setText("Observable emits : "+item);
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("TAG","On Complete !!");
+            public void onNext(NYTimesTopStories topStories) {
+                Log.e("TAG","On Next");
+                // Update UI with list of users
+                updateUIWithListOfUsers(topStories);
             }
 
             @Override
             public void onError(Throwable e) {
                 Log.e("TAG","On Error"+Log.getStackTraceString(e));
             }
-        };
+
+            @Override
+            public void onComplete() {
+                Log.e("TAG","On Complete !!");
+            }
+        });
     }
 
-    // Create Stream and execute it
-    private void streamShowString(){
-        this.disposable = this.getObservable()
-                .subscribeWith(getSubscriber());
-    }
-
-    // Dispose subscription
     private void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
+    }
+
+    // -------------------
+    // UPDATE UI
+    // -------------------
+
+    private void updateUIWhenStartingHTTPRequest(){
+        this.mTextView.setText("Downloading...");
+    }
+
+    private void updateUIWhenStopingHTTPRequest(String response){
+        this.mTextView.setText(response);
+    }
+
+    private void updateUIWithListOfUsers(NYTimesTopStories topStories){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Result news : topStories.getResults()){
+
+               stringBuilder.append("-"+news.getTitle()+"\n");
+        }
+        updateUIWhenStopingHTTPRequest(stringBuilder.toString());
     }
 }
