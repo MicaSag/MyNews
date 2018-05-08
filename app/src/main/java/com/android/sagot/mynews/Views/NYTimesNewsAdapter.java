@@ -48,4 +48,8 @@ public class NYTimesNewsAdapter extends RecyclerView.Adapter<NYTimesNewsViewHold
     public int getItemCount() {
         return this.mListNews.size();
     }
+
+    public NYTimesNews getNews(int position){
+        return this.mListNews.get(position);
+    }
 }

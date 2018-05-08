@@ -16,6 +16,7 @@ import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.NYTimesTopStories;
 import com.android.sagot.mynews.Models.NYTimesStreams.Result;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.ItemClickSupport;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 import com.android.sagot.mynews.Views.NYTimesNewsAdapter;
 import com.bumptech.glide.Glide;
@@ -71,6 +72,9 @@ public class TopStoriesFragment extends Fragment {
         // Configure the SwipeRefreshLayout
         this.configureSwipeRefreshLayout();
 
+        // Calling the method that configuring click on RecyclerView
+        this.configureOnClickRecyclerView();
+
         // Call the Stream Top Stories of the New York Times
         this.executeHttpRequestWithRetrofit();
 
@@ -87,6 +91,21 @@ public class TopStoriesFragment extends Fragment {
     // -----------------
     // ACTIONS
     // -----------------
+
+    // Configure item click on RecyclerView
+    private void configureOnClickRecyclerView(){
+        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_recycler_view_item)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Log.e("TAG", "Position : "+position);
+                        // Get user from adapter
+                        NYTimesNews news = mNYTimesNewsAdapter.getNews(position);
+                        // Show result in a Toast
+                        Toast.makeText(getContext(), "You clicked on user : "+news.getTitle(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     // -----------------
     // CONFIGURATION
