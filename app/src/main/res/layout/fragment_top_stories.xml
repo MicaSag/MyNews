@@ -1,32 +1,12 @@
-<LinearLayout
-    android:id="@+id/fragment_page_top_stories_rootview"
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_top_stories_swipe_refresh_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".Controllers.Fragments.TopStoriesFragment"
-    android:gravity="center"
-    android:background="@color/topStoriesFragment">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/fragment_top_stories_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:background="#4B77BE"
-        android:gravity="center">
+        android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/fragment_top_stories_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dip"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#fff"
-            android:textAlignment="center"
-            android:text="Nous pourrions afficher les top stories ?"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

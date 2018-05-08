@@ -50,4 +50,12 @@ dependencies {
     // Add Support Library for execute network requests with the Streams
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
+    // Add RecyclerView Library
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+
+    // Add Glide Library for show images
+    implementation 'com.github.bumptech.glide:glide:4.2.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.2.0'
+
+
 }

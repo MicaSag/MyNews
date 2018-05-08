@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Get the toolbar view inside the activity layout
         this.toolbar = findViewById(R.id.toolbar);
         // Change the toolbar Tittle
-        setTitle("My News");
+        setTitle("My NYTimesNews");
         // Sets the Toolbar
         setSupportActionBar(toolbar);
     }
