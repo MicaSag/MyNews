@@ -16,7 +16,9 @@ import butterknife.ButterKnife;
 
 public class NYTimesNewsViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.fragment_recycler_view_item_title) TextView mTextView;
+    @BindView(R.id.fragment_recycler_view_item_title) TextView mTitle;
+    @BindView(R.id.fragment_recycler_view_item_section) TextView mSection;
+    @BindView(R.id.fragment_recycler_view_item_date) TextView mDate;
     @BindView(R.id.fragment_recycler_view_item_image) ImageView mImageView;
 
     public NYTimesNewsViewHolder(View itemView) {
@@ -25,7 +27,11 @@ public class NYTimesNewsViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void updateWithNews(NYTimesNews NYTimesNews, RequestManager glide){
-        this.mTextView.setText(NYTimesNews.getTitle());
+
+
+        this.mTitle.setText(NYTimesNews.getTitle());
+        this.mDate.setText(NYTimesNews.getDate());
+        this.mSection.setText(NYTimesNews.getSection());
 
         // Update ImageView
         glide.load(NYTimesNews.getImageURL()).into(mImageView);

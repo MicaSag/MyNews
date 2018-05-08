@@ -36,6 +36,8 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class TopStoriesFragment extends Fragment {
 
+    private static final String TAG = TopStoriesFragment.class.getSimpleName();
+
     // View of the Fragment
     private View mTopStoriesView;
 
@@ -212,7 +214,18 @@ public class TopStoriesFragment extends Fragment {
                 imageURL = news.getMultimedia().get(0).getUrl();
             }
 
-            mListNYTimesNews.add(new NYTimesNews(news.getTitle(), imageURL, newsURL));
+            // Affected section data
+            String section = news.getSection();
+            if (!news.getSubsection().equals("") ) section = section+" > "+news.getSubsection();
+
+            // Affected date
+            String date = "05/06/18";
+            mListNYTimesNews.add(   new NYTimesNews(news.getTitle(),
+                                                    imageURL,
+                                                    newsURL,
+                                                    date,
+                                                    section
+                                                    ));
         }
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
