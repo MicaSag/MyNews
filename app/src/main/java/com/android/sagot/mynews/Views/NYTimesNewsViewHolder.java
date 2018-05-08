@@ -28,6 +28,6 @@ public class NYTimesNewsViewHolder extends RecyclerView.ViewHolder {
         this.mTextView.setText(NYTimesNews.getTitle());
 
         // Update ImageView
-        glide.load(NYTimesNews.getNewsURL()).into(mImageView);
+        glide.load(NYTimesNews.getImageURL()).into(mImageView);
     }
 }

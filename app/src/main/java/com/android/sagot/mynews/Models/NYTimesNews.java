@@ -4,11 +4,21 @@ public class NYTimesNews {
 
     String mTitle;
     String mNewsURL;
+    String mImageURL;
 
 
-    public NYTimesNews(String title, String newsURL) {
+    public NYTimesNews(String title, String imageURL, String newsURL) {
         this.mTitle = title;
         this.mNewsURL = newsURL;
+        this.mImageURL = imageURL;
+    }
+
+    public String getImageURL() {
+        return mImageURL;
+    }
+
+    public void setImageURL(String mImageURL) {
+        this.mImageURL = mImageURL;
     }
 
     public String getNewsURL() {

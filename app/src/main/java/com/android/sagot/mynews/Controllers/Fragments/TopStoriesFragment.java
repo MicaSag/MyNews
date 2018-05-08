@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.NYTimesTopStories;
 import com.android.sagot.mynews.Models.NYTimesStreams.Result;
@@ -47,6 +49,8 @@ public class TopStoriesFragment extends Fragment {
     // Declare list of news ( NYTimesNews ) & Adapter
     private List<NYTimesNews> mListNYTimesNews;
     private NYTimesNewsAdapter mNYTimesNewsAdapter;
+
+    public static final String BUNDLE_NEWS_URL = "BUNDLE_NEWS_URL";
 
     public TopStoriesFragment() {
         // Required empty public constructor
@@ -98,13 +102,18 @@ public class TopStoriesFragment extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Log.e("TAG", "Position : "+position);
-                        // Get user from adapter
+                        // Get news from adapter
                         NYTimesNews news = mNYTimesNewsAdapter.getNews(position);
-                        // Show result in a Toast
-                        Toast.makeText(getContext(), "You clicked on user : "+news.getTitle(), Toast.LENGTH_SHORT).show();
+                        //Launch Item Activity
+                        launchItemActivity(position);
                     }
                 });
+    }
+
+    private void launchItemActivity(int position){
+        Intent myIntent = new Intent(getActivity(), ItemActivity.class);
+        myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
+        this.startActivity(myIntent);
     }
 
     // -----------------
@@ -188,13 +197,22 @@ public class TopStoriesFragment extends Fragment {
 
         //Here we recover only the elements of the query that interests us
         String imageURL;
+        String newsURL;
         for (Result news : topStories.getResults()){
+
+            // Initialize blank URL
             imageURL = "";
+
+            // Affected newsURL
+            newsURL = news.getUrl();
+
+            // Affected imageURL
             // Test if an image is present
             if (news.getMultimedia().size() != 0) {
                 imageURL = news.getMultimedia().get(0).getUrl();
             }
-            mListNYTimesNews.add(new NYTimesNews(news.getTitle(),imageURL));
+
+            mListNYTimesNews.add(new NYTimesNews(news.getTitle(), imageURL, newsURL));
         }
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
