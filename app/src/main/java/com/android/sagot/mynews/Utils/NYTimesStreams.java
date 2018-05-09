@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class NYTimesStreams {
-    public static Observable<NYTimesTopStories> streamFetchTopStoriesFollowing(String section){
+    public static Observable<NYTimesTopStories> streamFetchTopStories(String section){
         NYTimesService topStoriesService = NYTimesService.retrofit.create(NYTimesService.class);
         return topStoriesService.getFollowing(section)
                 .subscribeOn(Schedulers.io())

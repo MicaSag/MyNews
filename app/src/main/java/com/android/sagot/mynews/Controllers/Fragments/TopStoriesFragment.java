@@ -18,12 +18,14 @@ import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.NYTimesTopStories;
 import com.android.sagot.mynews.Models.NYTimesStreams.Result;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 import com.android.sagot.mynews.Views.NYTimesNewsAdapter;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -32,7 +34,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * TopStoriesFragment
+ *  TopStoriesFragment
  */
 public class TopStoriesFragment extends Fragment {
 
@@ -97,8 +99,9 @@ public class TopStoriesFragment extends Fragment {
     // -----------------
     // ACTIONS
     // -----------------
-
-    // Configure item click on RecyclerView
+    /**
+     *  Configure clickListener on Item of the RecyclerView
+     */
     private void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_recycler_view_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -111,7 +114,12 @@ public class TopStoriesFragment extends Fragment {
                     }
                 });
     }
-
+    /**
+     *  Launch ItemActivity
+     *
+     * @param position
+     *              Position of the Item in the RecyclerView
+     */
     private void launchItemActivity(int position){
         Intent myIntent = new Intent(getActivity(), ItemActivity.class);
         myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
@@ -121,8 +129,9 @@ public class TopStoriesFragment extends Fragment {
     // -----------------
     // CONFIGURATION
     // -----------------
-
-    // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
+    /**
+     *  Configure RecyclerView, Adapter, LayoutManager & glue it together
+     */
     private void configureRecyclerView(){
         // Reset list
         this.mListNYTimesNews = new ArrayList<>();
@@ -133,8 +142,9 @@ public class TopStoriesFragment extends Fragment {
         // Set layout manager to position the items
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-
-    // Configure the SwipeRefreshLayout
+    /**
+     *  Configure the SwipeRefreshLayout
+     */
     private void configureSwipeRefreshLayout(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -147,17 +157,17 @@ public class TopStoriesFragment extends Fragment {
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
-
-    // 1 - Execute our Stream
+    /**
+     *  Execute Stream " NYTimesStreams.streamFetchTopStories "
+     */
     private void executeHttpRequestWithRetrofit(){
-        // Update UI
-        this.updateUIWhenStartingHTTPRequest();
+
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        this.disposable = NYTimesStreams.streamFetchTopStoriesFollowing("home").subscribeWith(new DisposableObserver<NYTimesTopStories>() {
+        this.disposable = NYTimesStreams.streamFetchTopStories("home").subscribeWith(new DisposableObserver<NYTimesTopStories>() {
             @Override
             public void onNext(NYTimesTopStories topStories) {
                 Log.e("TAG","On Next");
-                // Update UI with list of users
+                // Update UI with list of TopStories news
                 updateUIWithListOfNews(topStories);
             }
 
@@ -173,23 +183,28 @@ public class TopStoriesFragment extends Fragment {
             }
         });
     }
-
+    /**
+     *  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
+     */
     private void disposeWhenDestroy(){
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
     // -------------------
-    // UPDATE UI
+    //     UPDATE UI
     // -------------------
-
-    private void updateUIWhenStartingHTTPRequest(){
-        //Toast.makeText(getActivity(), "Downloading...", Toast.LENGTH_LONG).show();
-    }
-
+    /**
+     *  Generate a toast Message if error during Downloading
+     */
     private void updateUIWhenErrorHTTPRequest(){
         Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
     }
-
+    /**
+     *  Update UI with list of TopStories news
+     *
+     * @param topStories
+     *              list of news topStories of the NewYorkTimes
+     */
     private void updateUIWithListOfNews(NYTimesTopStories topStories){
 
         // Stop refreshing and clear actual list of news
@@ -214,18 +229,18 @@ public class TopStoriesFragment extends Fragment {
                 imageURL = news.getMultimedia().get(0).getUrl();
             }
 
-            // Affected section data
+            // Affected section label ( section > subSection )
             String section = news.getSection();
             if (!news.getSubsection().equals("") ) section = section+" > "+news.getSubsection();
 
-            // Affected date
-            String date = "05/06/18";
-            mListNYTimesNews.add(   new NYTimesNews(news.getTitle(),
-                                                    imageURL,
-                                                    newsURL,
-                                                    date,
-                                                    section
-                                                    ));
+            // Affected date label ( JJ/MM/AA )
+            String newsDate = DateUtilities.dateReformat(news.getCreatedDate());
+            mListNYTimesNews.add( new NYTimesNews(news.getTitle(),
+                                                imageURL,
+                                                newsURL,
+                                                newsDate,
+                                                section
+                                                ));
         }
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();

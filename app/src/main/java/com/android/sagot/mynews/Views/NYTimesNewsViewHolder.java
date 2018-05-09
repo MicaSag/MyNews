@@ -2,6 +2,7 @@ package com.android.sagot.mynews.Views;
 
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,12 +10,15 @@ import android.widget.TextView;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
+
+import java.util.Formatter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NYTimesNewsViewHolder extends RecyclerView.ViewHolder {
+
+    private static final String TAG = NYTimesNewsViewHolder.class.getSimpleName();
 
     @BindView(R.id.fragment_recycler_view_item_title) TextView mTitle;
     @BindView(R.id.fragment_recycler_view_item_section) TextView mSection;
@@ -28,12 +32,12 @@ public class NYTimesNewsViewHolder extends RecyclerView.ViewHolder {
 
     public void updateWithNews(NYTimesNews NYTimesNews, RequestManager glide){
 
-
+        // Put the data on the TextView
         this.mTitle.setText(NYTimesNews.getTitle());
         this.mDate.setText(NYTimesNews.getDate());
         this.mSection.setText(NYTimesNews.getSection());
 
-        // Update ImageView
+        // Put the image data on the ImageView
         glide.load(NYTimesNews.getImageURL()).into(mImageView);
     }
 }

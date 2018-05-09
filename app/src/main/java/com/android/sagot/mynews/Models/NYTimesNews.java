@@ -1,13 +1,15 @@
 package com.android.sagot.mynews.Models;
 
+/***************************************************************
+ *  All data for use in the itemFragments of the RecyclerView
+ */
 public class NYTimesNews {
 
-    String mTitle;
-    String mNewsURL;
-    String mImageURL;
-    String mSection;
-    String mDate;
-
+    String mDate;       // It's created date of the news
+    String mSection;    // It's the "section > subSection" label
+    String mTitle;      // It's Title of the news
+    String mNewsURL;    // It's the Url of the news page
+    String mImageURL;   // It's the Url where the image is
 
     public NYTimesNews(String title, String imageURL, String newsURL, String date, String section) {
         this.mTitle = title;
