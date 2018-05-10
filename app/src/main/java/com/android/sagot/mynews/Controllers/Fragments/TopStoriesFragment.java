@@ -25,7 +25,6 @@ import com.android.sagot.mynews.Views.NYTimesNewsAdapter;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -246,7 +245,7 @@ public class TopStoriesFragment extends Fragment {
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
-        
+
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
     }

@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -9,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +19,9 @@ import android.widget.Toast;
 import com.android.sagot.mynews.Adapters.PageAdapter;
 import com.android.sagot.mynews.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener {
 
@@ -26,9 +29,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = MainActivity.class.getSimpleName();
 
     //NAVIGATION DRAWER Design
-    private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+    // Adding @BindView in order to indicate to ButterKnife to get & serialise it
+    @BindView(R.id.activity_main_drawer_layout) DrawerLayout mDrawerLayout;
+    @BindView(R.id.activity_main_nav_view) NavigationView mNavigationView;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     // TABLAYOUT for glue to ViewPager
     private TabLayout tabs;
@@ -48,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Get & serialise all views
+        ButterKnife.bind(this);
 
         // NAVIGATION DRAWER
         // Configure all views of the Navigation Drawer
@@ -71,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureToolBar(){
         Log.d(TAG, "configureToolBar: ");
         // Get the toolbar view inside the activity layout
-        this.toolbar = findViewById(R.id.toolbar);
+
         // Change the toolbar Tittle
         setTitle("My NYTimesNews");
         // Sets the Toolbar
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
     }
 
     @Override
@@ -128,21 +135,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Configure Drawer Layout and connects him the ToolBar and the NavigationView
     private void configureDrawerLayout(){
         Log.d(TAG, "configureDrawerLayout: ");
-        this.drawerLayout = findViewById(R.id.activity_main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
     // Configure NavigationView
     private void configureNavigationView() {
         Log.d(TAG, "configureNavigationView: ");
-        this.navigationView = findViewById(R.id.activity_main_nav_view);
         // Subscribes to listen the navigationView
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
         // Mark as selected the menu item corresponding to First tab 'TOP STORIES'
-        this.navigationView.getMenu().getItem(0).setChecked(true);
+        this.mNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
     // ---------------------
@@ -177,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         // Close the Drawer Menu
-        this.drawerLayout.closeDrawer(GravityCompat.START);
+        this.mDrawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }
@@ -186,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed: ");
         // Close the menu so open and if the touch return is pushed
-        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            this.drawerLayout.closeDrawer(GravityCompat.START);
+        if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            this.mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -247,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "onTabSelected() called with: tab = [" + tab + "]");
         int position = tab.getPosition();
         // Mark as selected the menu item corresponding to First tab 'TOP STORIES'
-        this.navigationView.getMenu().getItem(position).setChecked(true);
+        this.mNavigationView.getMenu().getItem(position).setChecked(true);
 
         // Change Color of the Tab selected
         this.tabs.setBackgroundColor(getResources().obtainTypedArray(R.array.colorTabsLayout)
