@@ -1,6 +1,8 @@
-package com.android.sagot.mynews.Models.NYTimesStreams;
+package com.android.sagot.mynews.Models.NYTimesStreams.TopStories;
 
 import java.util.List;
+
+import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

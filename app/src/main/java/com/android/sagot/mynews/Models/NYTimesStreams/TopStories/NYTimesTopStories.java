@@ -1,6 +1,7 @@
-package com.android.sagot.mynews.Models.NYTimesStreams;
+package com.android.sagot.mynews.Models.NYTimesStreams.TopStories;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -72,5 +73,4 @@ public class NYTimesTopStories {
     public void setResults(List<Result> results) {
         this.results = results;
     }
-
 }

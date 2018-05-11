@@ -1,13 +1,11 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,64 +13,58 @@ import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
-import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
-import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.Result;
 import com.android.sagot.mynews.R;
-import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
-import com.android.sagot.mynews.Utils.NYTimesStreams;
 import com.android.sagot.mynews.Views.NYTimesNewsAdapter;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 /**
- *  NewsFragment
+ *  BASE FRAGMENT
  */
-public class TopStoriesFragment extends Fragment {
+public abstract class NewsFragment extends Fragment {
 
-    private static final String TAG = TopStoriesFragment.class.getSimpleName();
+    // Force developer implement those methods
+    protected abstract void executeHttpRequestWithRetrofit();
+    protected abstract void updateUIWithListOfNews(Object news);
+
+    // FOR TRACES
+    private static final String TAG = NewsFragment.class.getSimpleName();
 
     // View of the Fragment
-    private View mTopStoriesView;
+    private View mNewsView;
 
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
-    @BindView(R.id.fragment_top_stories_recycler_view) RecyclerView mRecyclerView;
-    @BindView(R.id.fragment_top_stories_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_news_recycler_view) RecyclerView mRecyclerView;
+    @BindView(R.id.fragment_news_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     // Declare Subscription
-    private Disposable mDisposable;
+    protected Disposable mDisposable;
 
     // Declare list of news ( NewsList ) & Adapter
-    private List<NYTimesNews> mListNYTimesNews;
-    private NYTimesNewsAdapter mNYTimesNewsAdapter;
+    protected List<NYTimesNews> mListNYTimesNews;
+    protected NYTimesNewsAdapter mNYTimesNewsAdapter;
 
     public static final String BUNDLE_NEWS_URL = "BUNDLE_NEWS_URL";
 
-    public TopStoriesFragment() {
+    public NewsFragment() {
         // Required empty public constructor
-    }
-
-    // Method that will create a new instance of NewsFragment, and add data to its bundle.
-    public static TopStoriesFragment newInstance() {
-        return(new TopStoriesFragment());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mTopStoriesView = inflater.inflate(R.layout.fragment_top_stories, container, false);
+        mNewsView = inflater.inflate(R.layout.fragment_news, container, false);
 
         // Telling ButterKnife to bind all views in layout
-        ButterKnife.bind(this, mTopStoriesView);
+        ButterKnife.bind(this, mNewsView);
 
         // Configure RecyclerView
         this.configureRecyclerView();
@@ -86,7 +78,7 @@ public class TopStoriesFragment extends Fragment {
         // Call the Stream Top Stories of the New York Times
         this.executeHttpRequestWithRetrofit();
 
-        return mTopStoriesView;
+        return mNewsView;
     }
 
     @Override
@@ -156,33 +148,6 @@ public class TopStoriesFragment extends Fragment {
 
     // -------------------
     // HTTP (RxJAVA)
-    // -------------------
-    /**
-     *  Execute Stream " NYTimesStreams.streamFetchTopStories "
-     */
-    private void executeHttpRequestWithRetrofit(){
-
-        // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        this.mDisposable = NYTimesStreams.streamFetchTopStories("home").subscribeWith(new DisposableObserver<NYTimesTopStories>() {
-            @Override
-            public void onNext(NYTimesTopStories topStories) {
-                Log.e("TAG","On Next");
-                // Update UI with list of TopStories news
-                updateUIWithListOfNews(topStories);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e("TAG","On Error"+Log.getStackTraceString(e));
-                updateUIWhenErrorHTTPRequest();
-            }
-
-            @Override
-            public void onComplete() {
-                Log.e("TAG","On Complete !!");
-            }
-        });
-    }
     /**
      *  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
      */
@@ -196,57 +161,7 @@ public class TopStoriesFragment extends Fragment {
     /**
      *  Generate a toast Message if error during Downloading
      */
-    private void updateUIWhenErrorHTTPRequest(){
+    protected void updateUIWhenErrorHTTPRequest(){
         Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
-    }
-    /**
-     *  Update UI with list of TopStories news
-     *
-     * @param topStories
-     *              list of news topStories of the NewYorkTimes
-     */
-    private void updateUIWithListOfNews(NYTimesTopStories topStories){
-
-        // Stop refreshing and clear actual list of news
-        swipeRefreshLayout.setRefreshing(false);
-        // Empty the list of previous news
-        mListNYTimesNews.clear();
-
-        //Here we recover only the elements of the query that interests us
-        String imageURL;
-        String newsURL;
-        for (Result news : topStories.getResults()){
-
-            // Initialize blank URL
-            imageURL = "";
-
-            // Affected newsURL
-            newsURL = news.getUrl();
-
-            // Affected imageURL
-            // Test if an image is present
-            if (news.getMultimedia().size() != 0) {
-                imageURL = news.getMultimedia().get(0).getUrl();
-            }
-
-            // Affected section label ( section > subSection )
-            String section = news.getSection();
-            if (!news.getSubsection().equals("") ) section = section+" > "+news.getSubsection();
-
-            // Affected date label ( JJ/MM/AA )
-            String newsDate = DateUtilities.dateReformat(news.getCreatedDate());
-            mListNYTimesNews.add( new NYTimesNews(news.getTitle(),
-                                                imageURL,
-                                                newsURL,
-                                                newsDate,
-                                                section
-                                                ));
-        }
-        // Sort the newsList by createdDate in Descending
-        Collections.sort(mListNYTimesNews,new NYTimesNews());
-        Collections.reverse(mListNYTimesNews);
-
-        // Recharge Adapter
-        mNYTimesNewsAdapter.notifyDataSetChanged();
     }
 }

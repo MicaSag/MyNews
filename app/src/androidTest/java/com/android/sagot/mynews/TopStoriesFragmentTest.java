@@ -3,7 +3,7 @@ package com.android.sagot.mynews;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-import com.android.sagot.mynews.Models.NYTimesStreams.NYTimesTopStories;
+import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
 import org.junit.Test;

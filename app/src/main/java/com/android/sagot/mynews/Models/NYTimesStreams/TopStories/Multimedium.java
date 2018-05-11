@@ -1,4 +1,4 @@
-package com.android.sagot.mynews.Models.NYTimesStreams;
+package com.android.sagot.mynews.Models.NYTimesStreams.TopStories;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -93,5 +93,4 @@ public class Multimedium {
     public void setCopyright(String copyright) {
         this.copyright = copyright;
     }
-
 }
