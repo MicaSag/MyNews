@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Utils;
 
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 
 import io.reactivex.Observable;
@@ -19,9 +20,9 @@ public interface NYTimesService {
     @GET("svc/search/v2/articlesearch.json")
     Observable<NYTimesArticleSearch> getArticleSearch(@Query("section") String section);
 
-    // Article Search API ( Sports )
+    // Most Popular API
     @GET("svc/search/v2/articlesearch.json?api-key=de9402ab67114b3c8f08f3d58562b310&fq=sports")
-    Observable<NYTimesArticleSearch> getArticleSearchSports();
+    Observable<NYTimesMostPopular> getMostPopular();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://api.nytimes.com/")

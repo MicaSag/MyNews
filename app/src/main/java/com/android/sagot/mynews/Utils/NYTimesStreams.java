@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Utils;
 
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 
 import java.util.concurrent.TimeUnit;
@@ -26,9 +27,9 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<NYTimesArticleSearch> streamFetchArticleSearchSports(){
-        NYTimesService articleSearchService = NYTimesService.retrofit.create(NYTimesService.class);
-        return articleSearchService.getArticleSearchSports()
+    public static Observable<NYTimesMostPopular> streamFetchMostPopular(){
+        NYTimesService mostPopularService = NYTimesService.retrofit.create(NYTimesService.class);
+        return mostPopularService.getMostPopular()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
