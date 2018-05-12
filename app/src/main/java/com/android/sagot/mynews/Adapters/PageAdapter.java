@@ -22,7 +22,7 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return(4); // Number of page to show
+        return(2); // Number of page to show
     }
 
     @Override
@@ -36,9 +36,11 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1: //Page number 2
                 return MostPopularFragment.newInstance();
             case 2: //Page number 3
-                return BusinessFragment.newInstance();
+                //return BusinessFragment.newInstance();
+                return null;
             case 3: //Page number 4
-                return SportsFragment.newInstance();
+                //return SportsFragment.newInstance();
+                return null;
             default:
                 return null;
         }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.DateUtilities;
 import com.bumptech.glide.RequestManager;
 
 import java.util.Formatter;
@@ -34,7 +35,9 @@ public class NYTimesNewsViewHolder extends RecyclerView.ViewHolder {
 
         // Put the data on the TextView
         this.mTitle.setText(NYTimesNews.getTitle());
-        this.mDate.setText(NYTimesNews.getDate());
+        // Affected date label ( JJ/MM/AA )
+        String newsDate = DateUtilities.dateReformat(NYTimesNews.getDate());
+        this.mDate.setText(newsDate);
         this.mSection.setText(NYTimesNews.getSection());
 
         // Put the image data on the ImageView

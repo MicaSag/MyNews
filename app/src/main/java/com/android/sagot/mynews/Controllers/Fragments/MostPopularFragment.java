@@ -4,8 +4,8 @@ package com.android.sagot.mynews.Controllers.Fragments;
 import android.util.Log;
 
 import com.android.sagot.mynews.Models.NYTimesNews;
-import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
-import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
+import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.ResultMostPopular;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -16,32 +16,36 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * MostPopular FRAGMENT
  */
-
 public class MostPopularFragment extends NewsFragment {
 
     // For debug
-    private static final String TAG = SportsFragment.class.getSimpleName();
+    private static final String TAG = MostPopularFragment.class.getSimpleName();
 
     public MostPopularFragment() {
         // Required empty public constructor
     }
 
+    // Method that will create a new instance of MostPopularFragment, and add data to its bundle.
     public static MostPopularFragment newInstance() {
         return (new MostPopularFragment());
     }
 
-
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+    /**
+     *  Execute Stream " NYTimesStreams.streamFetchTopStories "
+     */
     @Override
     protected void executeHttpRequestWithRetrofit() {
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch("api-key=de9402ab67114b3c8f08f3d58562b310").subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
-            //mDisposable = NYTimesStreams.streamFetchArticleSearchSports().subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        mDisposable = NYTimesStreams.streamFetchMostPopular().subscribeWith(new DisposableObserver<NYTimesMostPopular>() {
             @Override
-            public void onNext(NYTimesArticleSearch articleSearch) {
+            public void onNext(NYTimesMostPopular mostPopular) {
                 Log.e("TAG","On Next");
                 // Update UI with list of TopStories news
-                updateUIWithListOfNews(articleSearch);
+                updateUIWithListOfNews(mostPopular);
             }
 
             @Override
@@ -57,44 +61,58 @@ public class MostPopularFragment extends NewsFragment {
         });
     }
 
+    // -------------------
+    //     UPDATE UI
+    // -------------------
+    /**
+     *  Update UI with list of TopStories news
+     *
+     * @param news
+     *              list of news topStories of the NewYorkTimes
+     */
     @Override
     protected void updateUIWithListOfNews(Object news) {
         // Stop refreshing and clear actual list of news
         swipeRefreshLayout.setRefreshing(false);
         // Empty the list of previous news
         mListNYTimesNews.clear();
-        NYTimesArticleSearch newsArticleSearch = (NYTimesArticleSearch)news;
+
+        // Cast Object news in NYTimesMostPopular
+        NYTimesMostPopular newsMostPopular = (NYTimesMostPopular)news;
 
         //Here we recover only the elements of the query that interests us
         String imageURL;
         String newsURL;
-        for (Doc docs : newsArticleSearch.getResponse().getDocs()){
+        for (ResultMostPopular results : newsMostPopular.getResults()){
 
             // Initialize blank URL
             imageURL = "";
 
             // Affected newsURL
-            newsURL = docs.getWebUrl();
+            newsURL = results.getUrl();
             Log.d(TAG, "updateUIWithListOfNews: newsURL = "+newsURL);
 
             // Affected imageURL
             // Test if an image is present
-            if (docs.getMultimedia().size() != 0) {
-                imageURL = "https://www.nytimes.com/"+docs.getMultimedia().get(0).getUrl();
+            if (results.getMedia().size() != 0) {
+                imageURL = results.getMedia().get(0).getMediaMetadata().get(0).getUrl();
             }
 
             // Affected section label ( section > subSection )
-            String section = docs.getNewDesk();
-            if (docs.getSectionName() != null ) section = section+" > "+docs.getSectionName();
+            String section = results.getSection();
             Log.d(TAG, "updateUIWithListOfNews: section = "+section);
 
-            // Affected date label ( JJ/MM/AA )
-            String newsDate = DateUtilities.dateReformat(docs.getPubDate());
-            mListNYTimesNews.add( new NYTimesNews(docs.getSnippet(),
-                    imageURL,
-                    newsURL,
-                    newsDate,
-                    section
+            // Affected date label ( SSAAMMJJ )  to sort out the list of news later
+            String newsDate = DateUtilities.dateReformatSSAAMMJJ(results.getPublishedDate());
+
+            // Affected Title
+            String title = results.getTitle();
+
+            mListNYTimesNews.add( new NYTimesNews(title,
+                                                imageURL,
+                                                newsURL,
+                                                newsDate,
+                                                section
             ));
         }
         // Sort the newsList by createdDate in Descending

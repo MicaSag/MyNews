@@ -89,7 +89,11 @@ public class SportsFragment extends NewsFragment {
 
             // Affected date label ( JJ/MM/AA )
             String newsDate = DateUtilities.dateReformat(docs.getPubDate());
-            mListNYTimesNews.add( new NYTimesNews(docs.getSnippet(),
+
+            // Affected Title
+            String title = docs.getSnippet();
+
+            mListNYTimesNews.add( new NYTimesNews(title,
                     imageURL,
                     newsURL,
                     newsDate,

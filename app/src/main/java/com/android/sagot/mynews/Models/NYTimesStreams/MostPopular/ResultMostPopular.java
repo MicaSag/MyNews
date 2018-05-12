@@ -1,10 +1,8 @@
 package com.android.sagot.mynews.Models.NYTimesStreams.MostPopular;
 
-import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.Medium;
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class ResultMostPopular {
 
@@ -16,7 +14,7 @@ public class ResultMostPopular {
     private String countType;
     @SerializedName("column")
     @Expose
-    private Object column;
+    private String column;
     @SerializedName("section")
     @Expose
     private String section;
@@ -36,16 +34,16 @@ public class ResultMostPopular {
     @Expose
     private String source;
     @SerializedName("des_facet")
-    @Expose
+    @Expose(serialize = false, deserialize = false)
     private List<String> desFacet = null;
     @SerializedName("org_facet")
-    @Expose
+    @Expose(serialize = false, deserialize = false)
     private List<String> orgFacet = null;
     @SerializedName("per_facet")
-    @Expose
-    private String perFacet;
+    @Expose(serialize = false, deserialize = false)
+    private List<String> perFacet = null;
     @SerializedName("geo_facet")
-    @Expose
+    @Expose(serialize = false, deserialize = false)
     private List<String> geoFacet = null;
     @SerializedName("media")
     @Expose
@@ -67,11 +65,11 @@ public class ResultMostPopular {
         this.countType = countType;
     }
 
-    public Object getColumn() {
+    public String getColumn() {
         return column;
     }
 
-    public void setColumn(Object column) {
+    public void setColumn(String column) {
         this.column = column;
     }
 
@@ -139,11 +137,11 @@ public class ResultMostPopular {
         this.orgFacet = orgFacet;
     }
 
-    public String getPerFacet() {
+    public List<String> getPerFacet() {
         return perFacet;
     }
 
-    public void setPerFacet(String perFacet) {
+    public void setPerFacet(List<String> perFacet) {
         this.perFacet = perFacet;
     }
 

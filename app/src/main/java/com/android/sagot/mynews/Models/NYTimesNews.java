@@ -2,6 +2,7 @@ package com.android.sagot.mynews.Models;
 
 import android.support.annotation.NonNull;
 
+import java.util.Collections;
 import java.util.Comparator;
 
 /***************************************************************
