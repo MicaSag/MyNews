@@ -16,9 +16,12 @@ public interface NYTimesService {
     Observable<NYTimesTopStories> getTopStories(@Path("section") String section);
 
     // Article Search API
-    @GET("svc/search/v2/articlesearch.json?api-key=de9402ab67114b3c8f08f3d58562b310")
-    //Observable<NYTimesArticleSearch> getArticleSearch();
+    @GET("svc/search/v2/articlesearch.json")
     Observable<NYTimesArticleSearch> getArticleSearch(@Query("section") String section);
+
+    // Article Search API ( Sports )
+    @GET("svc/search/v2/articlesearch.json?api-key=de9402ab67114b3c8f08f3d58562b310&fq=sports")
+    Observable<NYTimesArticleSearch> getArticleSearchSports();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("http://api.nytimes.com/")

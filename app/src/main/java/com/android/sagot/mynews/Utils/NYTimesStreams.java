@@ -25,4 +25,12 @@ public class NYTimesStreams {
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
+
+    public static Observable<NYTimesArticleSearch> streamFetchArticleSearchSports(){
+        NYTimesService articleSearchService = NYTimesService.retrofit.create(NYTimesService.class);
+        return articleSearchService.getArticleSearchSports()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
 }

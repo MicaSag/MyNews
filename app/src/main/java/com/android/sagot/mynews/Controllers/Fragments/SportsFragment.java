@@ -34,7 +34,8 @@ public class SportsFragment extends NewsFragment {
     protected void executeHttpRequestWithRetrofit() {
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch("news_desk:Sports").subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        mDisposable = NYTimesStreams.streamFetchArticleSearch("api-key=de9402ab67114b3c8f08f3d58562b310").subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        //mDisposable = NYTimesStreams.streamFetchArticleSearchSports().subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
                 Log.e("TAG","On Next");
@@ -83,7 +84,7 @@ public class SportsFragment extends NewsFragment {
 
             // Affected section label ( section > subSection )
             String section = docs.getNewDesk();
-            if (docs.getSectionName() != "" ) section = section+" > "+docs.getSectionName();
+            if (docs.getSectionName() != null ) section = section+" > "+docs.getSectionName();
             Log.d(TAG, "updateUIWithListOfNews: section = "+section);
 
             // Affected date label ( JJ/MM/AA )

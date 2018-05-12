@@ -148,6 +148,7 @@ public abstract class NewsFragment extends Fragment {
 
     // -------------------
     // HTTP (RxJAVA)
+    // -------------------
     /**
      *  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
      */
@@ -163,5 +164,8 @@ public abstract class NewsFragment extends Fragment {
      */
     protected void updateUIWhenErrorHTTPRequest(){
         Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
+
+        // Stop refreshing
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
