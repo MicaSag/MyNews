@@ -16,12 +16,12 @@ import io.reactivex.observers.TestObserver;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
-public class TopStoriesFragment_Instrumental_Test {
+public class NYTimesFragment_Instrumental_Test {
 
     @Test
     public void fetchNewsTopStories_I_Test() throws Exception {
         // Get the stream
-        Observable<NYTimesTopStories> observableNews = NYTimesStreams.streamFetchTopStories("home");
+        Observable<NYTimesTopStories> observableNews = NYTimesStreams.streamFetchTopStories("home","de9402ab67114b3c8f08f3d58562b310");
         // Create a new TestObserver
         TestObserver<NYTimesTopStories> testObserver = new TestObserver<>();
         // Launch observable
@@ -44,7 +44,7 @@ public class TopStoriesFragment_Instrumental_Test {
     @Test
     public void fetchNewsMostPopular_I_Test() throws Exception {
         // Get the stream
-        Observable<NYTimesMostPopular> observableNews = NYTimesStreams.streamFetchMostPopular();
+        Observable<NYTimesMostPopular> observableNews = NYTimesStreams.streamFetchMostPopular("de9402ab67114b3c8f08f3d58562b310");
         // Create a new TestObserver
         TestObserver<NYTimesMostPopular> testObserver = new TestObserver<>();
         // Launch observable

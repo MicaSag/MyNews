@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.ResultMostPopular;
+import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -37,10 +38,11 @@ public class MostPopularFragment extends NewsFragment {
      *  Execute Stream " NYTimesStreams.streamFetchMostPopularFragment "
      */
     @Override
-    protected void executeHttpRequestWithRetrofit() {
+    protected void executeHttpRequestWithRetrofit(int offset) {
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchMostPopular().subscribeWith(new DisposableObserver<NYTimesMostPopular>() {
+        String api_key = getString(R.string.api_key); // Key for NYTimes Api access
+        mDisposable = NYTimesStreams.streamFetchMostPopular(api_key).subscribeWith(new DisposableObserver<NYTimesMostPopular>() {
             @Override
             public void onNext(NYTimesMostPopular mostPopular) {
                 Log.e("TAG","On Next");

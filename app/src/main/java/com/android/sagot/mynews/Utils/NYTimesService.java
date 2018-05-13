@@ -3,7 +3,6 @@ package com.android.sagot.mynews.Utils;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Map;
@@ -19,16 +18,20 @@ import retrofit2.http.QueryMap;
 
 public interface NYTimesService {
     // Top Stories API
-    @GET("svc/topstories/v2/{section}.json?api-key=de9402ab67114b3c8f08f3d58562b310")
-    Observable<NYTimesTopStories> getTopStories(@Path("section") String section);
+    @GET("svc/topstories/v2/{section}.json")
+    Observable<NYTimesTopStories> getTopStories(@Path("section") String section ,
+                                                @Query("api-key") String apiKey);
+
+
+    // Most Popular API
+    @GET("svc/mostpopular/v2/mostshared/all-sections/30.json")
+    Observable<NYTimesMostPopular> getMostPopular(@Query("api-key") String apiKey);
 
     // Article Search API
     @GET("svc/search/v2/articlesearch.json")
-    Observable<NYTimesArticleSearch> getArticleSearch(@QueryMap Map<String,String> filters);
+    Observable<NYTimesArticleSearch> getArticleSearch(@Query("api-key") String apiKey,
+                                                      @QueryMap Map<String,String> filters);
 
-    // Most Popular API
-    @GET("svc/mostpopular/v2/mostshared/all-sections/30.json?api-key=de9402ab67114b3c8f08f3d58562b310")
-    Observable<NYTimesMostPopular> getMostPopular();
 
     // Use excludeFieldsWithoutExposeAnnotation() for ignore some fields
     public static final Retrofit retrofit = new Retrofit.Builder()

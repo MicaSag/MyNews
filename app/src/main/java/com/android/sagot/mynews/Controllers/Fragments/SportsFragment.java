@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -38,31 +39,33 @@ public class SportsFragment extends NewsFragment {
      *  Execute Stream " NYTimesStreams.streamFetchSportsFragment "
      */
     @Override
-    protected void executeHttpRequestWithRetrofit() {
+    protected void executeHttpRequestWithRetrofit(int offset) {
 
-        Map<String, String> hm = new HashMap<>();
-        hm.put("api-key", "de9402ab67114b3c8f08f3d58562b310");
-        hm.put("fq", "news_desk:(\"Sports\" \"Arts\" \"Politics\" \"Business\" \"Entrepreneurs\" \"Travel\")");
-        //hm.put("begin_date", "20180503");
+        Map<String, String> filters = new HashMap<>(); // Filters following conditions
+        String api_key = getString(R.string.api_key);  // Key for NYTimes Api access
+        filters.put("page", String.valueOf(offset));
+        filters.put("fq", "news_desk:(\"Sports\")");
+        filters.put("begin_date", "20180501");
+        filters.put("end_date", "20180513");
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch(hm).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key, filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
-                Log.e("TAG","On Next");
+                Log.d(TAG,"On Next");
                 // Update UI with list of TopStories news
                 updateUIWithListOfNews(articleSearch);
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TAG","On Error"+Log.getStackTraceString(e));
+                Log.e(TAG,"On Error"+Log.getStackTraceString(e));
                 updateUIWhenErrorHTTPRequest();
             }
 
             @Override
             public void onComplete() {
-                Log.e("TAG","On Complete !!");
+                Log.d(TAG,"On Complete !!");
             }
         });
     }
@@ -78,6 +81,7 @@ public class SportsFragment extends NewsFragment {
         // Stop refreshing and clear actual list of news
         swipeRefreshLayout.setRefreshing(false);
         // Empty the list of previous news
+
         mListNYTimesNews.clear();
         NYTimesArticleSearch newsArticleSearch = (NYTimesArticleSearch)news;
 
@@ -120,6 +124,11 @@ public class SportsFragment extends NewsFragment {
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
+
+        // Save Offset of the Page
+        Log.d(TAG, "updateUIWithListOfNews: offset file = "+newsArticleSearch.getResponse().getMeta().getOffset());
+
+        offset +=1;
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();

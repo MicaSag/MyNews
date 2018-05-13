@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ import io.reactivex.disposables.Disposable;
 public abstract class NewsFragment extends Fragment {
 
     // Force developer implement those methods
-    protected abstract void executeHttpRequestWithRetrofit();
+    protected abstract void executeHttpRequestWithRetrofit(int offset);
     protected abstract void updateUIWithListOfNews(Object news);
 
     // FOR TRACES
@@ -52,6 +53,8 @@ public abstract class NewsFragment extends Fragment {
     protected NYTimesNewsAdapter mNYTimesNewsAdapter;
 
     public static final String BUNDLE_NEWS_URL = "BUNDLE_NEWS_URL";
+
+    public int offset;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -76,7 +79,8 @@ public abstract class NewsFragment extends Fragment {
         this.configureOnClickRecyclerView();
 
         // Call the Stream Top Stories of the New York Times
-        this.executeHttpRequestWithRetrofit();
+        this.executeHttpRequestWithRetrofit(offset);
+        Log.d(TAG, "onCreateView: offset = "+offset);
 
         return mNewsView;
     }
@@ -141,7 +145,7 @@ public abstract class NewsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                executeHttpRequestWithRetrofit();
+                executeHttpRequestWithRetrofit(0);
             }
         });
     }

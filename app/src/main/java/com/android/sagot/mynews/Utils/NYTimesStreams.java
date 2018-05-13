@@ -14,27 +14,28 @@ import io.reactivex.schedulers.Schedulers;
 public class NYTimesStreams {
 
     // NYTimes ArticleTopStories STREAM
-    public static Observable<NYTimesTopStories> streamFetchTopStories(String section){
+    public static Observable<NYTimesTopStories> streamFetchTopStories(String section,String apiKey){
         NYTimesService topStoriesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return topStoriesService.getTopStories(section)
+        return topStoriesService.getTopStories(section,apiKey)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+
+    // NYTimes ArticleMostPopular STREAM
+    public static Observable<NYTimesMostPopular> streamFetchMostPopular(String apiKey){
+        NYTimesService mostPopularService = NYTimesService.retrofit.create(NYTimesService.class);
+        return mostPopularService.getMostPopular(apiKey)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
     // NYTimes ArticleSearch STREAM
-    public static Observable<NYTimesArticleSearch> streamFetchArticleSearch(Map<String,String> filters){
+    public static Observable<NYTimesArticleSearch> streamFetchArticleSearch(String apiKey, Map<String,String> filters){
         NYTimesService articleSearchService = NYTimesService.retrofit.create(NYTimesService.class);
-        return articleSearchService.getArticleSearch(filters)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    // NYTimes ArticleMostPopular STREAM
-    public static Observable<NYTimesMostPopular> streamFetchMostPopular(){
-        NYTimesService mostPopularService = NYTimesService.retrofit.create(NYTimesService.class);
-        return mostPopularService.getMostPopular()
+        return articleSearchService.getArticleSearch(apiKey,filters)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

@@ -5,4 +5,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    // Key for NYTimes Api access
+    <string name="api_key">de9402ab67114b3c8f08f3d58562b310</string>
+
 </resources>

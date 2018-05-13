@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.Result;
+import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -37,10 +38,12 @@ public class TopStoriesFragment extends NewsFragment{
      *  Execute Stream " NYTimesStreams.streamFetchTopStories "
      */
     @Override
-    protected void executeHttpRequestWithRetrofit(){
+    protected void executeHttpRequestWithRetrofit(int offset){
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        this.mDisposable = NYTimesStreams.streamFetchTopStories("home").subscribeWith(new DisposableObserver<NYTimesTopStories>() {
+        String api_key = getString(R.string.api_key); // Key for NYTimes Api access
+        String section = "home";                      // Section of the new to return
+        this.mDisposable = NYTimesStreams.streamFetchTopStories(section, api_key).subscribeWith(new DisposableObserver<NYTimesTopStories>() {
             @Override
             public void onNext(NYTimesTopStories topStories) {
                 Log.e("TAG","On Next");
