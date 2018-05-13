@@ -34,7 +34,7 @@ public class MostPopularFragment extends NewsFragment {
     // HTTP (RxJAVA)
     // -------------------
     /**
-     *  Execute Stream " NYTimesStreams.streamFetchTopStories "
+     *  Execute Stream " NYTimesStreams.streamFetchMostPopularFragment "
      */
     @Override
     protected void executeHttpRequestWithRetrofit() {
@@ -65,10 +65,10 @@ public class MostPopularFragment extends NewsFragment {
     //     UPDATE UI
     // -------------------
     /**
-     *  Update UI with list of TopStories news
+     *  Update UI with list of MostPopular news
      *
      * @param news
-     *              list of news topStories of the NewYorkTimes
+     *              list of news MostPopular of the NewYorkTimes
      */
     @Override
     protected void updateUIWithListOfNews(Object news) {

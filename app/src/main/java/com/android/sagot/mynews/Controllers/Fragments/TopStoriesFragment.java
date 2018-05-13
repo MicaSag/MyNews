@@ -2,19 +2,15 @@ package com.android.sagot.mynews.Controllers.Fragments;
 
 
 import android.util.Log;
-import android.view.View;
 
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.Result;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
-import com.android.sagot.mynews.Views.NYTimesNewsAdapter;
 
 import java.util.Collections;
-import java.util.List;
 
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 /**

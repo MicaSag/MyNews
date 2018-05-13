@@ -10,6 +10,8 @@ import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -29,13 +31,22 @@ public class SportsFragment extends NewsFragment {
         return (new SportsFragment());
     }
 
-
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+    /**
+     *  Execute Stream " NYTimesStreams.streamFetchSportsFragment "
+     */
     @Override
     protected void executeHttpRequestWithRetrofit() {
 
+        Map<String, String> hm = new HashMap<>();
+        hm.put("api-key", "de9402ab67114b3c8f08f3d58562b310");
+        hm.put("fq", "news_desk:(\"Sports\" \"Arts\" \"Politics\" \"Business\" \"Entrepreneurs\" \"Travel\")");
+        //hm.put("begin_date", "20180503");
+
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch("api-key=de9402ab67114b3c8f08f3d58562b310").subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
-        //mDisposable = NYTimesStreams.streamFetchArticleSearchSports().subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(hm).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
                 Log.e("TAG","On Next");
@@ -56,6 +67,12 @@ public class SportsFragment extends NewsFragment {
         });
     }
 
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+    /**
+     *  Execute Stream " NYTimesStreams.streamFetchSports "
+     */
     @Override
     protected void updateUIWithListOfNews(Object news) {
         // Stop refreshing and clear actual list of news
@@ -87,8 +104,8 @@ public class SportsFragment extends NewsFragment {
             if (docs.getSectionName() != null ) section = section+" > "+docs.getSectionName();
             Log.d(TAG, "updateUIWithListOfNews: section = "+section);
 
-            // Affected date label ( JJ/MM/AA )
-            String newsDate = DateUtilities.dateReformat(docs.getPubDate());
+            // Affected date label ( SSAAMMJJ )
+            String newsDate = DateUtilities.dateReformatSSAAMMJJ(docs.getPubDate());
 
             // Affected Title
             String title = docs.getSnippet();
