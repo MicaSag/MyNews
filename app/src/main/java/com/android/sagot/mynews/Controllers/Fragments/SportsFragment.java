@@ -36,7 +36,7 @@ public class SportsFragment extends NewsFragment {
     // HTTP (RxJAVA)
     // -------------------
     /**
-     *  Execute Stream " NYTimesStreams.streamFetchSportsFragment "
+     *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
      */
     @Override
     protected void executeHttpRequestWithRetrofit(int offset) {
@@ -71,10 +71,13 @@ public class SportsFragment extends NewsFragment {
     }
 
     // -------------------
-    // HTTP (RxJAVA)
+    //     UPDATE UI
     // -------------------
     /**
-     *  Execute Stream " NYTimesStreams.streamFetchSports "
+     *  Update UI with list of Sports news
+     *
+     * @param news
+     *              list of news Sports of the NewYorkTimes
      */
     @Override
     protected void updateUIWithListOfNews(Object news) {

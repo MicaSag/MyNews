@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#98A9AB</color>
-    <color name="colorPrimaryDark">#798788</color>
-    <color name="colorAccent">#F4F7F8</color>
+    <color name="colorPrimary">#119ea3</color>
+    <color name="colorPrimaryDark">#001153</color>
+    <color name="colorAccent">#715613</color>
 
-    <!-- Array of colors that will be used by ViewPagerTabsLayout as background colors -->
-    <array name="colorTabsLayout">
-        <item>#1b7835</item>
-        <item>#be093f</item>
-        <item>#1f36de</item>
-        <item>#ef601e</item>
-        <item>#8558d9</item>
+<!-- colors that will be used by ViewPagerTabsLayout as background colors -->
+    <color name="topStoriesBackground">#67a378</color>
+    <color name="mostPopularBackground">#b95472</color>
+    <color name="businessBackground">#646ec8</color>
+    <color name="sportsBackground">#a96d51</color>
+    <color name="searchBackground">#afa01a</color>
+
+    <array name="background_colors">
+        <item>@color/topStoriesBackground</item>
+        <item>@color/mostPopularBackground</item>
+        <item>@color/businessBackground</item>
+        <item>@color/sportsBackground</item>
+        <item>@color/searchBackground</item>
     </array>
-    <color name="topStoriesTabFragment">#1b7835</color>
-
-    <!-- colors that will be used by ViewPagerFragment as background colors -->
-    <color name="topStoriesFragment">#a7e7b9</color>
-    <color name="mostPopularFragment">#e991ab</color>
-    <color name="businessFragment">#9ba1cc</color>
-    <color name="sportsFragment">#cfa38f</color>
-    <color name="otherFragment">#baabd6</color>
 
 </resources>

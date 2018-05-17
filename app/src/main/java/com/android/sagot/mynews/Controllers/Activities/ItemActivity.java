@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.android.sagot.mynews.Controllers.Fragments.TopStoriesFragment;
 import com.android.sagot.mynews.R;
@@ -28,6 +29,9 @@ public class ItemActivity extends AppCompatActivity {
         Intent i = getIntent();
         mNewURL = i.getStringExtra(TopStoriesFragment.BUNDLE_NEWS_URL);
         WebView webView = (WebView) findViewById(R.id.activity_item_webView);
+
+        // Set emulator View
+        webView.setWebViewClient(new WebViewClient());
 
         webView.loadUrl(mNewURL);
     }

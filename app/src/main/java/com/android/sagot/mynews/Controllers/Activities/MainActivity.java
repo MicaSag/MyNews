@@ -1,11 +1,15 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +25,8 @@ import com.android.sagot.mynews.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static junit.framework.Assert.assertSame;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener {
@@ -47,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_BUSINESS = 2;
     private static final int FRAGMENT_SPORTS = 3;
 
+    // Colors Tab of the items menu navigation drawer
+    int[] colors;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
@@ -61,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureToolBar();
         this.configureDrawerLayout();
         this.configureNavigationView();
+        this.configureNavigationMenuItem();
 
         // VIEW PAGER & TAB LAYOUT
         //Configure ViewPager with tab layout
@@ -101,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected: ");
+        Log.d(TAG, "onOptionsItemSelected() called with: item = [" + item + "]");
         // Handle actions on menu items
         switch (item.getItemId()) {
             case R.id.activity_main_menu_toolbar_search:
@@ -150,6 +160,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.mNavigationView.getMenu().getItem(0).setChecked(true);
     }
 
+    // Configure NavigationView
+    private void configureNavigationMenuItem() {
+        // The item menu selected take the color of the background
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_checked},  // item checked
+                new int[]{android.R.attr.state_enabled} // default state
+        };
+        colors = new int[]{
+                getResources().getColor(R.color.topStoriesBackground),
+                getResources().getColor(android.R.color.black)
+        };
+
+        ColorStateList myList = new ColorStateList(states, colors);
+        this.mNavigationView.setItemTextColor(myList);
+        this.mNavigationView.setItemIconTintList(myList);
+    }
+
     // ---------------------
     // ACTIONS
     // ---------------------
@@ -162,18 +189,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id){
             case R.id.activity_main_drawer_top_stories :
+                // Change the color of the text menu item selected
+                colors[0] =  getResources().getColor(R.color.topStoriesBackground);
                 // Positioning the Top Stories Page
                 pager.setCurrentItem(FRAGMENT_TOP_STORIES);
                 break;
-            case R.id.activity_main_drawer_most_popular:
+            case R.id.activity_main_drawer_most_popular :
+                // Change the color of the text menu item selected
+                colors[0] =  getResources().getColor(R.color.mostPopularBackground);
                 // Positioning the Most Popular Stories Page
                 pager.setCurrentItem(FRAGMENT_MOST_POPULAR);
                 break;
-            case R.id.activity_main_drawer_business:
+            case R.id.activity_main_drawer_business :
+                // Change the color of the text menu item selected
+                colors[0] = getResources().getColor(R.color.businessBackground);
                 // Positioning the Business Page
                 pager.setCurrentItem(FRAGMENT_BUSINESS);
                 break;
-            case R.id.activity_main_drawer_sports:
+            case R.id.activity_main_drawer_sports :
+                // Change the color of the text menu item selected
+                colors[0] =  getResources().getColor(R.color.sportsBackground);
                 // Positioning the Sports Page
                 pager.setCurrentItem(FRAGMENT_SPORTS);
                 break;
@@ -181,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        // Close the Drawer Menu
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
@@ -251,12 +285,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onTabSelected(TabLayout.Tab tab) {
         Log.d(TAG, "onTabSelected() called with: tab = [" + tab + "]");
         int position = tab.getPosition();
+
         // Mark as selected the menu item corresponding to First tab 'TOP STORIES'
         this.mNavigationView.getMenu().getItem(position).setChecked(true);
 
         // Change Color of the Tab selected
-        this.tabs.setBackgroundColor(getResources().obtainTypedArray(R.array.colorTabsLayout)
-                .getColor(position,0));
+        this.tabs.setBackgroundColor(getResources()
+                .obtainTypedArray(R.array.background_colors).getColor(position,0));
+
+        // Change Color of the Toolbar
+        this.mToolbar.setBackgroundColor(getResources()
+                .obtainTypedArray(R.array.background_colors).getColor(position,0));
+
+        colors[0] = getResources()
+                .obtainTypedArray(R.array.background_colors).getColor(position,0);
     }
 
     @Override

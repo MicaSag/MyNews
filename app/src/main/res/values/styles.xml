@@ -1,5 +1,7 @@
 <resources>
 
+    <!-- ===== THEMES ===== -->
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -8,16 +10,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- TOOLBAR THEME -->
-    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!-- Color of the title text in the Toolbar -->
-        <item name="android:textColorPrimary">@color/colorAccent</item>
+    <!-- ===== STYLES ===== -->
+
+    <!-- tabLayout style. -->
+    <style name="tabLayout_style" parent="Widget.Design.TabLayout">
+        <item name="tabTextColor">#D4E0F8</item>
+        <item name="tabSelectedTextColor">#fff</item>
+        <item name="tabIndicatorColor">@color/topStoriesBackground</item>
+        <item name="android:background">@color/topStoriesBackground</item>
     </style>
 
-    <!-- TOOLBAR TITLE THEME -->
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">21sp</item>
-        <item name="android:textStyle">italic</item>
+    <!-- toolBar style. -->
+    <style name="toolBar_style" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="tabTextColor">#D4E0F8</item>
+        <item name="tabSelectedTextColor">#fff</item>
+        <item name="android:background">@color/topStoriesBackground</item>
     </style>
 
 </resources>
