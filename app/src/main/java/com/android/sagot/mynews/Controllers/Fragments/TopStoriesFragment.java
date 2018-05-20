@@ -41,7 +41,6 @@ public class TopStoriesFragment extends NewsFragment{
     protected void executeHttpRequestWithRetrofit(int offset){
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        String api_key = getString(R.string.api_key); // Key for NYTimes Api access
         String section = "home";                      // Section of the new to return
         this.mDisposable = NYTimesStreams.streamFetchTopStories(section, api_key).subscribeWith(new DisposableObserver<NYTimesTopStories>() {
             @Override

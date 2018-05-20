@@ -10,117 +10,135 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- Search zone -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditView
-            android:id="@+id/activity_search_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search query term">
-
-        </EditView>
-
-    </LinearLayout>
-
-    <!-- Date zone -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Spinner
-            android:id="@+id/activity_search_spinner_date_begin"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-        <Spinner
-            android:id="@+id/activity_search_spinner_date_end"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-    <!-- section zone -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <CheckBox android:id="@+id/checkbox_arts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Arts"
-                android:onClick="onCheckboxClicked"/>
-
-            <CheckBox android:id="@+id/checkbox_business"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Business"
-                android:onClick="onCheckboxClicked"/>
-
-            <CheckBox android:id="@+id/checkbox_entrepreneurs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Entrepreneurs"
-                android:onClick="onCheckboxClicked"/>
-
-        </LinearLayout>
-
+        <!-- Search zone -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <CheckBox android:id="@+id/checkbox_politics"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/activity_search_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Politics"
-                android:onClick="onCheckboxClicked"/>
+                android:hint="Search query term">
 
-            <CheckBox android:id="@+id/checkbox_sports"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sports"
-                android:onClick="onCheckboxClicked"/>
-
-            <CheckBox android:id="@+id/checkbox_travel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Travel"
-                android:onClick="onCheckboxClicked"/>
+            </EditText>
 
         </LinearLayout>
 
-
-    </LinearLayout>
-
-    <!-- Button zone -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/activity_search_button"
-            android:layout_width="wrap_content"
+        <!-- Spinner label -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SEARCH">
+            android:orientation="horizontal">
 
-        </Button>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:text="Begin Date"/>
 
-    </LinearLayout>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:text="End Date"/>
+
+        </LinearLayout>
+
+        <!-- Date zone -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/activity_search_spinner_date_begin"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/activity_search_spinner_date_end"
+                android:layout_weight="1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <!-- section zone -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <CheckBox android:id="@+id/checkbox_arts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Arts"
+                    android:onClick="onCheckboxClicked"/>
+
+                <CheckBox android:id="@+id/checkbox_business"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Business"
+                    android:onClick="onCheckboxClicked"/>
+
+                <CheckBox android:id="@+id/checkbox_entrepreneurs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Entrepreneurs"
+                    android:onClick="onCheckboxClicked"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <CheckBox android:id="@+id/checkbox_politics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Politics"
+                    android:onClick="onCheckboxClicked"/>
+
+                <CheckBox android:id="@+id/checkbox_sports"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sports"
+                    android:onClick="onCheckboxClicked"/>
+
+                <CheckBox android:id="@+id/checkbox_travel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Travel"
+                    android:onClick="onCheckboxClicked"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Button zone -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/activity_search_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SEARCH">
+            </Button>
+        </LinearLayout>
 
 </LinearLayout>

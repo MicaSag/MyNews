@@ -54,11 +54,8 @@ public class BusinessFragment extends NewsFragment {
     protected void executeHttpRequestWithRetrofit(int offset) {
 
         Map<String, String> filters = new HashMap<>(); // Filters following conditions
-        String api_key = getString(R.string.api_key);  // Key for NYTimes Api access
         filters.put("page", String.valueOf(offset));
         filters.put("fq", "news_desk:(\"Business\")");
-        filters.put("begin_date", "20180501");
-        filters.put("end_date", "20180513");
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
         mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key, filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {

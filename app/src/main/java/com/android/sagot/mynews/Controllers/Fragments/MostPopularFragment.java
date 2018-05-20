@@ -41,7 +41,6 @@ public class MostPopularFragment extends NewsFragment {
     protected void executeHttpRequestWithRetrofit(int offset) {
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        String api_key = getString(R.string.api_key); // Key for NYTimes Api access
         mDisposable = NYTimesStreams.streamFetchMostPopular(api_key).subscribeWith(new DisposableObserver<NYTimesMostPopular>() {
             @Override
             public void onNext(NYTimesMostPopular mostPopular) {

@@ -54,6 +54,9 @@ public abstract class NewsFragment extends Fragment {
 
     public static final String BUNDLE_NEWS_URL = "BUNDLE_NEWS_URL";
 
+    // Key for NYTimes Api access
+    protected String api_key;
+
     public int offset;
 
     public NewsFragment() {
@@ -79,6 +82,7 @@ public abstract class NewsFragment extends Fragment {
         this.configureOnClickRecyclerView();
 
         // Call the Stream Top Stories of the New York Times
+        api_key = getResources().getString(R.string.api_key);  // Key for NYTimes Api access
         this.executeHttpRequestWithRetrofit(offset);
         Log.d(TAG, "onCreateView: offset = "+offset);
 

@@ -6,7 +6,6 @@ import android.util.Log;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
-import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -17,19 +16,19 @@ import java.util.Map;
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * Sports FRAGMENT
+ * Search FRAGMENT
  */
-public class SportsFragment extends NewsFragment {
+public class ResultSearchFragment extends NewsFragment {
 
     // For debug
-    private static final String TAG = SportsFragment.class.getSimpleName();
+    private static final String TAG = ResultSearchFragment.class.getSimpleName();
 
-    public SportsFragment() {
+    public ResultSearchFragment() {
         // Required empty public constructor
     }
 
     public static NewsFragment newInstance() {
-        return (new SportsFragment());
+        return (new ResultSearchFragment());
     }
 
     // -------------------
@@ -43,7 +42,7 @@ public class SportsFragment extends NewsFragment {
 
         Map<String, String> filters = new HashMap<>(); // Filters following conditions
         filters.put("page", String.valueOf(offset));
-        filters.put("fq", "news_desk:(\"Sports\")");
+        filters.put("fq", "news_desk:(\"Business\")");
         filters.put("begin_date", "20180501");
         filters.put("end_date", "20180513");
 
@@ -73,10 +72,10 @@ public class SportsFragment extends NewsFragment {
     //     UPDATE UI
     // -------------------
     /**
-     *  Update UI with list of Sports news
+     *  Update UI with list of Business news
      *
      * @param news
-     *              list of news Sports of the NewYorkTimes
+     *              list of news Business of the NewYorkTimes
      */
     @Override
     protected void updateUIWithListOfNews(Object news) {
