@@ -1,12 +1,15 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -19,6 +22,8 @@ import com.android.sagot.mynews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -36,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.checkbox_sports) CheckBox mCheckBoxSports;
     @BindView(R.id.checkbox_travel) CheckBox mCheckBoxTravel;
     @BindView(R.id.activity_search_button) Button mButton;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     // Declare search fragment
     private ResultSearchFragment mSearchFragment;
@@ -65,6 +71,10 @@ public class SearchActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
+        // Change the color of the Status Bar
+        changeStatusBarColor(this,getResources().getColor(R.color.searchPrimaryDark));
+        // Change Color of the Toolbar
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
     }
 
     // ---------------------

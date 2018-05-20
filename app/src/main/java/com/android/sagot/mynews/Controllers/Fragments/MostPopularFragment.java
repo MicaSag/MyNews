@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.android.sagot.mynews.Models.NYTimesNews;
@@ -27,8 +28,17 @@ public class MostPopularFragment extends NewsFragment {
     }
 
     // Method that will create a new instance of MostPopularFragment, and add data to its bundle.
-    public static MostPopularFragment newInstance() {
-        return (new MostPopularFragment());
+    public static MostPopularFragment newInstance(int tabLayoutPosition) {
+
+        // Create new fragment
+        MostPopularFragment fragment = new MostPopularFragment();
+
+        // Create bundle and add it some data
+        Bundle args = new Bundle();
+        args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     // -------------------

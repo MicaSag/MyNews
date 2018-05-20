@@ -2,23 +2,11 @@ package com.android.sagot.mynews.Controllers.Fragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.android.sagot.mynews.R;
-
-/**
- * BUSINESS FRAGMENT
- */
 import android.util.Log;
 
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
-import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -27,7 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.observers.DisposableObserver;
-
 /**
  * Business FRAGMENT
  */
@@ -40,8 +27,17 @@ public class BusinessFragment extends NewsFragment {
         // Required empty public constructor
     }
 
-    public static NewsFragment newInstance() {
-        return (new BusinessFragment());
+    public static BusinessFragment newInstance(int tabLayoutPosition) {
+
+        // Create new fragment
+        BusinessFragment fragment = new BusinessFragment();
+
+        // Create bundle and add it some data
+        Bundle args = new Bundle();
+        args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     // -------------------

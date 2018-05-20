@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.android.sagot.mynews.Models.NYTimesNews;
@@ -28,8 +29,17 @@ public class SportsFragment extends NewsFragment {
         // Required empty public constructor
     }
 
-    public static NewsFragment newInstance() {
-        return (new SportsFragment());
+    public static SportsFragment newInstance(int tabLayoutPosition) {
+
+        // Create new fragment
+        SportsFragment fragment = new SportsFragment();
+
+        // Create bundle and add it some data
+        Bundle args = new Bundle();
+        args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     // -------------------

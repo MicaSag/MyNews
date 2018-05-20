@@ -32,13 +32,13 @@ public class PageAdapter extends FragmentPagerAdapter {
         // Page to return
         switch (position){
             case 0: //Page number 1
-                return TopStoriesFragment.newInstance();
+                return TopStoriesFragment.newInstance(position);
             case 1: //Page number 2
-                return MostPopularFragment.newInstance();
+                return MostPopularFragment.newInstance(position);
             case 2: //Page number 3
-                return BusinessFragment.newInstance();
+                return BusinessFragment.newInstance(position);
             case 3: //Page number 4
-                return SportsFragment.newInstance();
+                return SportsFragment.newInstance(position);
             default:
                 return null;
         }

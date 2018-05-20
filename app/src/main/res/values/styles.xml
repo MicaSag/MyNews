@@ -12,19 +12,30 @@
 
     <!-- ===== STYLES ===== -->
 
+    <!-- | TOP STORIES | -->
+
+    <!-- Base Top Stories theme. -->
+    <style name="TopStoriesTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <!-- tabLayout style. -->
     <style name="tabLayout_style" parent="Widget.Design.TabLayout">
-        <item name="tabTextColor">#D4E0F8</item>
-        <item name="tabSelectedTextColor">#fff</item>
-        <item name="tabIndicatorColor">@color/topStoriesBackground</item>
-        <item name="android:background">@color/topStoriesBackground</item>
+        <item name="tabTextColor">@color/colorText</item>
+        <item name="tabSelectedTextColor">@color/colorTextSelected</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="android:background">@color/topStoriesPrimary</item>
     </style>
 
     <!-- toolBar style. -->
     <style name="toolBar_style" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="tabTextColor">#D4E0F8</item>
-        <item name="tabSelectedTextColor">#fff</item>
-        <item name="android:background">@color/topStoriesBackground</item>
+        <item name="titleTextColor">@color/colorTextSelected</item>
+        <item name="android:background">@color/topStoriesPrimary</item>
     </style>
+
+
 
 </resources>

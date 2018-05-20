@@ -27,7 +27,7 @@ public class ResultSearchFragment extends NewsFragment {
         // Required empty public constructor
     }
 
-    public static NewsFragment newInstance() {
+    public static ResultSearchFragment newInstance() {
         return (new ResultSearchFragment());
     }
 

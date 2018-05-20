@@ -52,7 +52,12 @@ public abstract class NewsFragment extends Fragment {
     protected List<NYTimesNews> mListNYTimesNews;
     protected NYTimesNewsAdapter mNYTimesNewsAdapter;
 
+    // Position of the fragment in the tabLayout
+    int mTabLayoutPosition;
+
+    // Static variables for intent parameters
     public static final String BUNDLE_NEWS_URL = "BUNDLE_NEWS_URL";
+    public static final String BUNDLE_TAB_LAYOUT_POSITION = "BUNDLE_POSITION";
 
     // Key for NYTimes Api access
     protected String api_key;
@@ -72,6 +77,9 @@ public abstract class NewsFragment extends Fragment {
         // Telling ButterKnife to bind all views in layout
         ButterKnife.bind(this, mNewsView);
 
+        // Get data from Bundle (created in method newInstance)
+        mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, -1);
+
         // Configure RecyclerView
         this.configureRecyclerView();
 
@@ -81,8 +89,10 @@ public abstract class NewsFragment extends Fragment {
         // Calling the method that configuring click on RecyclerView
         this.configureOnClickRecyclerView();
 
+        // Get api_key
+        api_key = getResources().getString(R.string.api_key);
+
         // Call the Stream Top Stories of the New York Times
-        api_key = getResources().getString(R.string.api_key);  // Key for NYTimes Api access
         this.executeHttpRequestWithRetrofit(offset);
         Log.d(TAG, "onCreateView: offset = "+offset);
 
@@ -123,6 +133,7 @@ public abstract class NewsFragment extends Fragment {
     private void launchItemActivity(int position){
         Intent myIntent = new Intent(getActivity(), ItemActivity.class);
         myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
+        myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
         this.startActivity(myIntent);
     }
 
@@ -137,7 +148,7 @@ public abstract class NewsFragment extends Fragment {
         this.mListNYTimesNews = new ArrayList<>();
         // Create adapter passing the list of users
         this.mNYTimesNewsAdapter = new NYTimesNewsAdapter(this.mListNYTimesNews, Glide.with(this));
-        // Attach the adapter to the recyclerview to populate items
+        // Attach the adapter to the recyclerView to populate items
         this.mRecyclerView.setAdapter(this.mNYTimesNewsAdapter);
         // Set layout manager to position the items
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Adapters.PageAdapter;
@@ -26,6 +29,7 @@ import com.android.sagot.mynews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
 import static junit.framework.Assert.assertSame;
 
 
@@ -168,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new int[]{android.R.attr.state_enabled} // default state
         };
         colors = new int[]{
-                getResources().getColor(R.color.topStoriesBackground),
+                getResources().getColor(R.color.topStoriesPrimary),
                 getResources().getColor(android.R.color.black)
         };
 
@@ -190,25 +194,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id){
             case R.id.activity_main_drawer_top_stories :
                 // Change the color of the text menu item selected
-                colors[0] =  getResources().getColor(R.color.topStoriesBackground);
+                colors[0] =  getResources().getColor(R.color.topStoriesPrimary);
                 // Positioning the Top Stories Page
                 pager.setCurrentItem(FRAGMENT_TOP_STORIES);
                 break;
             case R.id.activity_main_drawer_most_popular :
                 // Change the color of the text menu item selected
-                colors[0] =  getResources().getColor(R.color.mostPopularBackground);
+                colors[0] =  getResources().getColor(R.color.mostPopularPrimary);
                 // Positioning the Most Popular Stories Page
                 pager.setCurrentItem(FRAGMENT_MOST_POPULAR);
                 break;
             case R.id.activity_main_drawer_business :
                 // Change the color of the text menu item selected
-                colors[0] = getResources().getColor(R.color.businessBackground);
+                colors[0] = getResources().getColor(R.color.businessPrimary);
                 // Positioning the Business Page
                 pager.setCurrentItem(FRAGMENT_BUSINESS);
                 break;
             case R.id.activity_main_drawer_sports :
                 // Change the color of the text menu item selected
-                colors[0] =  getResources().getColor(R.color.sportsBackground);
+                colors[0] =  getResources().getColor(R.color.sportsPrimary);
                 // Positioning the Sports Page
                 pager.setCurrentItem(FRAGMENT_SPORTS);
                 break;
@@ -216,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
+        // Close menu drawer
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
@@ -291,14 +296,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Change Color of the Tab selected
         this.tabs.setBackgroundColor(getResources()
-                .obtainTypedArray(R.array.background_colors).getColor(position,0));
+                .obtainTypedArray(R.array.primary_colors).getColor(position,0));
 
         // Change Color of the Toolbar
         this.mToolbar.setBackgroundColor(getResources()
-                .obtainTypedArray(R.array.background_colors).getColor(position,0));
+                .obtainTypedArray(R.array.primary_colors).getColor(position,0));
 
-        colors[0] = getResources()
-                .obtainTypedArray(R.array.background_colors).getColor(position,0);
+        // Change Color of the Status Toolbar
+        changeStatusBarColor(this, getResources()
+                .obtainTypedArray(R.array.primaryDark_colors).getColor(position,0));
     }
 
     @Override
@@ -308,4 +314,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
     }
+
 }
