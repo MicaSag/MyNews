@@ -1,8 +1,11 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -137,11 +140,11 @@ public abstract class NewsFragment extends Fragment {
         this.startActivity(myIntent);
     }
 
-    // -----------------
+    // ---------------
     // CONFIGURATION
-    // -----------------
+    // ---------------
     /**
-     *  Configure RecyclerView, Adapter, LayoutManager & glue it together
+     *  Configure RECYCLER VIEW, ADAPTER, LAYOUTMANAGER & glue it together
      */
     private void configureRecyclerView(){
         // Reset list

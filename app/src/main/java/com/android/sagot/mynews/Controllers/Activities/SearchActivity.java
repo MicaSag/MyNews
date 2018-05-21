@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Fragments.ResultSearchFragment;
+import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
 
 import butterknife.BindView;
@@ -46,6 +47,9 @@ public class SearchActivity extends AppCompatActivity {
     // Declare search fragment
     private ResultSearchFragment mSearchFragment;
 
+    // Object containing the criteria of search
+    SearchCriteria mSearchCriteria;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,9 @@ public class SearchActivity extends AppCompatActivity {
 
         // Get & serialise all views
         ButterKnife.bind(this);
+
+        // Create searchCriteria Object
+        mSearchCriteria = new SearchCriteria();
 
         // Configuring Toolbar
         this.configureToolbar();
@@ -71,8 +78,6 @@ public class SearchActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
-        // Change the color of the Status Bar
-        changeStatusBarColor(this,getResources().getColor(R.color.searchPrimaryDark));
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
     }
@@ -85,8 +90,44 @@ public class SearchActivity extends AppCompatActivity {
     @OnClick(R.id.activity_search_button)
     public void submit(View view) {
         Log.d(TAG, "submit: ");
+
         Intent intentResultSearchActivity = new Intent(SearchActivity.this, ResultSearchActivity.class);
         startActivity(intentResultSearchActivity);
 
+    }
+
+    // click on Search Button and call ResultSearchActivity
+    @OnClick(R.id.checkbox_arts)
+    public void checkBoxArts(View view) {
+        mSearchCriteria.setArts(mCheckBoxArts.isChecked()?true:false);
+    }
+    // click on Search Button and call ResultSearchActivity
+    @OnClick(R.id.checkbox_business)
+    public void checkBoxBusiness(View view) {
+        mSearchCriteria.setBusiness(mCheckBoxBusiness.isChecked()?true:false);
+    }
+
+    // click on Search Button and call ResultSearchActivity
+    @OnClick(R.id.checkbox_entrepreneurs)
+    public void checkBoxEntrepreneurs(View view) {
+        mSearchCriteria.setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked()?true:false);
+    }
+
+    // click on Search Button and call ResultSearchActivity
+    @OnClick(R.id.checkbox_politics)
+    public void checkBoxPolitics(View view) {
+        mSearchCriteria.setPolitics(mCheckBoxPolitics.isChecked()?true:false);
+    }
+
+    // click on Search Button and call ResultSearchActivity
+    @OnClick(R.id.checkbox_sports)
+    public void checkBoxSports(View view) {
+        mSearchCriteria.setSports(mCheckBoxSports.isChecked()?true:false);
+    }
+
+    // click on Search Button and call ResultSearchActivity
+    @OnClick(R.id.checkbox_travel)
+    public void checkBoxTravel(View view) {
+        mSearchCriteria.setTravel(mCheckBoxTravel.isChecked()?true:false);
     }
 }

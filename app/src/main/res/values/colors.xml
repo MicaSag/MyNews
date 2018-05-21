@@ -6,7 +6,7 @@
     <!-- DEFAULT colors -->
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorPrimary">#03a9f4</color>
-    <color name="colorAccent">#EEFF41</color>
+    <color name="colorAccent">#FF9100</color>
     <color name="colorTextSelected">@android:color/white</color>
     <color name="colorText">#e1dada</color>
 
@@ -38,7 +38,7 @@
     <!-- colors that will be used by search -->
     <color name="searchPrimaryDark">#689f38</color>
     <color name="searchPrimary">#8bc34a</color>
-    <color name="searchAccent">#3d5afe</color>
+    <color name="searchAccent">#8bc34a</color>
     <color name="searchText">@android:color/black</color>
 
 

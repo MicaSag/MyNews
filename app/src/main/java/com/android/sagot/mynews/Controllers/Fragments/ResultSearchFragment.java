@@ -7,6 +7,7 @@ import android.util.Log;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -23,6 +24,8 @@ public class ResultSearchFragment extends NewsFragment {
 
     // For debug
     private static final String TAG = ResultSearchFragment.class.getSimpleName();
+
+    private SearchCriteria mSearchCriteria;
 
     public ResultSearchFragment() {
         // Required empty public constructor
@@ -145,7 +148,7 @@ public class ResultSearchFragment extends NewsFragment {
         mNYTimesNewsAdapter.notifyDataSetChanged();
     }
 
-    protected void buildrequest() {
-        
+    protected void buildRequest() {
+       // mSearchCriteria.setArts(mArt);
     }
 }

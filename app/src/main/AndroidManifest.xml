@@ -22,6 +22,7 @@
         <activity
             android:name=".Controllers.Activities.SearchActivity"
             android:label="Search Articles"
+            android:theme="@style/SearchArticlesTheme"
             android:parentActivityName=".Controllers.Activities.MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

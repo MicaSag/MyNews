@@ -14,6 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <EditText
@@ -30,6 +32,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -52,6 +56,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <Spinner
@@ -77,6 +82,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -103,6 +110,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -137,6 +145,11 @@
                 android:id="@+id/activity_search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/searchPrimary"
+                android:textColor="@color/colorTextSelected"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
                 android:text="SEARCH">
             </Button>
         </LinearLayout>
