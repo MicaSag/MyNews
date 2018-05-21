@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Get the toolbar view inside the activity layout
 
         // Change the toolbar Tittle
-        setTitle("My NewsList");
+        setTitle("My News");
         // Sets the Toolbar
         setSupportActionBar(mToolbar);
     }
@@ -123,9 +123,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(searchActivity);
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_notifications:
-                Toast.makeText(this, "Select Notifications", Toast.LENGTH_LONG).show();
-                searchActivity = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(searchActivity);
+                //searchActivity = new Intent(MainActivity.this, SearchActivity.class);
+                //startActivity(searchActivity);
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_help:
                 Toast.makeText(this, "Select Help", Toast.LENGTH_LONG).show();

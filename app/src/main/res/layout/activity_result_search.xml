@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_result_frame_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!-- Toolbar Importation -->
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <!-- Result Fragment -->
-    <fragment
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/activity_result_search_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.android.sagot.mynews.Controllers.Fragments.ResultSearchFragment"/>
-
 </LinearLayout>
+

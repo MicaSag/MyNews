@@ -47,8 +47,6 @@ public class ItemActivity extends AppCompatActivity {
         mNewURL = i.getStringExtra(TopStoriesFragment.BUNDLE_NEWS_URL);
         mPosition = i.getIntExtra(NewsFragment.BUNDLE_TAB_LAYOUT_POSITION,0);
 
-        Log.d(TAG, "onCreate: mNewURL = "+mNewURL);
-        Log.d(TAG, "onCreate: mPosition = "+mPosition);
         // Change the color of the status bar and of the toolbar
         applyColorTheme();
 

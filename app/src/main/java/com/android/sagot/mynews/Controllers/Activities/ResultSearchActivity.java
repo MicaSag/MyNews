@@ -1,13 +1,11 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Window;
-import android.view.WindowManager;
 
+import com.android.sagot.mynews.Controllers.Fragments.ResultSearchFragment;
 import com.android.sagot.mynews.R;
 
 import butterknife.BindView;
@@ -34,8 +32,7 @@ public class ResultSearchActivity extends AppCompatActivity {
         // Change the color of the Status Bar
         changeStatusBarColor(this,getResources().getColor(R.color.searchPrimaryDark));
 
-        // Change Color of the Toolbar
-        mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
+        configureAndShowSearchFragment();
     }
 
     // --------------
@@ -43,13 +40,32 @@ public class ResultSearchActivity extends AppCompatActivity {
     // --------------
 
     private void configureToolbar(){
-        //Get the toolbar (Serialise)
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //Set the toolbar
-        setSupportActionBar(toolbar);
+         //Set the toolbar
+        setSupportActionBar(mToolbar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
+        // Change Color of the Toolbar
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
+    }
+
+    // --------------
+    // FRAGMENTS
+    // --------------
+
+    private void configureAndShowSearchFragment(){
+        // Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
+        ResultSearchFragment fragment = (ResultSearchFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.activity_result_frame_layout);
+
+        if (fragment == null) {
+            // Create new main fragment
+            fragment = ResultSearchFragment.newInstance(4);
+            // Add it to FrameLayout container
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_result_frame_layout, fragment)
+                    .commit();
+        }
     }
 }

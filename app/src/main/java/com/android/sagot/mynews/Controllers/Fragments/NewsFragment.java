@@ -78,7 +78,7 @@ public abstract class NewsFragment extends Fragment {
         ButterKnife.bind(this, mNewsView);
 
         // Get data from Bundle (created in method newInstance)
-        mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, -1);
+        mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, 4);
 
         // Configure RecyclerView
         this.configureRecyclerView();
