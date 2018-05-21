@@ -4,12 +4,15 @@ package com.android.sagot.mynews.Controllers.Fragments;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.sagot.mynews.Controllers.Activities.SearchActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,19 +28,23 @@ public class ResultSearchFragment extends NewsFragment {
     // For debug
     private static final String TAG = ResultSearchFragment.class.getSimpleName();
 
+    // Object containing the criteria of search
     private SearchCriteria mSearchCriteria;
 
     public ResultSearchFragment() {
         // Required empty public constructor
     }
 
-    public static ResultSearchFragment newInstance(int tabLayoutPosition) {
+    public static ResultSearchFragment newInstance(int tabLayoutPosition, String searchCriteria) {
 
         // Create new fragment
         ResultSearchFragment fragment = new ResultSearchFragment();
 
         // Create bundle and add it some data
         Bundle args = new Bundle();
+        // Put searchCriteria in bundle
+        args.putString(SearchActivity.BUNDLE_SEARCH_CRITERIA, searchCriteria);
+        // Put tabLayoutPosition
         args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
         fragment.setArguments(args);
 
@@ -48,19 +55,50 @@ public class ResultSearchFragment extends NewsFragment {
     // HTTP (RxJAVA)
     // -------------------
     /**
+     *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+     */
+     protected  Map<String, String> formattingRequest() {
+        // Get data from Bundle (created in method newInstance)
+        // and restoring the searchCriteria with a Gson Object
+        final Gson gson = new GsonBuilder()
+                .serializeNulls()
+                .disableHtmlEscaping()
+                .create();
+        mSearchCriteria = gson.fromJson(getArguments()
+                .getString(SearchActivity.BUNDLE_SEARCH_CRITERIA),SearchCriteria.class);
+
+        Map<String, String> filters = new HashMap<>(); // Filters following conditions
+
+         // Query criteria
+         Log.d(TAG, "formattingRequest: getSearchQueryTerm = "+mSearchCriteria.getSearchQueryTerm());
+         filters.put("q", mSearchCriteria.getSearchQueryTerm());
+
+         // Sections criteria
+        String sections = "news_desk:(";
+        if(mSearchCriteria.isArts()) sections+=" \"Arts\"";
+        if(mSearchCriteria.isBusiness()) sections+=" \"Business\"";
+        if(mSearchCriteria.isEntrepreneurs()) sections+=" \"Entrepreneurs\"";
+        if(mSearchCriteria.isPolitics()) sections+=" \"Politics\"";
+        if(mSearchCriteria.isSports()) sections+=" \"Sports\"";
+        if(mSearchCriteria.isTravel()) sections+=" \"Travel\"";
+        sections +=")";
+        Log.d(TAG, "executeHttpRequestWithRetrofit: sections = "+sections);
+        filters.put("fq", sections);
+
+        //  Dates criteria
+        if (mSearchCriteria.getBeginDate() != null) filters.put("begin_date", mSearchCriteria.getBeginDate());
+        if (mSearchCriteria.getEndDate() != null) filters.put("end_date", mSearchCriteria.getEndDate());
+
+        return filters;
+     }
+    /**
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
      */
     @Override
-    protected void executeHttpRequestWithRetrofit(int offset) {
-
-        Map<String, String> filters = new HashMap<>(); // Filters following conditions
-        filters.put("page", String.valueOf(offset));
-        filters.put("fq", "news_desk:(\"Business\")");
-        filters.put("begin_date", "20180501");
-        filters.put("end_date", "20180513");
+    protected void executeHttpRequestWithRetrofit() {
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key, filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  this.formattingRequest()).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
                 Log.d(TAG,"On Next");
@@ -139,16 +177,9 @@ public class ResultSearchFragment extends NewsFragment {
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
 
-        // Save Offset of the Page
-        Log.d(TAG, "updateUIWithListOfNews: offset file = "+newsArticleSearch.getResponse().getMeta().getOffset());
-
         offset +=1;
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
-    }
-
-    protected void buildRequest() {
-       // mSearchCriteria.setArts(mArt);
     }
 }

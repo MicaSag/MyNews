@@ -48,7 +48,7 @@ public class MostPopularFragment extends NewsFragment {
      *  Execute Stream " NYTimesStreams.streamFetchMostPopularFragment "
      */
     @Override
-    protected void executeHttpRequestWithRetrofit(int offset) {
+    protected void executeHttpRequestWithRetrofit() {
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
         mDisposable = NYTimesStreams.streamFetchMostPopular(api_key).subscribeWith(new DisposableObserver<NYTimesMostPopular>() {

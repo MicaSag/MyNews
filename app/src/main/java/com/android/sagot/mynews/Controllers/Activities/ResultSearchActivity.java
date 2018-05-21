@@ -1,12 +1,15 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.android.sagot.mynews.Controllers.Fragments.ResultSearchFragment;
+import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,6 +21,9 @@ public class ResultSearchActivity extends AppCompatActivity {
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
+    // String containing the criteria of search serialized
+    String mSearchCriteria;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +31,10 @@ public class ResultSearchActivity extends AppCompatActivity {
 
         // Get & serialise all views
         ButterKnife.bind(this);
+
+        // Get back Intent send to parameter by the SearchActivity
+        Intent intent = getIntent();
+        mSearchCriteria = intent.getStringExtra(SearchActivity.BUNDLE_SEARCH_CRITERIA);
 
         // Configuring Toolbar
         this.configureToolbar();
@@ -61,7 +71,7 @@ public class ResultSearchActivity extends AppCompatActivity {
 
         if (fragment == null) {
             // Create new main fragment
-            fragment = ResultSearchFragment.newInstance(4);
+            fragment = ResultSearchFragment.newInstance(4,mSearchCriteria);
             // Add it to FrameLayout container
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_result_frame_layout, fragment)

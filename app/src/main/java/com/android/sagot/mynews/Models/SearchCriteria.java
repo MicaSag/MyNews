@@ -11,7 +11,8 @@ public class SearchCriteria {
     private boolean mSports;
     private boolean mTravel;
     private String mSearchQueryTerm;
-    private Date mBeginDate;
+    private String mBeginDate;
+    private String mEndDate;
 
     public boolean isArts() {
         return mArts;
@@ -61,23 +62,21 @@ public class SearchCriteria {
         mSearchQueryTerm = searchQueryTerm;
     }
 
-    public Date getBeginDate() {
+    public String getBeginDate() {
         return mBeginDate;
     }
 
-    public void setBeginDate(Date beginDate) {
+    public void setBeginDate(String beginDate) {
         mBeginDate = beginDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return mEndDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         mEndDate = endDate;
     }
-
-    private Date mEndDate;
 
     public boolean isSports() {
         return mSports;

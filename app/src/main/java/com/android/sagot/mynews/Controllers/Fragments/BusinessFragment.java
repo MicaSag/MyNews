@@ -47,7 +47,7 @@ public class BusinessFragment extends NewsFragment {
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
      */
     @Override
-    protected void executeHttpRequestWithRetrofit(int offset) {
+    protected void executeHttpRequestWithRetrofit() {
 
         Map<String, String> filters = new HashMap<>(); // Filters following conditions
         filters.put("page", String.valueOf(offset));

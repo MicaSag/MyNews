@@ -2,5 +2,12 @@
     <!-- Default NavigationView Header height -->
     <dimen name="nav_header_height">176dp</dimen>
 
+    <!-- Search Activity dimens -->
     <dimen name="margin_top">10dp</dimen>
+    <dimen name="margin_start">10dp</dimen>
+    <dimen name="text_margin">20dp</dimen>
+    <dimen name="search_query_margin">10dp</dimen>
+    <dimen name="button_margin_top">30dp</dimen>
+    <dimen name="button_margin">16dp</dimen>
+
 </resources>

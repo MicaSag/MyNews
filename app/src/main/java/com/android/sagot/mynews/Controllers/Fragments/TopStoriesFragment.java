@@ -48,7 +48,7 @@ public class TopStoriesFragment extends NewsFragment{
      *  Execute Stream " NYTimesStreams.streamFetchTopStories "
      */
     @Override
-    protected void executeHttpRequestWithRetrofit(int offset){
+    protected void executeHttpRequestWithRetrofit(){
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
         String section = "home";                      // Section of the new to return

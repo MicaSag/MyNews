@@ -14,12 +14,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/search_query_margin"
+            android:layout_marginEnd="@dimen/search_query_margin"
+            android:layout_marginTop="@dimen/margin_top"
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/activity_search_text"
+                android:id="@+id/activity_search_query_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search query term">
@@ -32,22 +33,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_top"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:layout_marginStart="@dimen/text_margin"
+                android:textSize="12sp"
                 android:text="Begin Date"/>
 
             <TextView
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:text="End Date"/>
 
         </LinearLayout>
@@ -56,20 +57,29 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_top"
             android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/activity_search_spinner_date_begin"
+            <EditText
+                android:id="@+id/activity_search_begin_date"
+                android:focusable="false"
+                android:clickable="true"
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/button_margin"
+                android:layout_marginEnd="@dimen/button_margin"
+                android:hint="pick begin date"/>
 
-            <Spinner
-                android:id="@+id/activity_search_spinner_date_end"
+            <EditText
+                android:id="@+id/activity_search_end_date"
+                android:focusable="false"
+                android:clickable="true"
                 android:layout_weight="1"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/button_margin"
+                android:hint="pick end date"/>
 
         </LinearLayout>
 
@@ -77,31 +87,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_top"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="@dimen/margin_start"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <CheckBox android:id="@+id/checkbox_arts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
                     android:text="Arts"
                     android:onClick="onCheckboxClicked"/>
 
                 <CheckBox android:id="@+id/checkbox_business"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
                     android:text="Business"
                     android:onClick="onCheckboxClicked"/>
 
                 <CheckBox android:id="@+id/checkbox_entrepreneurs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
                     android:text="Entrepreneurs"
                     android:onClick="onCheckboxClicked"/>
 
@@ -110,25 +123,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <CheckBox android:id="@+id/checkbox_politics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
                     android:text="Politics"
                     android:onClick="onCheckboxClicked"/>
 
                 <CheckBox android:id="@+id/checkbox_sports"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
                     android:text="Sports"
                     android:onClick="onCheckboxClicked"/>
 
                 <CheckBox android:id="@+id/checkbox_travel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_top"
                     android:text="Travel"
                     android:onClick="onCheckboxClicked"/>
 
@@ -147,9 +162,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/searchPrimary"
                 android:textColor="@color/colorTextSelected"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="@dimen/button_margin"
+                android:layout_marginEnd="@dimen/button_margin"
+                android:layout_marginTop="@dimen/button_margin_top"
                 android:text="SEARCH">
             </Button>
         </LinearLayout>

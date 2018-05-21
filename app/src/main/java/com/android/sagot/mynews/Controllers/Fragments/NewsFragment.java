@@ -35,7 +35,7 @@ import io.reactivex.disposables.Disposable;
 public abstract class NewsFragment extends Fragment {
 
     // Force developer implement those methods
-    protected abstract void executeHttpRequestWithRetrofit(int offset);
+    protected abstract void executeHttpRequestWithRetrofit();
     protected abstract void updateUIWithListOfNews(Object news);
 
     // FOR TRACES
@@ -96,8 +96,7 @@ public abstract class NewsFragment extends Fragment {
         api_key = getResources().getString(R.string.api_key);
 
         // Call the Stream Top Stories of the New York Times
-        this.executeHttpRequestWithRetrofit(offset);
-        Log.d(TAG, "onCreateView: offset = "+offset);
+        this.executeHttpRequestWithRetrofit();
 
         return mNewsView;
     }
@@ -163,7 +162,7 @@ public abstract class NewsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                executeHttpRequestWithRetrofit(0);
+                executeHttpRequestWithRetrofit();
             }
         });
     }
