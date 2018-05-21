@@ -1,10 +1,13 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
 import com.android.sagot.mynews.Controllers.Activities.SearchActivity;
+import com.android.sagot.mynews.Controllers.Activities.SearchItemActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
@@ -51,7 +54,15 @@ public class ResultSearchFragment extends NewsFragment {
         return fragment;
     }
 
-    // -------------------
+    @Override
+    protected void launchItemActivity(int position) {
+        Intent myIntent = new Intent(getActivity(), SearchItemActivity.class);
+        myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
+        myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
+        this.startActivity(myIntent);
+    }
+
+// -------------------
     // HTTP (RxJAVA)
     // -------------------
     /**
@@ -70,7 +81,6 @@ public class ResultSearchFragment extends NewsFragment {
         Map<String, String> filters = new HashMap<>(); // Filters following conditions
 
          // Query criteria
-         Log.d(TAG, "formattingRequest: getSearchQueryTerm = "+mSearchCriteria.getSearchQueryTerm());
          filters.put("q", mSearchCriteria.getSearchQueryTerm());
 
          // Sections criteria

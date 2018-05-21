@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
+import com.android.sagot.mynews.Controllers.Activities.SearchItemActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
@@ -132,7 +133,7 @@ public abstract class NewsFragment extends Fragment {
      * @param position
      *              Position of the Item in the RecyclerView
      */
-    private void launchItemActivity(int position){
+    protected void launchItemActivity(int position){
         Intent myIntent = new Intent(getActivity(), ItemActivity.class);
         myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
         myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
