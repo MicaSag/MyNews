@@ -52,7 +52,7 @@
                 android:value=".Controllers.Activities.SearchActivity" />
         </activity>
         <activity
-            android:name=".Controllers.Activities.SearchItemActivity"
+            android:name=".Controllers.Activities.ItemSearchActivity"
             android:label="News Search Details"
             android:parentActivityName=".Controllers.Activities.ResultSearchActivity">
 

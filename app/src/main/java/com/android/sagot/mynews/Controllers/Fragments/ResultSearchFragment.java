@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
+import com.android.sagot.mynews.Controllers.Activities.ItemSearchActivity;
 import com.android.sagot.mynews.Controllers.Activities.SearchActivity;
-import com.android.sagot.mynews.Controllers.Activities.SearchItemActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
@@ -56,7 +55,7 @@ public class ResultSearchFragment extends NewsFragment {
 
     @Override
     protected void launchItemActivity(int position) {
-        Intent myIntent = new Intent(getActivity(), SearchItemActivity.class);
+        Intent myIntent = new Intent(getActivity(), ItemSearchActivity.class);
         myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
         myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
         this.startActivity(myIntent);

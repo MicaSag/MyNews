@@ -62,10 +62,8 @@ public class ItemActivity extends AppCompatActivity {
 
     private void configureToolbar(){
         Log.d(TAG, "configureToolbar: ");
-        //Get the toolbar (Serialise)
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //Set the toolbar
-        setSupportActionBar(toolbar);
+         //Set the toolbar
+        setSupportActionBar(mToolBar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button

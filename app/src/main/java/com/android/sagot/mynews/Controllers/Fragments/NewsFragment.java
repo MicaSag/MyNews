@@ -1,22 +1,17 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
-import com.android.sagot.mynews.Controllers.Activities.SearchItemActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.ItemClickSupport;

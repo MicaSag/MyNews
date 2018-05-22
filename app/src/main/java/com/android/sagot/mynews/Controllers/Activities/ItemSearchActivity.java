@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
 
-public class SearchItemActivity extends AppCompatActivity {
+public class ItemSearchActivity extends AppCompatActivity {
 
     // For Debug
     private static final String TAG = ItemActivity.class.getSimpleName();
@@ -62,10 +62,8 @@ public class SearchItemActivity extends AppCompatActivity {
 
     private void configureToolbar(){
         Log.d(TAG, "configureToolbar: ");
-        //Get the toolbar (Serialise)
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //Set the toolbar
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolBar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
