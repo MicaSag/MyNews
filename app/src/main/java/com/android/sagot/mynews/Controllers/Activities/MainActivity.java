@@ -38,17 +38,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // FOR TRACES
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    //NAVIGATION DRAWER Design
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
     @BindView(R.id.activity_main_drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.activity_main_nav_view) NavigationView mNavigationView;
+    @BindView(R.id.activity_main_viewpager) ViewPager mViewPager;
+    @BindView(R.id.activity_main_tabs) TabLayout mTabLayout;
     @BindView(R.id.toolbar) Toolbar mToolbar;
-
-    // TABLAYOUT for glue to ViewPager
-    private TabLayout tabs;
-
-    // VIEWPAGER
-    private ViewPager pager;
 
     // VIEWPAGER FRAGMENTS
     // Identify each fragment of the ViewPager with a number
@@ -84,11 +79,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------------------------------------------------------------------------------
     //                                     TOOLBAR
     // ---------------------------------------------------------------------------------------------
-
     // ---------------------
     // CONFIGURATION
     // ---------------------
-
     private void configureToolBar(){
         Log.d(TAG, "configureToolBar: ");
         // Get the toolbar view inside the activity layout
@@ -112,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------
     // ACTIONS
     // ---------------------
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected() called with: item = [" + item + "]");
@@ -140,11 +132,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------------------------------------------------------------------------------
     //                                     NAVIGATION DRAWER
     // ---------------------------------------------------------------------------------------------
-
     // ---------------------
     // CONFIGURATION
     // ---------------------
-
     // Configure Drawer Layout and connects him the ToolBar and the NavigationView
     private void configureDrawerLayout(){
         Log.d(TAG, "configureDrawerLayout: ");
@@ -179,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.mNavigationView.setItemTextColor(myList);
         this.mNavigationView.setItemIconTintList(myList);
     }
-
     // ---------------------
     // ACTIONS
     // ---------------------
@@ -195,25 +184,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // Change the color of the text menu item selected
                 colors[0] =  getResources().getColor(R.color.topStoriesPrimary);
                 // Positioning the Top Stories Page
-                pager.setCurrentItem(FRAGMENT_TOP_STORIES);
+                mViewPager.setCurrentItem(FRAGMENT_TOP_STORIES);
                 break;
             case R.id.activity_main_drawer_most_popular :
                 // Change the color of the text menu item selected
                 colors[0] =  getResources().getColor(R.color.mostPopularPrimary);
                 // Positioning the Most Popular Stories Page
-                pager.setCurrentItem(FRAGMENT_MOST_POPULAR);
+                mViewPager.setCurrentItem(FRAGMENT_MOST_POPULAR);
                 break;
             case R.id.activity_main_drawer_business :
                 // Change the color of the text menu item selected
                 colors[0] = getResources().getColor(R.color.businessPrimary);
                 // Positioning the Business Page
-                pager.setCurrentItem(FRAGMENT_BUSINESS);
+                mViewPager.setCurrentItem(FRAGMENT_BUSINESS);
                 break;
             case R.id.activity_main_drawer_sports :
                 // Change the color of the text menu item selected
                 colors[0] =  getResources().getColor(R.color.sportsPrimary);
                 // Positioning the Sports Page
-                pager.setCurrentItem(FRAGMENT_SPORTS);
+                mViewPager.setCurrentItem(FRAGMENT_SPORTS);
                 break;
             default:
                 break;
@@ -238,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------------------------------------------------------------------------------
     //                                     VIEW PAGER & TAB LAYOUT
     // ---------------------------------------------------------------------------------------------
-
     private void configureViewPagerAndTabs(){
         Log.d(TAG, "configureViewPagerAndTabs: ");
        this.configureViewPager();
@@ -247,44 +235,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------------------------------------------------------------------------------
     //                                     VIEW PAGER
     // ---------------------------------------------------------------------------------------------
-
     // ---------------------
     // CONFIGURATION
     // ---------------------
-
     private void configureViewPager(){
         Log.d(TAG, "configureViewPagerAndTabs: ");
-        // Get ViewPager from layout
-        pager = findViewById(R.id.activity_main_viewpager);
         // Set Adapter PageAdapter and glue it together
-        pager.setAdapter(new PageAdapter(getSupportFragmentManager()) {
+        mViewPager.setAdapter(new PageAdapter(getSupportFragmentManager()) {
         });
+        // Number of pages initially created 3 ( page 0 1 2 )
+        // 2 by default ( page 0 1 ) if the parameter is not used
+        // to avoid the code http 429 on the API searchArticle ( if business & Sports requests are executed in parallel )
+        mViewPager.setOffscreenPageLimit(2);
 
     }
     // ---------------------------------------------------------------------------------------------
     //                                     TAB LAYOUT
     // ---------------------------------------------------------------------------------------------
-
     // ---------------------
     // CONFIGURATION
     // ---------------------
-
     private void configureTabLayout(){
         Log.d(TAG, "configureTabLayout() called");
-        // Get TabLayout from layout
-        tabs= findViewById(R.id.activity_main_tabs);
         // Glue TabLayout and ViewPager together
-        tabs.setupWithViewPager(pager);
+        mTabLayout.setupWithViewPager(mViewPager);
         // Design purpose. Tabs have the same width
-        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         // Subscribes to listen the tab layout
-        tabs.addOnTabSelectedListener(this);
+        mTabLayout.addOnTabSelectedListener(this);
     }
-
     // ---------------------
     // ACTIONS
     // ---------------------
-
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         Log.d(TAG, "onTabSelected() called with: tab = [" + tab + "]");
@@ -294,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.mNavigationView.getMenu().getItem(position).setChecked(true);
 
         // Change Color of the Tab selected
-        this.tabs.setBackgroundColor(getResources()
+        this.mTabLayout.setBackgroundColor(getResources()
                 .obtainTypedArray(R.array.primary_colors).getColor(position,0));
 
         // Change Color of the Toolbar

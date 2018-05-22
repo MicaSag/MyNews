@@ -50,11 +50,10 @@ public class BusinessFragment extends NewsFragment {
     protected void executeHttpRequestWithRetrofit() {
 
         Map<String, String> filters = new HashMap<>(); // Filters following conditions
-        filters.put("page", String.valueOf(offset));
         filters.put("fq", "news_desk:(\"Business\")");
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key, filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
                 Log.d(TAG,"On Next");
@@ -132,11 +131,6 @@ public class BusinessFragment extends NewsFragment {
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
-
-        // Save Offset of the Page
-        Log.d(TAG, "updateUIWithListOfNews: offset file = "+newsArticleSearch.getResponse().getMeta().getOffset());
-
-        offset +=1;
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();

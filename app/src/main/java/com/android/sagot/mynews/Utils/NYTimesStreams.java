@@ -32,6 +32,7 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
+
     // NYTimes ArticleSearch STREAM
     public static Observable<NYTimesArticleSearch> streamFetchArticleSearch(String apiKey, Map<String,String> filters){
         NYTimesService articleSearchService = NYTimesService.retrofit.create(NYTimesService.class);

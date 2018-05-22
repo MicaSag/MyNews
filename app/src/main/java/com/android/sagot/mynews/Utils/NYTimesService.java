@@ -26,6 +26,7 @@ public interface NYTimesService {
     @GET("svc/mostpopular/v2/mostshared/all-sections/30.json")
     Observable<NYTimesMostPopular> getMostPopular(@Query("api-key") String apiKey);
 
+
     // Article Search API
     @GET("svc/search/v2/articlesearch.json")
     Observable<NYTimesArticleSearch> getArticleSearch(@Query("api-key") String apiKey,

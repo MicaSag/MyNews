@@ -66,8 +66,6 @@ public abstract class NewsFragment extends Fragment {
     // Key for NYTimes Api access
     protected String api_key;
 
-    public int offset;
-
     public NewsFragment() {
         // Required empty public constructor
     }

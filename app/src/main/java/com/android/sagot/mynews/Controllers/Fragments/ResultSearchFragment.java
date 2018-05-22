@@ -82,6 +82,7 @@ public class ResultSearchFragment extends NewsFragment {
 
          // Query criteria
          filters.put("q", mSearchCriteria.getSearchQueryTerm());
+         Log.d(TAG, "formattingRequest: getSearchQueryTerm = "+mSearchCriteria.getSearchQueryTerm());
 
          // Sections criteria
         String sections = "news_desk:(";
@@ -187,7 +188,9 @@ public class ResultSearchFragment extends NewsFragment {
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
 
-        offset +=1;
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getHits());
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getOffset());
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getTime());
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();

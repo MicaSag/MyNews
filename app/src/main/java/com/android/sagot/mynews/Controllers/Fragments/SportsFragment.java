@@ -52,10 +52,7 @@ public class SportsFragment extends NewsFragment {
     protected void executeHttpRequestWithRetrofit() {
 
         Map<String, String> filters = new HashMap<>(); // Filters following conditions
-        filters.put("page", String.valueOf(offset));
         filters.put("fq", "news_desk:(\"Sports\")");
-        filters.put("begin_date", "20180501");
-        filters.put("end_date", "20180513");
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
         mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key, filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
@@ -136,11 +133,6 @@ public class SportsFragment extends NewsFragment {
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
-
-        // Save Offset of the Page
-        Log.d(TAG, "updateUIWithListOfNews: offset file = "+newsArticleSearch.getResponse().getMeta().getOffset());
-
-        offset +=1;
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();

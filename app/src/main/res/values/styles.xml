@@ -33,6 +33,7 @@
     <!-- toolBar style. -->
     <style name="toolBar_style" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="titleTextColor">@color/colorTextSelected</item>
+        <item name="colorControlNormal">@color/colorTextSelected</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
