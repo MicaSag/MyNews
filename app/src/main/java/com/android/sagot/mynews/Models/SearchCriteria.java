@@ -1,8 +1,8 @@
 package com.android.sagot.mynews.Models;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class SearchCriteria {
+public class SearchCriteria implements Serializable{
 
     private boolean mArts;
     private boolean mBusiness;

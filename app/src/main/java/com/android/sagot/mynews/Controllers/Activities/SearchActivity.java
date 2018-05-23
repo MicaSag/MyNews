@@ -24,6 +24,8 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import icepick.Icepick;
+import icepick.State;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -47,9 +49,10 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     // Object containing the criteria of search
-    SearchCriteria mSearchCriteria;
+    @State SearchCriteria mSearchCriteria;
+    //@State String mSearchCriteriaSerialized;
 
-        // Declarations for management of the dates Fields with a DatePickerDialog
+    // Declarations for management of the dates Fields with a DatePickerDialog
     private DatePickerDialog mBeginDatePickerDialog;
     private DatePickerDialog mEndDatePickerDialog;
     private SimpleDateFormat displayDateFormatter;
@@ -67,8 +70,11 @@ public class SearchActivity extends AppCompatActivity {
         // Get & serialise all views
         ButterKnife.bind(this);
 
-        // Create searchCriteria Object
-        mSearchCriteria = new SearchCriteria();
+        // Restore all @State annotation variables in Bundle
+        // Useful in the case of the rotation of the device
+        Icepick.restoreInstanceState(this, savedInstanceState);
+        // Create searchCriteria Object if first call of the Activity
+        if (mSearchCriteria == null)  mSearchCriteria = new SearchCriteria();
 
         // Configuring Toolbar
         this.configureToolbar();
@@ -77,15 +83,22 @@ public class SearchActivity extends AppCompatActivity {
         this.manageDateFields();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "onSaveInstanceState: ");
+        super.onSaveInstanceState(outState);
+        // Save all @State annotation variables in Bundle
+        // Useful in the case of the rotation of the device
+        Icepick.saveInstanceState(this, outState);
+    }
+
     // --------------
     //    TOOLBAR
     // --------------
 
     private void configureToolbar(){
-        //Get the toolbar (Serialise)
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //Set the toolbar
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         // Get a support ActionBar corresponding to this toolbar
         ActionBar ab = getSupportActionBar();
         // Enable the Up button
