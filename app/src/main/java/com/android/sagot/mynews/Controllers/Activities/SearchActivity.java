@@ -2,6 +2,7 @@ package com.android.sagot.mynews.Controllers.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
 import com.google.gson.Gson;
@@ -20,6 +22,7 @@ import com.google.gson.GsonBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +53,6 @@ public class SearchActivity extends AppCompatActivity {
 
     // Object containing the criteria of search
     @State SearchCriteria mSearchCriteria;
-    //@State String mSearchCriteriaSerialized;
 
     // Declarations for management of the dates Fields with a DatePickerDialog
     private DatePickerDialog mBeginDatePickerDialog;
@@ -70,11 +72,16 @@ public class SearchActivity extends AppCompatActivity {
         // Get & serialise all views
         ButterKnife.bind(this);
 
+        // Update searchCriteria with the Model
+        mSearchCriteria = Model.getInstance().getPreferences().getSearchCriteria();
+        displaySearchCriteria();
+
+        // Update Search UI with Search Criteria
+        this.updateUI();
+
         // Restore all @State annotation variables in Bundle
         // Useful in the case of the rotation of the device
-        Icepick.restoreInstanceState(this, savedInstanceState);
-        // Create searchCriteria Object if first call of the Activity
-        if (mSearchCriteria == null)  mSearchCriteria = new SearchCriteria();
+        if (savedInstanceState != null) Icepick.restoreInstanceState(this, savedInstanceState);
 
         // Configuring Toolbar
         this.configureToolbar();
@@ -90,6 +97,21 @@ public class SearchActivity extends AppCompatActivity {
         // Save all @State annotation variables in Bundle
         // Useful in the case of the rotation of the device
         Icepick.saveInstanceState(this, outState);
+    }
+
+    // --------------
+    //      UI
+    // --------------
+    private void updateUI(){
+        mEditQuery.setText(mSearchCriteria.getSearchQueryTerm());
+        mBeginDate.setText(mSearchCriteria.getBeginDate());
+        mEndDate.setText(mSearchCriteria.getEndDate());
+        mCheckBoxArts.setChecked(mSearchCriteria.isArts());
+        mCheckBoxBusiness.setChecked(mSearchCriteria.isBusiness());
+        mCheckBoxEntrepreneurs.setChecked(mSearchCriteria.isEntrepreneurs());
+        mCheckBoxPolitics.setChecked(mSearchCriteria.isPolitics());
+        mCheckBoxSports.setChecked(mSearchCriteria.isSports());
+        mCheckBoxTravel.setChecked(mSearchCriteria.isTravel());
     }
 
     // --------------
@@ -114,8 +136,8 @@ public class SearchActivity extends AppCompatActivity {
     private void manageDateFields() {
 
         newCalendar = Calendar.getInstance();
-        displayDateFormatter = new SimpleDateFormat("dd/MM/yyyy");
-        criteriaDateFormatter = new SimpleDateFormat("yyyyMMdd");
+        displayDateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+        criteriaDateFormatter = new SimpleDateFormat("yyyyMMdd", Locale.FRANCE);
         setBeginDateField();
         setEndDateField();
     }
@@ -184,36 +206,36 @@ public class SearchActivity extends AppCompatActivity {
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_arts)
     public void checkBoxArts(View view) {
-        mSearchCriteria.setArts(mCheckBoxArts.isChecked()?true:false);
+        mSearchCriteria.setArts(mCheckBoxArts.isChecked());
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_business)
     public void checkBoxBusiness(View view) {
-        mSearchCriteria.setBusiness(mCheckBoxBusiness.isChecked()?true:false);
+        mSearchCriteria.setBusiness(mCheckBoxBusiness.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_entrepreneurs)
     public void checkBoxEntrepreneurs(View view) {
-        mSearchCriteria.setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked()?true:false);
+        mSearchCriteria.setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_politics)
     public void checkBoxPolitics(View view) {
-        mSearchCriteria.setPolitics(mCheckBoxPolitics.isChecked()?true:false);
+        mSearchCriteria.setPolitics(mCheckBoxPolitics.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_sports)
     public void checkBoxSports(View view) {
-        mSearchCriteria.setSports(mCheckBoxSports.isChecked()?true:false);
+        mSearchCriteria.setSports(mCheckBoxSports.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_travel)
     public void checkBoxTravel(View view) {
-        mSearchCriteria.setTravel(mCheckBoxTravel.isChecked()?true:false);
+        mSearchCriteria.setTravel(mCheckBoxTravel.isChecked());
     }
 
     // ----------------------
@@ -229,6 +251,9 @@ public class SearchActivity extends AppCompatActivity {
         mSearchCriteria.setSearchQueryTerm(mEditQuery.getText().toString());
         this.displaySearchCriteria();
 
+        // Save the searchCriteria in the Model of the application
+        this.saveSearchCriteriaPreferences(mSearchCriteria);
+
         // Create Intent and add it some data
         Intent intentResultSearchActivity = new Intent(SearchActivity.this, ResultSearchActivity.class);
                 final Gson gson = new GsonBuilder()
@@ -238,9 +263,16 @@ public class SearchActivity extends AppCompatActivity {
         String json = gson.toJson(mSearchCriteria);
         intentResultSearchActivity.putExtra(BUNDLE_SEARCH_CRITERIA, json);
 
-
         // Call ResultSearchActivity
         startActivity(intentResultSearchActivity);
+    }
+    // -----------------------------
+    //  SAVE CRITERIA IN THE MODEL
+    // -----------------------------
+    // Method for save the searchCriteria in Model Preferences of the application
+    private void saveSearchCriteriaPreferences(SearchCriteria searchCriteria) {
+        // Add the searchCriteria in Preferences
+        Model.getInstance().getPreferences().setSearchCriteria(searchCriteria);
     }
 
     private void displaySearchCriteria(){

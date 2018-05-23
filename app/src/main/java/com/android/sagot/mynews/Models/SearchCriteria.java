@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class SearchCriteria implements Serializable{
 
-    private boolean mArts;
-    private boolean mBusiness;
-    private boolean mEntrepreneurs;
-    private boolean mPolitics;
-    private boolean mSports;
-    private boolean mTravel;
+    private boolean mArts = false;
+    private boolean mBusiness = false;
+    private boolean mEntrepreneurs = false;
+    private boolean mPolitics = false;
+    private boolean mSports = false;
+    private boolean mTravel = false;
     private String mSearchQueryTerm;
     private String mBeginDate;
     private String mEndDate;

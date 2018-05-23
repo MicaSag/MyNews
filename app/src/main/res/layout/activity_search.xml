@@ -23,6 +23,7 @@
                 android:id="@+id/activity_search_query_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:hint="Search query term">
 
             </EditText>
@@ -69,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/button_margin"
                 android:layout_marginEnd="@dimen/button_margin"
+                android:maxLines="1"
                 android:hint="pick begin date"/>
 
             <EditText
@@ -79,6 +81,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/button_margin"
+                android:maxLines="1"
                 android:hint="pick end date"/>
 
         </LinearLayout>

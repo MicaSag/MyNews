@@ -39,6 +39,6 @@ public class NYTimesStreams {
         return articleSearchService.getArticleSearch(apiKey,filters)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(30, TimeUnit.SECONDS);
     }
 }
