@@ -21,9 +21,6 @@ public class ResultSearchActivity extends AppCompatActivity {
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
-    // String containing the criteria of search serialized
-    String mSearchCriteria;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,9 +29,6 @@ public class ResultSearchActivity extends AppCompatActivity {
         // Get & serialise all views
         ButterKnife.bind(this);
 
-        // Get back Intent send to parameter by the SearchActivity
-        Intent intent = getIntent();
-        mSearchCriteria = intent.getStringExtra(SearchActivity.BUNDLE_SEARCH_CRITERIA);
 
         // Configuring Toolbar
         this.configureToolbar();
@@ -52,6 +46,10 @@ public class ResultSearchActivity extends AppCompatActivity {
     private void configureToolbar(){
          //Set the toolbar
         setSupportActionBar(mToolbar);
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
     }
@@ -67,7 +65,7 @@ public class ResultSearchActivity extends AppCompatActivity {
 
         if (fragment == null) {
             // Create new main fragment
-            fragment = ResultSearchFragment.newInstance(4,mSearchCriteria);
+            fragment = ResultSearchFragment.newInstance(4);
             // Add it to FrameLayout container
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_result_frame_layout, fragment)

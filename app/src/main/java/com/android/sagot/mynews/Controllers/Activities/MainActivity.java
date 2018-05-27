@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -19,8 +20,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Adapters.PageAdapter;
+import com.android.sagot.mynews.Models.DataModel;
 import com.android.sagot.mynews.Models.Model;
-import com.android.sagot.mynews.Models.Preferences;
+import com.android.sagot.mynews.Models.NotificationsCriteria;
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
 import com.google.gson.Gson;
@@ -58,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int FRAGMENT_SPORTS = 3;
 
     // SHARED PREFERENCES KEYS
-    public static final String SHARED_PREF_MODELS = "SHARED_PREF_MODELS";
+    public static final String SHARED_PREF_MODEL = "SHARED_PREF_MODEL";
 
-    // Defined Preferences of the application
+    // Defined DataModel of the application
     SharedPreferences mSharedPreferences;
 
     // Colors Tab of the items menu navigation drawer
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Get & serialise all views
         ButterKnife.bind(this);
 
-        // Retrieves the Preferences
+        // Retrieves the DataModel
         this.retrievesPreferences();
 
         // NAVIGATION DRAWER
@@ -89,17 +91,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Configure ViewPager with tab layout
         this.configureViewPagerAndTabs();
     }
-
     // ---------------------------------------------------------------------------------------------
     //                                     PREFERENCES
     // ---------------------------------------------------------------------------------------------
+    //  INPUT
+    // -------
     private void retrievesPreferences() {
         Log.d(TAG, "retrievesPreferences: ");
-        // INSTANTIATE Preferences Object in the Model Singleton
-        Model.getInstance().setPreferences(new Preferences());
-
         // READ SharedPreferences
         mSharedPreferences = getPreferences(MODE_PRIVATE);
+        Model.getInstance().setSharedPreferences(mSharedPreferences);
         // TEST == >>> Allows to erase all the preferences ( Useful for the test phase )
         //Log.i("MOOD","CLEAR COMMIT PREFERENCES");
         //mSharedPreferences.edit().clear().commit();
@@ -111,44 +112,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // SEARCH_CRITERIA RETRIEVES
     private void retrieveModels() {
         Log.d(TAG, "retrieveModels: ");
-        String modelPreferences = mSharedPreferences.getString(SHARED_PREF_MODELS, null);
+        String modelPreferences = mSharedPreferences.getString(SHARED_PREF_MODEL, null);
         // Restoring the preferences with a Gson Object
         Gson gson = new Gson();
 
         if (modelPreferences != null) {
             Log.d(TAG, "retrievesPreferences: model Restoration");
             // Retrieves the modelPreferences of the SharedPreferences
-            Model.getInstance().setPreferences(gson.fromJson(modelPreferences, Preferences.class));
-        } else {
-            Log.d(TAG, "retrievesPreferences: model Creation");
-            Model.getInstance().setPreferences(new Preferences());
+            Model.getInstance().setDataModel(gson.fromJson(modelPreferences, DataModel.class));
+        }else
+        {
+            Log.d(TAG, "retrieveModels: First call of the App, No Model saved");
+            // First call of the app, not model saved
+            // INSTANTIATE DataModel Object in the Model Singleton
+            Model.getInstance().setDataModel(new DataModel());
         }
 
         // If searchCriteria not exist then instantiate it
-        if (Model.getInstance().getPreferences().getSearchCriteria() == null)
-            Model.getInstance().getPreferences().setSearchCriteria(new SearchCriteria());
+        if (Model.getInstance().getDataModel().getSearchCriteria() == null)
+            Model.getInstance().getDataModel().setSearchCriteria(new SearchCriteria());
+
+        // If notificationsCriteria not exist then instantiate it
+        if (Model.getInstance().getDataModel().getNotificationsCriteria() == null)
+            Model.getInstance().getDataModel().setNotificationsCriteria(new NotificationsCriteria());
 
         displaySearchCriteria();
     }
-
-    @Override
-    protected void onStop() {
-        Log.d(TAG, "onStop: ");
-        // SAVE MODELS PREFERENCES IN THE SHARED_PREFERENCES
-        // Create à SHARED_PREF_MODELS String with a Gson Object
-        this.displaySearchCriteria();
-        final Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .disableHtmlEscaping()
-                .create();
-        String json = gson.toJson(Model.getInstance().getPreferences());
-
-        // Add the Model Preferences in shared Preferences
-        mSharedPreferences.edit().putString(SHARED_PREF_MODELS, json).apply();
-
-        super.onStop();
-    }
-
     // ---------------------------------------------------------------------------------------------
     //                                     TOOLBAR
     // ---------------------------------------------------------------------------------------------
@@ -188,8 +177,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(searchActivity);
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_notifications:
-                //searchActivity = new Intent(MainActivity.this, SearchActivity.class);
-                //startActivity(searchActivity);
+                Intent notificationsActivity = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(notificationsActivity);
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_help:
                 Toast.makeText(this, "Select Help", Toast.LENGTH_LONG).show();
@@ -228,6 +217,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // Configure NavigationView
     private void configureNavigationMenuItem() {
+        //Disable tint icons
+        this.mNavigationView.setItemIconTintList(null);
+
         // The item menu selected take the color of the background
         int[][] states = new int[][]{
                 new int[]{android.R.attr.state_checked},  // item checked
@@ -375,14 +367,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void displaySearchCriteria() {
-        Log.d(TAG, "displaySearchCriteria: Query               = " + Model.getInstance().getPreferences().getSearchCriteria().getSearchQueryTerm());
-        Log.d(TAG, "displaySearchCriteria: checkArts           = " + Model.getInstance().getPreferences().getSearchCriteria().isArts());
-        Log.d(TAG, "displaySearchCriteria: checkBusiness       = " + Model.getInstance().getPreferences().getSearchCriteria().isBusiness());
-        Log.d(TAG, "displaySearchCriteria: checkEntrepreneurs  = " + Model.getInstance().getPreferences().getSearchCriteria().isEntrepreneurs());
-        Log.d(TAG, "displaySearchCriteria: checkPolitics       = " + Model.getInstance().getPreferences().getSearchCriteria().isPolitics());
-        Log.d(TAG, "displaySearchCriteria: checkSports         = " + Model.getInstance().getPreferences().getSearchCriteria().isSports());
-        Log.d(TAG, "displaySearchCriteria: checkTravels        = " + Model.getInstance().getPreferences().getSearchCriteria().isTravel());
-        Log.d(TAG, "displaySearchCriteria: Begin Date          = " + Model.getInstance().getPreferences().getSearchCriteria().getBeginDate());
-        Log.d(TAG, "displaySearchCriteria: End Date            = " + Model.getInstance().getPreferences().getSearchCriteria().getEndDate());
+        Log.d(TAG, "displaySearchCriteria: Query               = " + Model.getInstance().getDataModel().getSearchCriteria().getKeysWords());
+        Log.d(TAG, "displaySearchCriteria: checkArts           = " + Model.getInstance().getDataModel().getSearchCriteria().isArts());
+        Log.d(TAG, "displaySearchCriteria: checkBusiness       = " + Model.getInstance().getDataModel().getSearchCriteria().isBusiness());
+        Log.d(TAG, "displaySearchCriteria: checkEntrepreneurs  = " + Model.getInstance().getDataModel().getSearchCriteria().isEntrepreneurs());
+        Log.d(TAG, "displaySearchCriteria: checkPolitics       = " + Model.getInstance().getDataModel().getSearchCriteria().isPolitics());
+        Log.d(TAG, "displaySearchCriteria: checkSports         = " + Model.getInstance().getDataModel().getSearchCriteria().isSports());
+        Log.d(TAG, "displaySearchCriteria: checkTravels        = " + Model.getInstance().getDataModel().getSearchCriteria().isTravel());
+        Log.d(TAG, "displaySearchCriteria: Begin Date          = " + Model.getInstance().getDataModel().getSearchCriteria().getBeginDate());
+        Log.d(TAG, "displaySearchCriteria: End Date            = " + Model.getInstance().getDataModel().getSearchCriteria().getEndDate());
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onPostCreate: ");
+        super.onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onPostResume() {
+        Log.d(TAG, "onPostResume: ");
+        super.onPostResume();
+    }
+
+    @Override
+    protected void onStart() {
+        Log.d(TAG, "onStart: ");
+        super.onStart();
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.d(TAG, "onRestart: ");
+        super.onRestart();
     }
 }

@@ -1,8 +1,11 @@
 package com.android.sagot.mynews.Models;
 
+import android.content.SharedPreferences;
+
 public class Model {
 
-    private Preferences mPreferences;
+    private SharedPreferences mSharedPreferences;
+    private DataModel mDataModel;
 
     private static final Model MODEL = new Model();
 
@@ -10,11 +13,19 @@ public class Model {
         return MODEL;
     }
 
-    public Preferences getPreferences() {
-        return mPreferences;
+    public DataModel getDataModel() {
+        return mDataModel;
     }
 
-    public void setPreferences(Preferences preferences) {
-        this.mPreferences = preferences;
+    public void setDataModel(DataModel dataModel) {
+        this.mDataModel = dataModel;
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return mSharedPreferences;
+    }
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        mSharedPreferences = sharedPreferences;
     }
 }

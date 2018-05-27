@@ -1,19 +1,25 @@
 package com.android.sagot.mynews.Models;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class SearchCriteria implements Serializable{
+public class NotificationsCriteria {
 
+    private String mKeysWords;
     private boolean mArts = false;
     private boolean mBusiness = false;
     private boolean mEntrepreneurs = false;
     private boolean mPolitics = false;
     private boolean mSports = false;
     private boolean mTravel = false;
-    private String mKeysWords;
-    private Date mBeginDate;
-    private Date mEndDate;
+    private boolean mNotificationStatus = false;
+
+    public String getKeysWords() {
+        return mKeysWords;
+    }
+
+    public void setKeysWords(String keysWords) {
+        mKeysWords = keysWords;
+    }
 
     public boolean isArts() {
         return mArts;
@@ -47,6 +53,14 @@ public class SearchCriteria implements Serializable{
         mPolitics = politics;
     }
 
+    public boolean isSports() {
+        return mSports;
+    }
+
+    public void setSports(boolean sports) {
+        mSports = sports;
+    }
+
     public boolean isTravel() {
         return mTravel;
     }
@@ -55,35 +69,11 @@ public class SearchCriteria implements Serializable{
         mTravel = travel;
     }
 
-    public String getKeysWords() {
-        return mKeysWords;
+    public boolean isNotificationStatus() {
+        return mNotificationStatus;
     }
 
-    public void setKeysWords(String keysWords) {
-        mKeysWords = keysWords;
-    }
-
-    public Date getBeginDate() {
-        return mBeginDate;
-    }
-
-    public void setBeginDate(Date beginDate) {
-        mBeginDate = beginDate;
-    }
-
-    public Date getEndDate() {
-        return mEndDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        mEndDate = endDate;
-    }
-
-    public boolean isSports() {
-        return mSports;
-    }
-
-    public void setSports(boolean sports) {
-        mSports = sports;
+    public void setNotificationStatus(boolean notificationStatus) {
+        mNotificationStatus = notificationStatus;
     }
 }

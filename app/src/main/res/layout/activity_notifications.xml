@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Toolbar Importation -->
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Keys Words zone -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_marginStart="@dimen/search_query_margin"
+        android:layout_marginEnd="@dimen/search_query_margin"
+        android:layout_marginTop="@dimen/margin_top"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/activity_notifications_keys_words_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:hint="Search query term">
+
+        </EditText>
+
+    </LinearLayout>
+
+    <!-- CATEGORY zone -->
+    <include
+        layout="@layout/category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:id="@+id/activity_notifications_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:textSize="16dp"
+        android:layout_marginEnd="@dimen/search_query_margin"
+        android:layout_marginTop="30dp"
+        android:text="Enable notifications (once per day)" />
+
+</LinearLayout>

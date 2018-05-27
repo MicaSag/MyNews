@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemSearchActivity;
 import com.android.sagot.mynews.Controllers.Activities.SearchActivity;
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
@@ -16,8 +17,10 @@ import com.android.sagot.mynews.Utils.NYTimesStreams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.reactivex.observers.DisposableObserver;
@@ -30,22 +33,17 @@ public class ResultSearchFragment extends NewsFragment {
     // For debug
     private static final String TAG = ResultSearchFragment.class.getSimpleName();
 
-    // Object containing the criteria of search
-    private SearchCriteria mSearchCriteria;
-
     public ResultSearchFragment() {
         // Required empty public constructor
     }
 
-    public static ResultSearchFragment newInstance(int tabLayoutPosition, String searchCriteria) {
+    public static ResultSearchFragment newInstance(int tabLayoutPosition) {
 
         // Create new fragment
         ResultSearchFragment fragment = new ResultSearchFragment();
 
         // Create bundle and add it some data
         Bundle args = new Bundle();
-        // Put searchCriteria in bundle
-        args.putString(SearchActivity.BUNDLE_SEARCH_CRITERIA, searchCriteria);
         // Put tabLayoutPosition
         args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
         fragment.setArguments(args);
@@ -68,36 +66,33 @@ public class ResultSearchFragment extends NewsFragment {
      *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
      */
      protected  Map<String, String> formattingRequest() {
-        // Get data from Bundle (created in method newInstance)
-        // and restoring the searchCriteria with a Gson Object
-        final Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .disableHtmlEscaping()
-                .create();
-        mSearchCriteria = gson.fromJson(getArguments()
-                .getString(SearchActivity.BUNDLE_SEARCH_CRITERIA),SearchCriteria.class);
 
-        Map<String, String> filters = new HashMap<>(); // Filters following conditions
+         Map<String, String> filters = new HashMap<>(); // Filters following conditions
 
+         // Recover SearchCriteria in the fragment
+         SearchCriteria searchCriteria = Model.getInstance().getDataModel().getSearchCriteria();
          // Query criteria
-         filters.put("q", mSearchCriteria.getSearchQueryTerm());
-         Log.d(TAG, "formattingRequest: getSearchQueryTerm = "+mSearchCriteria.getSearchQueryTerm());
+         filters.put("q", searchCriteria.getKeysWords());
+         Log.d(TAG, "formattingRequest: getSearchQueryTerm = "+searchCriteria.getKeysWords());
 
          // Sections criteria
         String sections = "news_desk:(";
-        if(mSearchCriteria.isArts()) sections+=" \"Arts\"";
-        if(mSearchCriteria.isBusiness()) sections+=" \"Business\"";
-        if(mSearchCriteria.isEntrepreneurs()) sections+=" \"Entrepreneurs\"";
-        if(mSearchCriteria.isPolitics()) sections+=" \"Politics\"";
-        if(mSearchCriteria.isSports()) sections+=" \"Sports\"";
-        if(mSearchCriteria.isTravel()) sections+=" \"Travel\"";
+        if(searchCriteria.isArts()) sections+=" \"Arts\"";
+        if(searchCriteria.isBusiness()) sections+=" \"Business\"";
+        if(searchCriteria.isEntrepreneurs()) sections+=" \"Entrepreneurs\"";
+        if(searchCriteria.isPolitics()) sections+=" \"Politics\"";
+        if(searchCriteria.isSports()) sections+=" \"Sports\"";
+        if(searchCriteria.isTravel()) sections+=" \"Travel\"";
         sections +=")";
         Log.d(TAG, "executeHttpRequestWithRetrofit: sections = "+sections);
         filters.put("fq", sections);
 
         //  Dates criteria
-        if (mSearchCriteria.getBeginDate() != null) filters.put("begin_date", mSearchCriteria.getBeginDate());
-        if (mSearchCriteria.getEndDate() != null) filters.put("end_date", mSearchCriteria.getEndDate());
+         SimpleDateFormat criteriaDateFormatter = new SimpleDateFormat("yyyyMMdd", Locale.US);
+        if (searchCriteria.getBeginDate() != null)
+            filters.put("begin_date", criteriaDateFormatter.format(searchCriteria.getBeginDate()));
+        if (searchCriteria.getEndDate() != null)
+            filters.put("end_date", criteriaDateFormatter.format(searchCriteria.getEndDate()));
 
         return filters;
      }
