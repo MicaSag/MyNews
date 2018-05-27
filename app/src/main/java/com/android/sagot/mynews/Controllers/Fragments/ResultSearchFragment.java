@@ -69,6 +69,9 @@ public class ResultSearchFragment extends NewsFragment {
 
          Map<String, String> filters = new HashMap<>(); // Filters following conditions
 
+         // Results are sorted by newest to oldest
+         filters.put("sort", "newest");
+
          // Recover SearchCriteria in the fragment
          SearchCriteria searchCriteria = Model.getInstance().getDataModel().getSearchCriteria();
          // Query criteria

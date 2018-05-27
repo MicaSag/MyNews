@@ -54,6 +54,8 @@ public class SportsFragment extends NewsFragment {
 
         Map<String, String> filters = new HashMap<>(); // Filters following conditions
         filters.put("fq", "news_desk:(\"Sports\")");
+        // Results are sorted by newest to oldest
+        filters.put("sort", "newest");
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
         mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key, filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {

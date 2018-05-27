@@ -1,5 +1,9 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,11 +16,13 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NotificationsCriteria;
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.NotificationsAlarmReceiver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -45,6 +51,9 @@ public class NotificationsActivity extends AppCompatActivity{
     @BindView(R.id.checkbox_travel) CheckBox mCheckBoxTravel;
     // Of the Switch
     @BindView(R.id.activity_notifications_switch) Switch mSwitch;
+
+    // Creating an intent to execute our broadcast
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +162,44 @@ public class NotificationsActivity extends AppCompatActivity{
     public void OnCheckedChanged(CompoundButton cb, boolean isChecked){
         Log.d(TAG, "OnCheckedChanged: isChecked = "+isChecked);
         Model.getInstance().getDataModel().getNotificationsCriteria().setNotificationStatus(isChecked);
+
+        // If checked, Start Alarm
+        if (isChecked) this.startAlarm();
+        // If not checked, Stop alarm
+        if (!isChecked) this.stopAlarm();
+    }
+
+    // ------------------------------
+    // SCHEDULE TASK  : AlarmManager
+    // ------------------------------
+    // Start Alarm
+    private void startAlarm() {
+        Log.d(TAG, "startAlarm: ");
+        this.configureAlarmManager();
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
+    }
+
+    // Start Alarm
+    private void stopAlarm() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+        Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
+    }
+
+    // ----------------------------
+    // CONFIGURATION ALARM MANAGER
+    // ----------------------------
+    private void configureAlarmManager(){
+        Log.d(TAG, "configureAlarmManager: ");
+
+        Intent alarmIntent = new Intent(NotificationsActivity.this,
+                NotificationsAlarmReceiver.class);
+
+        pendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0,
+                alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
