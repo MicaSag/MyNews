@@ -4,6 +4,7 @@ package com.android.sagot.mynews.Controllers.Fragments;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
@@ -83,13 +84,14 @@ public class BusinessFragment extends NewsFragment {
      * @param news
      *              list of news Business of the NewYorkTimes
      */
-    @Override
     protected void updateUIWithListOfNews(Object news) {
-        // Stop refreshing and clear actual list of news
-        swipeRefreshLayout.setRefreshing(false);
-        // Empty the list of previous news
 
+        // Stop refreshing
+        swipeRefreshLayout.setRefreshing(false);
+
+        // Empty the list of previous news
         mListNYTimesNews.clear();
+
         NYTimesArticleSearch newsArticleSearch = (NYTimesArticleSearch)news;
 
         //Here we recover only the elements of the query that interests us
@@ -131,6 +133,9 @@ public class BusinessFragment extends NewsFragment {
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
+
+        // Save the News in the Model
+        Model.getInstance().setListBusinessNews(mListNYTimesNews);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();

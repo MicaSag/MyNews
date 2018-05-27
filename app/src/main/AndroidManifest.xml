@@ -30,6 +30,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.Activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".Controllers.Activities.NotificationsActivity"
+            android:label="Notifications"
+            android:parentActivityName=".Controllers.Activities.MainActivity"
+            android:theme="@style/NotificationsTheme">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Controllers.Activities.MainActivity" />
+        </activity>
         <!-- A other child of the main activity -->
         <activity
             android:name=".Controllers.Activities.ItemActivity"
@@ -61,7 +72,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.Activities.ResultSearchActivity" />
         </activity>
-        <activity android:name=".Controllers.Activities.NotificationsActivity"></activity>
     </application>
 
 </manifest>

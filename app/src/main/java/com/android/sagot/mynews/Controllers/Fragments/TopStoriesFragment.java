@@ -4,6 +4,7 @@ package com.android.sagot.mynews.Controllers.Fragments;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.Result;
@@ -12,6 +13,7 @@ import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
 import java.util.Collections;
+import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -73,24 +75,16 @@ public class TopStoriesFragment extends NewsFragment{
         });
     }
 
-    // -------------------
-    //     UPDATE UI
-    // -------------------
-    /**
-     *  Update UI with list of TopStories news
-     *
-     * @param news
-     *              list of news topStories of the NewYorkTimes
-     */
-    protected void updateUIWithListOfNews(Object news){
+    protected void updateUIWithListOfNews(Object news) {
+        Log.d(TAG, "saveListTopStoriesInModel: ");
 
-        // Stop refreshing and clear actual list of news
+        // Stop refreshing
         swipeRefreshLayout.setRefreshing(false);
+
         // Empty the list of previous news
         mListNYTimesNews.clear();
 
-
-        // Cast Object news in NYTimesMostPopular
+        // Cast Object news in NYTimesTopStories
         NYTimesTopStories newsTopStories = (NYTimesTopStories)news;
 
         //Here we recover only the elements of the query that interests us
@@ -121,15 +115,18 @@ public class TopStoriesFragment extends NewsFragment{
             String title = results.getTitle();
 
             mListNYTimesNews.add( new NYTimesNews(title,
-                                                imageURL,
-                                                newsURL,
-                                                newsDate,
-                                                section
-                                                ));
+                    imageURL,
+                    newsURL,
+                    newsDate,
+                    section
+            ));
         }
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
+
+        // Save the News in the Model
+        Model.getInstance().setListTopStoriesNews(mListNYTimesNews);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();

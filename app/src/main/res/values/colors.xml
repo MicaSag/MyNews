@@ -6,6 +6,7 @@
     <!-- DEFAULT colors -->
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorPrimary">#03a9f4</color>
+    <color name="colorPrimaryLight">#4fc3f7</color>
     <color name="colorAccent">#FF9100</color>
     <color name="colorTextSelected">@android:color/white</color>
     <color name="colorText">#e1dada</color>
@@ -14,6 +15,7 @@
     <!-- colors that will be used by TopStories -->
     <color name="topStoriesPrimaryDark">@color/colorPrimaryDark</color>
     <color name="topStoriesPrimary">@color/colorPrimary</color>
+    <color name="topStoriesPrimaryLight">@color/colorPrimaryLight</color>
     <color name="topStoriesAccent">@color/colorAccent</color>
     <color name="topStoriesText">@color/colorText</color>
 
@@ -40,6 +42,12 @@
     <color name="searchPrimary">#8bc34a</color>
     <color name="searchAccent">#8bc34a</color>
     <color name="searchText">@android:color/black</color>
+
+    <!-- colors that will be used by notifications -->
+    <color name="notificationsPrimaryDark">#F57C00</color>
+    <color name="notificationsPrimary">#FF9800</color>
+    <color name="notificationAccent">#FF9800</color>
+    <color name="notificationsText">@android:color/black</color>
 
 
     <!-- APP ARRAYS COLORS DEFINITIONS -->

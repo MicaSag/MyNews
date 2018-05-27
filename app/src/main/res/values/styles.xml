@@ -17,8 +17,8 @@
     <!-- Base Top Stories theme. -->
     <style name="TopStoriesTheme" parent="AppTheme">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -30,8 +30,9 @@
         <item name="android:background">@color/topStoriesPrimary</item>
     </style>
 
-    <!-- toolBar style. -->
-    <style name="toolBar_style" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <!-- TOOLBAR STYLES -->
+    <!-- MainActivity style -->
+    <style name="toolBar_main_activity_style" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="titleTextColor">@color/colorTextSelected</item>
         <item name="colorControlNormal">@color/colorTextSelected</item>
         <item name="android:background">@color/colorPrimary</item>
@@ -42,9 +43,19 @@
     <!-- Base application theme. -->
     <style name="SearchArticlesTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/searchPrimary</item>
         <item name="colorPrimaryDark">@color/searchPrimaryDark</item>
+        <item name="colorPrimary">@color/searchPrimary</item>
         <item name="colorAccent">@color/searchAccent</item>
+    </style>
+
+    <!-- | NOTIFICATIONS | -->
+
+    <!-- Base application theme. -->
+    <style name="NotificationsTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/notificationsPrimaryDark</item>
+        <item name="colorPrimary">@color/notificationsPrimary</item>
+        <item name="colorAccent">@color/notificationAccent</item>
     </style>
 
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
@@ -32,7 +33,6 @@ public abstract class NewsFragment extends Fragment {
 
     // Force developer implement those methods
     protected abstract void executeHttpRequestWithRetrofit();
-    protected abstract void updateUIWithListOfNews(Object news);
 
     // FOR TRACES
     private static final String TAG = NewsFragment.class.getSimpleName();
@@ -89,7 +89,7 @@ public abstract class NewsFragment extends Fragment {
         // Get api_key
         api_key = getResources().getString(R.string.api_key);
 
-        // Call the Stream Top Stories of the New York Times
+        // Call the Stream of the New York Times
         this.executeHttpRequestWithRetrofit();
 
         return mNewsView;

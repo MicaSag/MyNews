@@ -1,5 +1,6 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -83,10 +84,14 @@ public class NotificationsActivity extends AppCompatActivity{
         Log.d(TAG, "configureToolBar: ");
         // Get the toolbar view inside the activity layout
 
-        // Change the toolbar Tittle
-        setTitle("Notifications");
-        // Sets the Toolbar
+        //Set the toolbar
         setSupportActionBar(mToolbar);
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+        // Change Color of the Toolbar
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.notificationsPrimary));
     }
 
     // ------------------

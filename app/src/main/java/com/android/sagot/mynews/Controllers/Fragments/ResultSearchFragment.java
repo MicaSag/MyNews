@@ -133,13 +133,14 @@ public class ResultSearchFragment extends NewsFragment {
      * @param news
      *              list of news Business of the NewYorkTimes
      */
-    @Override
     protected void updateUIWithListOfNews(Object news) {
-        // Stop refreshing and clear actual list of news
-        swipeRefreshLayout.setRefreshing(false);
-        // Empty the list of previous news
 
+        // Stop refreshing
+        swipeRefreshLayout.setRefreshing(false);
+
+        // Empty the list of previous news
         mListNYTimesNews.clear();
+
         NYTimesArticleSearch newsArticleSearch = (NYTimesArticleSearch)news;
 
         //Here we recover only the elements of the query that interests us
@@ -177,16 +178,20 @@ public class ResultSearchFragment extends NewsFragment {
                     newsDate,
                     section
             ));
+            Log.d(TAG, "updateUIWithListOfNews: pub_date = "+(docs.getPubDate()));
         }
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
 
-        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getHits());
-        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getOffset());
-        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getTime());
+        // Save News in the Model
+        Model.getInstance().setListSearchNews(mListNYTimesNews);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
+
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getHits());
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getOffset());
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getTime());
     }
 }

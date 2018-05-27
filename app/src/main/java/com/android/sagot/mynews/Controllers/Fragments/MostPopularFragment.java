@@ -4,10 +4,10 @@ package com.android.sagot.mynews.Controllers.Fragments;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.ResultMostPopular;
-import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -55,7 +55,7 @@ public class MostPopularFragment extends NewsFragment {
             @Override
             public void onNext(NYTimesMostPopular mostPopular) {
                 Log.e("TAG","On Next");
-                // Update UI with list of TopStories news
+                // Update Model with list of TopStories news
                 updateUIWithListOfNews(mostPopular);
             }
 
@@ -81,10 +81,11 @@ public class MostPopularFragment extends NewsFragment {
      * @param news
      *              list of news MostPopular of the NewYorkTimes
      */
-    @Override
     protected void updateUIWithListOfNews(Object news) {
-        // Stop refreshing and clear actual list of news
+
+        // Stop refreshing
         swipeRefreshLayout.setRefreshing(false);
+
         // Empty the list of previous news
         mListNYTimesNews.clear();
 
@@ -129,6 +130,9 @@ public class MostPopularFragment extends NewsFragment {
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
+
+        // Save the News in the Model
+        Model.getInstance().setListMostPopularNews(mListNYTimesNews);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
