@@ -3,17 +3,20 @@ package com.android.sagot.mynews.Models;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ *  Data group used in the layout "activity_search.xml/category.xml"
+ */
 public class SearchCriteria implements Serializable{
 
-    private boolean mArts = false;
-    private boolean mBusiness = false;
-    private boolean mEntrepreneurs = false;
-    private boolean mPolitics = false;
-    private boolean mSports = false;
-    private boolean mTravel = false;
-    private String mKeysWords;
-    private Date mBeginDate;
-    private Date mEndDate;
+    private boolean mArts = false;              // CheckBox Arts status
+    private boolean mBusiness = false;          // CheckBox Business status
+    private boolean mEntrepreneurs = false;     // CheckBox Entrepreneurs status
+    private boolean mPolitics = false;          // CheckBox Politics status
+    private boolean mSports = false;            // CheckBox Sports status
+    private boolean mTravel = false;            // CheckBox Travel status
+    private String mKeysWords;                  // Backing up keywords
+    private Date mBeginDate;                    // Saving the begin date
+    private Date mEndDate;                      // Saving the end date
 
     public boolean isArts() {
         return mArts;
