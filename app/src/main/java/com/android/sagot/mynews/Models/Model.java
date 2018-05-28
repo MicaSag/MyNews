@@ -4,15 +4,21 @@ import android.content.SharedPreferences;
 
 import java.util.List;
 
+    /**
+     *                   >>         SINGLETON         <<
+     *
+     * Class to share common data between different components of the application
+     */
+
 public class Model {
 
-    private SharedPreferences mSharedPreferences;
-    private DataModel mDataModel;
-    private List<NYTimesNews>  mListTopStoriesNews;
-    private List<NYTimesNews>  mListMostPopularNews;
-    private List<NYTimesNews>  mListBusinessNews;
-    private List<NYTimesNews>  mListSportsNews;
-    private List<NYTimesNews>  mListSearchNews;
+    private SharedPreferences mSharedPreferences;       // Reference backup of the SharedPreferences
+    private DataModel mDataModel;                       // Model data that will be saved in SharedPreferences
+    // Saving the list of news that are loaded when the application starts
+    private List<NYTimesNews>  mListTopStoriesNews;     // List of news "TopsStories"    
+    private List<NYTimesNews>  mListMostPopularNews;    // List of news "MostPopular"
+    private List<NYTimesNews>  mListBusinessNews;       // List of news "Business"
+    private List<NYTimesNews>  mListSportsNews;         // List of news "Sports"
 
     private static final Model MODEL = new Model();
 
@@ -66,13 +72,5 @@ public class Model {
 
     public void setListSportsNews(List<NYTimesNews> listSportsNews) {
         mListSportsNews = listSportsNews;
-    }
-
-    public List<NYTimesNews> getListSearchNews() {
-        return mListSearchNews;
-    }
-
-    public void setListSearchNews(List<NYTimesNews> listSearchNews) {
-        mListSearchNews = listSearchNews;
     }
 }
