@@ -3,6 +3,11 @@ package com.android.sagot.mynews.Utils;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+/*
+ * Class to manage user clicks on each element of the RecyclerView
+ * source code : https://stackoverflow.com/questions/24885223/why-doesnt-recyclerview-have-onitemclicklistener 
+ */
+
 public class ItemClickSupport {
     private final RecyclerView mRecyclerView;
     private OnItemClickListener mOnItemClickListener;
