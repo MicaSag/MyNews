@@ -2,16 +2,20 @@ package com.android.sagot.mynews.Models;
 
 import java.util.Date;
 
-public class NotificationsCriteria {
+/**
+ *  Data group used in the layout "activity_notifications.xml/category.xml"
+ */
 
-    private String mKeysWords;
-    private boolean mArts = false;
-    private boolean mBusiness = false;
-    private boolean mEntrepreneurs = false;
-    private boolean mPolitics = false;
-    private boolean mSports = false;
-    private boolean mTravel = false;
-    private boolean mNotificationStatus = false;
+public class NotificationsCriteria {
+                 
+    private String mKeysWords;                      // Backing up keywords                  
+    private boolean mArts = false;                  // CheckBox Arts status
+    private boolean mBusiness = false;              // CheckBox Business status
+    private boolean mEntrepreneurs = false;         // CheckBox Entrepreneurs status
+    private boolean mPolitics = false;              // CheckBox Politics status
+    private boolean mSports = false;                // CheckBox Sports status
+    private boolean mTravel = false;                // CheckBox Travel status
+    private boolean mNotificationStatus = false;    // Saves the status of the notification switch
 
     public String getKeysWords() {
         return mKeysWords;
