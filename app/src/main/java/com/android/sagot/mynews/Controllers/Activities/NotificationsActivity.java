@@ -54,7 +54,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Get back in the model the criteria of search
         mNotificationsCriteria = Model.getInstance().getDataModel().getNotificationsCriteria();
-        displayCriteria();
+
         // Put the inherited variables
         setIdLayoutActivity(R.layout.activity_notifications);
         setCriteria(mNotificationsCriteria);
