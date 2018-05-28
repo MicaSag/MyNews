@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
-import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
@@ -29,13 +28,13 @@ import io.reactivex.disposables.Disposable;
 /**
  *  BASE FRAGMENT
  */
-public abstract class NewsFragment extends Fragment {
+public abstract class BaseNewsFragment extends Fragment {
 
     // Force developer implement those methods
     protected abstract void executeHttpRequestWithRetrofit();
 
     // FOR TRACES
-    private static final String TAG = NewsFragment.class.getSimpleName();
+    private static final String TAG = BaseNewsFragment.class.getSimpleName();
 
     // View of the Fragment
     private View mNewsView;
@@ -61,7 +60,7 @@ public abstract class NewsFragment extends Fragment {
     // Key for NYTimes Api access
     protected String api_key;
 
-    public NewsFragment() {
+    public BaseNewsFragment() {
         // Required empty public constructor
     }
 
@@ -69,7 +68,7 @@ public abstract class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mNewsView = inflater.inflate(R.layout.fragment_news, container, false);
+        mNewsView = inflater.inflate(R.layout.fragment_news_base, container, false);
 
         // Telling ButterKnife to bind all views in layout
         ButterKnife.bind(this, mNewsView);

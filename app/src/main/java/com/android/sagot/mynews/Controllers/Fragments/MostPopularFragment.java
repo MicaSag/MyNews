@@ -18,7 +18,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * MostPopular FRAGMENT
  */
-public class MostPopularFragment extends NewsFragment {
+public class MostPopularFragment extends BaseNewsFragment {
 
     // For debug
     private static final String TAG = MostPopularFragment.class.getSimpleName();

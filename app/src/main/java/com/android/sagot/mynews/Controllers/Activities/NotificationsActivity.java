@@ -54,7 +54,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // Get back in the model the criteria of search
         mNotificationsCriteria = Model.getInstance().getDataModel().getNotificationsCriteria();
-
+        displayCriteria();
         // Put the inherited variables
         setIdLayoutActivity(R.layout.activity_notifications);
         setCriteria(mNotificationsCriteria);
@@ -94,8 +94,8 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         // If checked and not already checked in the model, Start Alarm
         if (isChecked && !(Model.getInstance().getDataModel().getNotificationsCriteria()
                 .isNotificationStatus())) this.startAlarm();
-        // If not checked, Stop alarm
-        if (!isChecked) this.stopAlarm();
+        // If not checked and pendingIntent <> null , Stop alarm
+        if (!isChecked && pendingIntent != null) this.stopAlarm();
 
         // Save the state of the switch in the model
         Model.getInstance().getDataModel().getNotificationsCriteria().setNotificationStatus(isChecked);
@@ -106,7 +106,6 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // ------------------------------
     // Start Alarm
     private void startAlarm() {
-        Log.d(TAG, "startAlarm: ");
         this.configureAlarmManager();
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,

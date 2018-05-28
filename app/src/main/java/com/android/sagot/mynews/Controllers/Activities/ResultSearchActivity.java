@@ -1,15 +1,12 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.android.sagot.mynews.Controllers.Fragments.ResultSearchFragment;
-import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
-import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

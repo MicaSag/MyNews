@@ -19,7 +19,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Business FRAGMENT
  */
-public class BusinessFragment extends NewsFragment {
+public class BusinessFragment extends BaseNewsFragment {
 
     // For debug
     private static final String TAG = BusinessFragment.class.getSimpleName();

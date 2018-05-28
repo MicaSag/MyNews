@@ -8,7 +8,6 @@ import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
-import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -21,7 +20,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Sports FRAGMENT
  */
-public class SportsFragment extends NewsFragment {
+public class SportsFragment extends BaseNewsFragment {
 
     // For debug
     private static final String TAG = SportsFragment.class.getSimpleName();

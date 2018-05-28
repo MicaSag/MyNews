@@ -9,7 +9,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.android.sagot.mynews.Controllers.Fragments.NewsFragment;
+import com.android.sagot.mynews.Controllers.Fragments.BaseNewsFragment;
 import com.android.sagot.mynews.Controllers.Fragments.TopStoriesFragment;
 import com.android.sagot.mynews.R;
 
@@ -45,7 +45,7 @@ public class ItemActivity extends AppCompatActivity {
         // Get back the data intent in the activity
         Intent i = getIntent();
         mNewURL = i.getStringExtra(TopStoriesFragment.BUNDLE_NEWS_URL);
-        mPosition = i.getIntExtra(NewsFragment.BUNDLE_TAB_LAYOUT_POSITION,0);
+        mPosition = i.getIntExtra(BaseNewsFragment.BUNDLE_TAB_LAYOUT_POSITION,0);
 
         // Change the color of the status bar and of the toolbar
         applyColorTheme();

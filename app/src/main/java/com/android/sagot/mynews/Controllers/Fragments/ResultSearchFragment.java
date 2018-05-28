@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemSearchActivity;
-import com.android.sagot.mynews.Controllers.Activities.SearchActivity;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
@@ -14,8 +13,6 @@ import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArtic
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -28,7 +25,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Search FRAGMENT
  */
-public class ResultSearchFragment extends NewsFragment {
+public class ResultSearchFragment extends BaseNewsFragment {
 
     // For debug
     private static final String TAG = ResultSearchFragment.class.getSimpleName();
