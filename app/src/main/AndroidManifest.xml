@@ -72,6 +72,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.Activities.ResultSearchActivity" />
         </activity>
+        <!-- Notification Permission -->
+        <receiver
+            android:name=".Utils.NotificationsAlarmReceiver"
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NotificationsCriteria;
 import com.android.sagot.mynews.Models.SearchCriteria;
@@ -32,7 +33,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
-public class NotificationsActivity extends AppCompatActivity{
+public class NotificationsActivity extends BaseCriteriaActivity {
 
     // FOR TRACES
     private static final String TAG = NotificationsActivity.class.getSimpleName();
@@ -40,119 +41,47 @@ public class NotificationsActivity extends AppCompatActivity{
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
-    // Of the Keys words
-    @BindView(R.id.activity_notifications_keys_words_text) EditText mEditKeysWords;
-    // Of the category
-    @BindView(R.id.checkbox_arts) CheckBox mCheckBoxArts;
-    @BindView(R.id.checkbox_business) CheckBox mCheckBoxBusiness;
-    @BindView(R.id.checkbox_entrepreneurs) CheckBox mCheckBoxEntrepreneurs;
-    @BindView(R.id.checkbox_politics) CheckBox mCheckBoxPolitics;
-    @BindView(R.id.checkbox_sports) CheckBox mCheckBoxSports;
-    @BindView(R.id.checkbox_travel) CheckBox mCheckBoxTravel;
     // Of the Switch
     @BindView(R.id.activity_notifications_switch) Switch mSwitch;
 
     // Creating an intent to execute our broadcast
     private PendingIntent pendingIntent;
 
+    // Notification Criteria
+    NotificationsCriteria mNotificationsCriteria;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Get back in the model the criteria of search
+        mNotificationsCriteria = Model.getInstance().getDataModel().getNotificationsCriteria();
+
+        // Put the inherited variables
+        setIdLayoutActivity(R.layout.activity_notifications);
+        setCriteria(mNotificationsCriteria);
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notifications);
-
-        // Get & serialise all views
-        ButterKnife.bind(this);
-
-        // Update Notifications UI with NotificationsCriteria of the Model
-        this.displayNotificationsCriteria();
-        this.updateUI();
-
-        // Toolbar Configuration
-        this.configureToolBar();
     }
 
     // --------------
     //      UI
-    // --------------
-    private void updateUI(){
-        NotificationsCriteria notificationsCriteria = Model.getInstance().getDataModel().getNotificationsCriteria();
-        mEditKeysWords.setText(notificationsCriteria.getKeysWords());
-        mCheckBoxArts.setChecked(notificationsCriteria.isArts());
-        mCheckBoxBusiness.setChecked(notificationsCriteria.isBusiness());
-        mCheckBoxEntrepreneurs.setChecked(notificationsCriteria.isEntrepreneurs());
-        mCheckBoxPolitics.setChecked(notificationsCriteria.isPolitics());
-        mCheckBoxSports.setChecked(notificationsCriteria.isSports());
-        mCheckBoxTravel.setChecked(notificationsCriteria.isTravel());
-        mSwitch.setChecked(notificationsCriteria.isNotificationStatus());
+    //---------------
+    @Override
+    protected void updateUI(Criteria criteria){
+        super.updateUI(criteria);
+
+        // Set the state of the present switch in the Model
+        mSwitch.setChecked(mNotificationsCriteria.isNotificationStatus());
     }
 
     // -----------------------
     // CONFIGURATION TOOLBAR
     // -----------------------
-    private void configureToolBar() {
-        Log.d(TAG, "configureToolBar: ");
-        // Get the toolbar view inside the activity layout
+    @Override
+    protected void configureToolBar() {
+        super.configureToolBar();
 
-        //Set the toolbar
-        setSupportActionBar(mToolbar);
-        // Get a support ActionBar corresponding to this toolbar
-        ActionBar ab = getSupportActionBar();
-        // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.notificationsPrimary));
-    }
-
-    // ------------------
-    // ACTIONS CHECKBOX
-    // ------------------
-    // click on Search Button and call ResultSearchActivity
-    @OnClick(R.id.checkbox_arts)
-    public void checkBoxArts(View view) {
-        Model.getInstance().getDataModel().getNotificationsCriteria()
-                .setArts(mCheckBoxArts.isChecked());
-    }
-    // click on Search Button and call ResultSearchActivity
-    @OnClick(R.id.checkbox_business)
-    public void checkBoxBusiness(View view) {
-        Model.getInstance().getDataModel().getNotificationsCriteria()
-                .setBusiness(mCheckBoxBusiness.isChecked());
-    }
-
-    // click on Search Button and call ResultSearchActivity
-    @OnClick(R.id.checkbox_entrepreneurs)
-    public void checkBoxEntrepreneurs(View view) {
-        Model.getInstance().getDataModel().getNotificationsCriteria()
-                .setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked());
-    }
-
-    // click on Search Button and call ResultSearchActivity
-    @OnClick(R.id.checkbox_politics)
-    public void checkBoxPolitics(View view) {
-        Model.getInstance().getDataModel().getNotificationsCriteria()
-                .setPolitics(mCheckBoxPolitics.isChecked());
-    }
-
-    // click on Search Button and call ResultSearchActivity
-    @OnClick(R.id.checkbox_sports)
-    public void checkBoxSports(View view) {
-        Model.getInstance().getDataModel().getNotificationsCriteria()
-                .setSports(mCheckBoxSports.isChecked());
-    }
-
-    // click on Search Button and call ResultSearchActivity
-    @OnClick(R.id.checkbox_travel)
-    public void checkBoxTravel(View view) {
-        Model.getInstance().getDataModel().getNotificationsCriteria()
-                .setTravel(mCheckBoxTravel.isChecked());
-    }
-
-    // -----------------------------
-    // ACTIONS EDIT_TEXT KEYS_WORDS
-    // -----------------------------
-    @OnTextChanged(R.id.activity_notifications_keys_words_text)
-    public void onTextChanged(Editable text){
-        Model.getInstance().getDataModel().getNotificationsCriteria().setKeysWords(text.toString());
     }
 
     // ---------------
@@ -161,12 +90,15 @@ public class NotificationsActivity extends AppCompatActivity{
     @OnCheckedChanged(R.id.activity_notifications_switch)
     public void OnCheckedChanged(CompoundButton cb, boolean isChecked){
         Log.d(TAG, "OnCheckedChanged: isChecked = "+isChecked);
-        Model.getInstance().getDataModel().getNotificationsCriteria().setNotificationStatus(isChecked);
 
-        // If checked, Start Alarm
-        if (isChecked) this.startAlarm();
+        // If checked and not already checked in the model, Start Alarm
+        if (isChecked && !(Model.getInstance().getDataModel().getNotificationsCriteria()
+                .isNotificationStatus())) this.startAlarm();
         // If not checked, Stop alarm
         if (!isChecked) this.stopAlarm();
+
+        // Save the state of the switch in the model
+        Model.getInstance().getDataModel().getNotificationsCriteria().setNotificationStatus(isChecked);
     }
 
     // ------------------------------
@@ -179,14 +111,14 @@ public class NotificationsActivity extends AppCompatActivity{
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,
                 AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-        Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Notifications set !", Toast.LENGTH_SHORT).show();
     }
 
     // Start Alarm
     private void stopAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
-        Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
     }
 
     // ----------------------------
@@ -203,31 +135,9 @@ public class NotificationsActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onPause() {
-        Log.d(TAG, "onPause: ");
-        // SAVE MODELS PREFERENCES IN THE SHARED_PREFERENCES
-        // Create à SHARED_PREF_MODEL String with a Gson Object
-        final Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .disableHtmlEscaping()
-                .create();
-        String json = gson.toJson(Model.getInstance().getDataModel());
+    protected void displayCriteria(){
+        super.displayCriteria();
 
-        // Add the Model in shared Preferences
-        Model.getInstance().getSharedPreferences().edit()
-                .putString(MainActivity.SHARED_PREF_MODEL, json).apply();
-        this.displayNotificationsCriteria();
-        super.onPause();
-    }
-
-    private void displayNotificationsCriteria(){
-        Log.d(TAG, "displaySearchCriteria: Query               = "+Model.getInstance().getDataModel().getNotificationsCriteria().getKeysWords());
-        Log.d(TAG, "displaySearchCriteria: checkArts           = "+Model.getInstance().getDataModel().getNotificationsCriteria().isArts());
-        Log.d(TAG, "displaySearchCriteria: checkBusiness       = "+Model.getInstance().getDataModel().getNotificationsCriteria().isBusiness());
-        Log.d(TAG, "displaySearchCriteria: checkEntrepreneurs  = "+Model.getInstance().getDataModel().getNotificationsCriteria().isEntrepreneurs());
-        Log.d(TAG, "displaySearchCriteria: checkPolitics       = "+Model.getInstance().getDataModel().getNotificationsCriteria().isPolitics());
-        Log.d(TAG, "displaySearchCriteria: checkSports         = "+Model.getInstance().getDataModel().getNotificationsCriteria().isSports());
-        Log.d(TAG, "displaySearchCriteria: checkTravels        = "+Model.getInstance().getDataModel().getNotificationsCriteria().isTravel());
         Log.d(TAG, "displaySearchCriteria: switch              = "+Model.getInstance().getDataModel().getNotificationsCriteria().isNotificationStatus());
     }
 }

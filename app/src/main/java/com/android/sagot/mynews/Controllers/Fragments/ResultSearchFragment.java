@@ -59,7 +59,7 @@ public class ResultSearchFragment extends NewsFragment {
         this.startActivity(myIntent);
     }
 
-// -------------------
+    // -------------------
     // HTTP (RxJAVA)
     // -------------------
     /**
@@ -186,9 +186,6 @@ public class ResultSearchFragment extends NewsFragment {
         // Sort the newsList by createdDate in Descending
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
-
-        // Save News in the Model
-        Model.getInstance().setListSearchNews(mListNYTimesNews);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
