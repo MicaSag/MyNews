@@ -49,17 +49,18 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
     // Notification Criteria
     NotificationsCriteria mNotificationsCriteria;
-
+    
+    // --------------
+    // BASE METHODS
+    // --------------
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // Get back in the model the criteria of search
-        mNotificationsCriteria = Model.getInstance().getDataModel().getNotificationsCriteria();
-
-        // Put the inherited variables
-        setIdLayoutActivity(R.layout.activity_notifications);
-        setCriteria(mNotificationsCriteria);
-
-        super.onCreate(savedInstanceState);
+    protected int getActivityLayout() { 
+        return R.layout.activity_notifications; 
+    }
+    
+    @Override
+    protected int getCriteria() { 
+        return (Criteria)getModel().getNotificationsCriteria(); 
     }
 
     // --------------
@@ -70,7 +71,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         super.updateUI(criteria);
 
         // Set the state of the present switch in the Model
-        mSwitch.setChecked(mNotificationsCriteria.isNotificationStatus());
+        mSwitch.setChecked(getModel().getNotificationsCriteria().isNotificationStatus());
     }
 
     // -----------------------
@@ -92,13 +93,12 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         Log.d(TAG, "OnCheckedChanged: isChecked = "+isChecked);
 
         // If checked and not already checked in the model, Start Alarm
-        if (isChecked && !(Model.getInstance().getDataModel().getNotificationsCriteria()
-                .isNotificationStatus())) this.startAlarm();
+        if (isChecked && !(getModel().getNotificationsCriteria().isNotificationStatus())) this.startAlarm();
         // If not checked and pendingIntent <> null , Stop alarm
         if (!isChecked && pendingIntent != null) this.stopAlarm();
 
         // Save the state of the switch in the model
-        Model.getInstance().getDataModel().getNotificationsCriteria().setNotificationStatus(isChecked);
+        getModel().getNotificationsCriteria().setNotificationStatus(isChecked);
     }
 
     // ------------------------------
@@ -137,6 +137,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     protected void displayCriteria(){
         super.displayCriteria();
 
-        Log.d(TAG, "displaySearchCriteria: switch              = "+Model.getInstance().getDataModel().getNotificationsCriteria().isNotificationStatus());
+        Log.d(TAG, "displaySearchCriteria: switch              = "+getModel()
+              .getNotificationsCriteria().isNotificationStatus());
     }
 }
