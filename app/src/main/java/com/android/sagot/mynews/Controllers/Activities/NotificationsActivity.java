@@ -134,7 +134,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     protected void displayCriteria(){
         super.displayCriteria();
 
-        Log.d(TAG, "displaySearchCriteria: switch              = "+getModel()
+        Log.d(TAG, "displayCriteria: switch              = "+getModel()
               .getNotificationsCriteria().isNotificationStatus());
     }
 }
