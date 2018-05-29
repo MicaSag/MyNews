@@ -94,8 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------------------------------------------------------------------------------
     //                                     PREFERENCES
     // ---------------------------------------------------------------------------------------------
-    //  INPUT
-    // -------
+    // >> PREFERENCES RETRIEVES <-------
     private void retrievesPreferences() {
         Log.d(TAG, "retrievesPreferences: ");
         // READ SharedPreferences
@@ -106,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //mSharedPreferences.edit().clear().commit();
 
         //Model retrieves
-        this.retrieveModels();
+        this.retrieveModel();
     }
 
-    // SEARCH_CRITERIA RETRIEVES
-    private void retrieveModels() {
+    // >> MODEL RETRIEVES <-------
+    private void retrieveModel() {
         Log.d(TAG, "retrieveModels: ");
         String modelPreferences = mSharedPreferences.getString(SHARED_PREF_MODEL, null);
         // Restoring the preferences with a Gson Object
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (modelPreferences != null) {
             Log.d(TAG, "retrievesPreferences: model Restoration");
-            // Retrieves the modelPreferences of the SharedPreferences
+            // Retrieves the model of the SharedPreferences
             Model.getInstance().setDataModel(gson.fromJson(modelPreferences, DataModel.class));
         }else
         {
@@ -127,23 +126,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // INSTANTIATE DataModel Object in the Model Singleton
             Model.getInstance().setDataModel(new DataModel());
         }
-
+        
+        // Instanciate SearchCriteria
+        instantiateSearchCriteria();
+        // Instanciate NotificationsCriteria
+        instantiateSearchCriteria()
+        // Display data Model
+        displayDataModel();
+    }
+    
+    // Instanciate SearchCriteria
+    private instantiateSearchCriteria() {
         // If searchCriteria not exist then instantiate it
         if (Model.getInstance().getDataModel().getSearchCriteria() == null)
             Model.getInstance().getDataModel().setSearchCriteria(new SearchCriteria());
-
+    }
+    
+    // Instanciate NotificationsCriteria
+    private instantiateSearchCriteria() {
         // If notificationsCriteria not exist then instantiate it
         if (Model.getInstance().getDataModel().getNotificationsCriteria() == null)
             Model.getInstance().getDataModel().setNotificationsCriteria(new NotificationsCriteria());
-
-        displaySearchCriteria();
     }
+        
     // ---------------------------------------------------------------------------------------------
     //                                     TOOLBAR
     // ---------------------------------------------------------------------------------------------
-    // ---------------------
-    // CONFIGURATION
-    // ---------------------
+    // >> CONFIGURATION <-------
     private void configureToolBar() {
         Log.d(TAG, "configureToolBar: ");
         // Get the toolbar view inside the activity layout
@@ -164,21 +173,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    // ---------------------
-    // ACTIONS
-    // ---------------------
+    // >> ACTIONS <-------
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected() called with: item = [" + item + "]");
         // Handle actions on menu items
         switch (item.getItemId()) {
             case R.id.activity_main_menu_toolbar_search:
-                Intent searchActivity = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(searchActivity);
+                callSearchActivity();
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_notifications:
-                Intent notificationsActivity = new Intent(MainActivity.this, NotificationsActivity.class);
-                startActivity(notificationsActivity);
+                callNotificationsActivity();
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_help:
                 Toast.makeText(this, "Select Help", Toast.LENGTH_LONG).show();
@@ -190,13 +195,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    
+    // Call Search Activity
+    private void callSearchActivity() {
+        Intent searchActivity = new Intent(MainActivity.this, SearchActivity.class);
+        startActivity(searchActivity);
+    }
+    
+    // Call Notifications Activity
+    private void callNotificationsActivity() {
+        Intent notificationsActivity = new Intent(MainActivity.this, NotificationsActivity.class);
+         startActivity(notificationsActivity);
+    }
     // ---------------------------------------------------------------------------------------------
     //                                     NAVIGATION DRAWER
     // ---------------------------------------------------------------------------------------------
-    // ---------------------
-    // CONFIGURATION
-    // ---------------------
+    // >> CONFIGURATION <-------
     // Configure Drawer Layout and connects him the ToolBar and the NavigationView
     private void configureDrawerLayout() {
         Log.d(TAG, "configureDrawerLayout: ");
@@ -235,9 +249,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.mNavigationView.setItemIconTintList(myList);
     }
 
-    // ---------------------
-    // ACTIONS
-    // ---------------------
+    // >> ACTIONS <-------
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Log.d(TAG, "onNavigationItemSelected: ");
@@ -303,9 +315,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------------------------------------------------------------------------------
     //                                     VIEW PAGER
     // ---------------------------------------------------------------------------------------------
-    // ---------------------
-    // CONFIGURATION
-    // ---------------------
+    // >> CONFIGURATION <-------
     private void configureViewPager() {
         Log.d(TAG, "configureViewPagerAndTabs: ");
         // Set Adapter PageAdapter and glue it together
@@ -315,15 +325,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 2 by default ( page 0 1 ) if the parameter is not used
         // to avoid the code http 429 on the API searchArticle ( if business & Sports requests are executed in parallel )
         mViewPager.setOffscreenPageLimit(2);
-
     }
 
     // ---------------------------------------------------------------------------------------------
     //                                     TAB LAYOUT
     // ---------------------------------------------------------------------------------------------
-    // ---------------------
-    // CONFIGURATION
-    // ---------------------
+    // >> CONFIGURATION <-------
     private void configureTabLayout() {
         Log.d(TAG, "configureTabLayout() called");
         // Glue TabLayout and ViewPager together
@@ -334,9 +341,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mTabLayout.addOnTabSelectedListener(this);
     }
 
-    // ---------------------
-    // ACTIONS
-    // ---------------------
+    // >> ACTIONS <-------
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         Log.d(TAG, "onTabSelected() called with: tab = [" + tab + "]");
@@ -357,62 +362,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         changeStatusBarColor(this, getResources()
                 .obtainTypedArray(R.array.primaryDark_colors).getColor(position, 0));
     }
-
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-    }
-
+    public void onTabUnselected(TabLayout.Tab tab) {}
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-    }
+    public void onTabReselected(TabLayout.Tab tab) {}
 
-    private void displaySearchCriteria() {
-        Log.d(TAG, "displaySearchCriteria: Query               = " + Model.getInstance().getDataModel().getSearchCriteria().getKeysWords());
-        Log.d(TAG, "displaySearchCriteria: checkArts           = " + Model.getInstance().getDataModel().getSearchCriteria().isArts());
-        Log.d(TAG, "displaySearchCriteria: checkBusiness       = " + Model.getInstance().getDataModel().getSearchCriteria().isBusiness());
-        Log.d(TAG, "displaySearchCriteria: checkEntrepreneurs  = " + Model.getInstance().getDataModel().getSearchCriteria().isEntrepreneurs());
-        Log.d(TAG, "displaySearchCriteria: checkPolitics       = " + Model.getInstance().getDataModel().getSearchCriteria().isPolitics());
-        Log.d(TAG, "displaySearchCriteria: checkSports         = " + Model.getInstance().getDataModel().getSearchCriteria().isSports());
-        Log.d(TAG, "displaySearchCriteria: checkTravels        = " + Model.getInstance().getDataModel().getSearchCriteria().isTravel());
-        Log.d(TAG, "displaySearchCriteria: Begin Date          = " + Model.getInstance().getDataModel().getSearchCriteria().getBeginDate());
-        Log.d(TAG, "displaySearchCriteria: End Date            = " + Model.getInstance().getDataModel().getSearchCriteria().getEndDate());
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onPostCreate: ");
-        super.onPostCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onPostResume() {
-        Log.d(TAG, "onPostResume: ");
-        super.onPostResume();
-    }
-
-    @Override
-    protected void onStart() {
-        Log.d(TAG, "onStart: ");
-        super.onStart();
-    }
-
-
-
-    @Override
-    protected void onResume() {
-        Log.d(TAG, "onResume: ");
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        Log.d(TAG, "onPause: ");
-        super.onPause();
-    }
-
-    @Override
-    protected void onRestart() {
-        Log.d(TAG, "onRestart: ");
-        super.onRestart();
-    }
+    // Display data Model
+    private void displayDataModel() {
+        SearchActivity.displayCriteria();
+        NotificationsActivity.displaycriteria();
 }
