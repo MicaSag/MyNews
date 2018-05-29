@@ -24,11 +24,12 @@ import butterknife.OnTextChanged;
 /*
  * ABSTRACT Class BaseCriteriaActivity
  *
- * Initialization to be made by inheritance ( search or notifications activity ):
- *      Criteria mCriteria    : Criteria of the Activity inheriting
- *      int mIdLayoutActivity : Id of the view of the Activity layout inheriting
  */
 public abstract class BaseCriteriaActivity extends AppCompatActivity {
+    
+    // Force developer implement those methods
+    protected abstract int getActivityLayout(); // Layout of the Parent Activity
+    protected abstract Criteria getCriteria();  // Criteria of the Parent Activity
 
     // For debugging Mode
     private static final String TAG = BaseCriteriaActivity.class.getSimpleName();
@@ -46,20 +47,16 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
-    // Initialization to be made by inheritance
-    private Criteria mCriteria;     // Criteria ( search or notification )
-    private int mIdLayoutActivity;  // Id of the view of the Activity layout inheriting
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(mIdLayoutActivity);
+        setContentView(getActivityLayout);
 
         // Get & serialise all views
         ButterKnife.bind(this);
 
         // Update UI with Criteria
-        this.updateUI(mCriteria);
+        this.updateUI(getCriteria);
 
         // Configuring Toolbar
         this.configureToolBar();
@@ -96,36 +93,36 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_arts)
     protected void checkBoxArts(View view) {
-        mCriteria.setArts(mCheckBoxArts.isChecked());
+        getCriteria().setArts(mCheckBoxArts.isChecked());
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_business)
     protected void checkBoxBusiness(View view) {
-        mCriteria.setBusiness(mCheckBoxBusiness.isChecked());
+        getCriteria().setBusiness(mCheckBoxBusiness.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_entrepreneurs)
     protected void checkBoxEntrepreneurs(View view) {
-        mCriteria.setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked());
+        getCriteria().setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_politics)
     protected void checkBoxPolitics(View view) {
-        mCriteria.setPolitics(mCheckBoxPolitics.isChecked());
+        getCriteria().setPolitics(mCheckBoxPolitics.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_sports)
     protected void checkBoxSports(View view) {
-        mCriteria.setSports(mCheckBoxSports.isChecked());
+        getCriteria().setSports(mCheckBoxSports.isChecked());
     }
 
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_travel)
     protected void checkBoxTravel(View view) {
-        mCriteria.setTravel(mCheckBoxTravel.isChecked());
+        getCriteria().setTravel(mCheckBoxTravel.isChecked());
     }
 
     // -----------------------------
@@ -133,19 +130,12 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     // -----------------------------
     @OnTextChanged(R.id.keys_words_edit)
     protected void afterTextChanged(Editable text){
-        mCriteria.setKeysWords(text.toString());
+        getCriteria().setKeysWords(text.toString());
     }
-
-    // Set criteria
-    public void setCriteria(Criteria criteria) {
-        mCriteria = criteria;
-    }
-
-    // Set Layout of the Activity
-    public void setIdLayoutActivity(int idLayoutActivity) {
-        mIdLayoutActivity = idLayoutActivity;
-    }
-
+    
+    // -----------
+    //     OUT    
+    // -----------
     @Override
     protected void onPause() {
         Log.d(TAG, "onPause: ");
