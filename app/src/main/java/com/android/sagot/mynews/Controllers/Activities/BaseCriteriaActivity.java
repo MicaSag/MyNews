@@ -28,8 +28,8 @@ import butterknife.OnTextChanged;
 public abstract class BaseCriteriaActivity extends AppCompatActivity {
     
     // Force developer implement those methods
-    protected abstract int getActivityLayout(); // Layout of the Parent Activity
-    protected abstract Criteria getCriteria();  // Criteria of the Parent Activity
+    protected abstract int getActivityLayout(); // Layout of the Child Activity
+    protected abstract Criteria getCriteria();  // Criteria of the Child Activity
 
     // For debugging Mode
     private static final String TAG = BaseCriteriaActivity.class.getSimpleName();
@@ -52,6 +52,9 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getActivityLayout);
 
+        // Get Model of the App
+        getModel();
+        
         // Get & serialise all views
         ButterKnife.bind(this);
 
@@ -60,6 +63,14 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
 
         // Configuring Toolbar
         this.configureToolBar();
+    }
+    
+    // --------------
+    //    ( IN )
+    // --------------
+     // Model of the App
+    protected Model getModel() {
+        return Model.getInstance().getDataModel();
     }
 
     // --------------
@@ -134,35 +145,33 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     
     // -----------
-    //     OUT    
+    //  ( OUT )    
     // -----------
     @Override
     protected void onPause() {
         Log.d(TAG, "onPause: ");
-        // SAVE MODELS PREFERENCES IN THE SHARED_PREFERENCES
+        // SAVE MODEL IN THE SHARED_PREFERENCES
         // Create à SHARED_PREF_MODEL String with a Gson Object
         final Gson gson = new GsonBuilder()
                 .serializeNulls()
                 .disableHtmlEscaping()
                 .create();
-        String json = gson.toJson(Model.getInstance().getDataModel());
+        String json = gson.toJson(getModel());
 
         // Add the Model in shared Preferences
-        Model.getInstance().getSharedPreferences().edit()
+       getModel().getSharedPreferences().edit()
                 .putString(MainActivity.SHARED_PREF_MODEL, json).apply();
         super.onPause();
     }
 
     protected void displayCriteria(){
-        Log.d(TAG, "displaySearchCriteria: Query               = "+Model.getInstance().getDataModel().getSearchCriteria().getKeysWords());
-        Log.d(TAG, "displaySearchCriteria: checkArts           = "+Model.getInstance().getDataModel().getSearchCriteria().isArts());
-        Log.d(TAG, "displaySearchCriteria: checkBusiness       = "+Model.getInstance().getDataModel().getSearchCriteria().isBusiness());
-        Log.d(TAG, "displaySearchCriteria: checkEntrepreneurs  = "+Model.getInstance().getDataModel().getSearchCriteria().isEntrepreneurs());
-        Log.d(TAG, "displaySearchCriteria: checkPolitics       = "+Model.getInstance().getDataModel().getSearchCriteria().isPolitics());
-        Log.d(TAG, "displaySearchCriteria: checkSports         = "+Model.getInstance().getDataModel().getSearchCriteria().isSports());
-        Log.d(TAG, "displaySearchCriteria: checkTravels        = "+Model.getInstance().getDataModel().getSearchCriteria().isTravel());
-        Log.d(TAG, "displaySearchCriteria: Begin Date          = "+Model.getInstance().getDataModel().getSearchCriteria().getBeginDate());
-        Log.d(TAG, "displaySearchCriteria: End Date            = "+Model.getInstance().getDataModel().getSearchCriteria().getEndDate());
+        Log.d(TAG, "displayCriteria: Query               = "+getCriteria().getKeysWords());
+        Log.d(TAG, "displayCriteria: checkArts           = "+getCriteria().isArts());
+        Log.d(TAG, "displayCriteria: checkBusiness       = "+getCriteria().isBusiness());
+        Log.d(TAG, "displayCriteria: checkEntrepreneurs  = "+getCriteria().isEntrepreneurs());
+        Log.d(TAG, "displayCriteria: checkPolitics       = "+getCriteria().isPolitics());
+        Log.d(TAG, "displayCriteria: checkSports         = "+getCriteria().isSports());
+        Log.d(TAG, "displayCriteria: checkTravels        = "+getCriteria().isTravel());
     }
 }
 
