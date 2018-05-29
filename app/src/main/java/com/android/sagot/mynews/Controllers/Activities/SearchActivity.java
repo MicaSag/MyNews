@@ -40,23 +40,18 @@ public class SearchActivity extends BaseCriteriaActivity {
     private DatePickerDialog mEndDatePickerDialog;
     private SimpleDateFormat displayDateFormatter;
     private Calendar newCalendar;
-
-    // Search Criteria
-    SearchCriteria mSearchCriteria;
-
+    
+    // --------------
+    // BASE METHODS
+    // --------------
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // Get back in the model the criteria of search
-        mSearchCriteria = Model.getInstance().getDataModel().getSearchCriteria();
-
-        // Put the inherited variables
-        setIdLayoutActivity(R.layout.activity_search);
-        setCriteria(mSearchCriteria);
-
-        // Management of the date Fields
-        this.manageDateFields();
-
-        super.onCreate(savedInstanceState);
+    protected int getActivityLayout() { 
+        return R.layout.activity_search; 
+    }
+    
+    @Override
+    protected int getCriteria() { 
+        return (Criteria)getModel().getSearchCriteria(); 
     }
 
     // --------------
@@ -65,13 +60,16 @@ public class SearchActivity extends BaseCriteriaActivity {
     @Override
     protected void updateUI(Criteria criteria) {
         super.updateUI(criteria);
+        
+        // Management of the date Fields
+        this.manageDateFields();
 
         // Set BeginDate if present in Model
-        if (mSearchCriteria.getBeginDate() != null)
-            mBeginDate.setText(displayDateFormatter.format(mSearchCriteria.getBeginDate()));
+        if (getModel().getSearhCriteria().getBeginDate() != null)
+            mBeginDate.setText(displayDateFormatter.format(getModel().getSearhCriteria().getBeginDate()));
         // Set EndDate if present in Model
-        if (mSearchCriteria.getEndDate() != null)
-            mEndDate.setText(displayDateFormatter.format(mSearchCriteria.getEndDate()));
+        if (getModel().getSearhCriteria().getEndDate() != null)
+            mEndDate.setText(displayDateFormatter.format(getModel().getSearhCriteria().getEndDate()));
     }
 
     // -----------------------
@@ -107,8 +105,7 @@ public class SearchActivity extends BaseCriteriaActivity {
                 mBeginDate.setText(displayDateFormatter.format(newDate.getTime()));
 
                 // Save date selected in the Model
-                Model.getInstance().getDataModel().getSearchCriteria()
-                         .setBeginDate(newDate.getTime());
+                getModel().getSearhCriteria().setBeginDate(newDate.getTime());
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -126,9 +123,7 @@ public class SearchActivity extends BaseCriteriaActivity {
                 mEndDate.setText(displayDateFormatter.format(newDate.getTime()));
 
                 // Save date selected
-                Model.getInstance().getDataModel().getSearchCriteria()
-                        .setEndDate(newDate.getTime());
-                // .setEndDate(criteriaDateFormatter.format(newDate.getTime()));
+                getModel().getSearhCriteria().setEndDate(newDate.getTime());
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -166,7 +161,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     @Override
     protected void displayCriteria(){
         super.displayCriteria();
-        Log.d(TAG, "displaySearchCriteria: Begin Date          = "+Model.getInstance().getDataModel().getSearchCriteria().getBeginDate());
-        Log.d(TAG, "displaySearchCriteria: End Date            = "+Model.getInstance().getDataModel().getSearchCriteria().getEndDate());
+        Log.d(TAG, "displaySearchCriteria: Begin Date          = "+getModel().getSearhCriteria().getBeginDate());
+        Log.d(TAG, "displaySearchCriteria: End Date            = "+getModel().getSearhCriteria().getEndDate());
     }
 }
