@@ -46,9 +46,6 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
     // Creating an intent to execute our broadcast
     private PendingIntent pendingIntent;
-
-    // Notification Criteria
-    NotificationsCriteria mNotificationsCriteria;
     
     // --------------
     // BASE METHODS
