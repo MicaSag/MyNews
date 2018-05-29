@@ -4,34 +4,18 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.util.Log;
-import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Criteria;
-import com.android.sagot.mynews.Models.Model;
-import com.android.sagot.mynews.Models.NotificationsCriteria;
-import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.NotificationsAlarmReceiver;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
-import butterknife.OnTextChanged;
 
 public class NotificationsActivity extends BaseCriteriaActivity {
 
@@ -56,7 +40,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     }
     
     @Override
-    protected int getCriteria() { 
+    protected Criteria getCriteria() {
         return (Criteria)getModel().getNotificationsCriteria(); 
     }
 
@@ -80,6 +64,8 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.notificationsPrimary));
+        //Configuring The AlarmManager
+        this.configureAlarmManager();
     }
 
     // ---------------
@@ -98,25 +84,6 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         getModel().getNotificationsCriteria().setNotificationStatus(isChecked);
     }
 
-    // ------------------------------
-    // SCHEDULE TASK  : AlarmManager
-    // ------------------------------
-    // Start Alarm
-    private void startAlarm() {
-        this.configureAlarmManager();
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-        Toast.makeText(this, "Notifications set !", Toast.LENGTH_SHORT).show();
-    }
-
-    // Start Alarm
-    private void stopAlarm() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(pendingIntent);
-        Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
-    }
-
     // ----------------------------
     // CONFIGURATION ALARM MANAGER
     // ----------------------------
@@ -125,9 +92,26 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         Intent alarmIntent = new Intent(NotificationsActivity.this,
                 NotificationsAlarmReceiver.class);
-
         pendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0,
                 alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    // ------------------------------
+    // SCHEDULE TASK  : AlarmManager
+    // ------------------------------
+    // Start Alarm
+    private void startAlarm() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        Toast.makeText(this, "Notifications set !", Toast.LENGTH_SHORT).show();
+    }
+
+    // Stop Alarm
+    private void stopAlarm() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+        Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
     }
 
     @Override

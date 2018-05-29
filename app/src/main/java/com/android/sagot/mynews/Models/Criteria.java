@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Criteria implements Serializable {
 
-    private String mKeysWords;                      // Backing up keywords
+    private String mKeysWords ="";                  // Backing up keywords
     private boolean mArts = false;                  // CheckBox Arts status
     private boolean mBusiness = false;              // CheckBox Business status
     private boolean mEntrepreneurs = false;         // CheckBox Entrepreneurs status

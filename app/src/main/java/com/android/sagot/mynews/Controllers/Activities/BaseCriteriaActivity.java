@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.android.sagot.mynews.Models.Criteria;
+import com.android.sagot.mynews.Models.DataModel;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.R;
 import com.google.gson.Gson;
@@ -50,7 +51,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getActivityLayout);
+        setContentView(getActivityLayout());
 
         // Get Model of the App
         getModel();
@@ -59,7 +60,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         // Update UI with Criteria
-        this.updateUI(getCriteria);
+        this.updateUI(getCriteria());
 
         // Configuring Toolbar
         this.configureToolBar();
@@ -69,7 +70,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     //    ( IN )
     // --------------
      // Model of the App
-    protected Model getModel() {
+    protected DataModel getModel() {
         return Model.getInstance().getDataModel();
     }
 
@@ -159,7 +160,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         String json = gson.toJson(getModel());
 
         // Add the Model in shared Preferences
-       getModel().getSharedPreferences().edit()
+       Model.getInstance().getSharedPreferences().edit()
                 .putString(MainActivity.SHARED_PREF_MODEL, json).apply();
         super.onPause();
     }

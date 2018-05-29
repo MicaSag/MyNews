@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -26,13 +25,11 @@ import com.android.sagot.mynews.Models.NotificationsCriteria;
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
-import static junit.framework.Assert.assertSame;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener {
@@ -127,23 +124,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Model.getInstance().setDataModel(new DataModel());
         }
         
-        // Instanciate SearchCriteria
+        // Instantiate SearchCriteria
         instantiateSearchCriteria();
-        // Instanciate NotificationsCriteria
-        instantiateSearchCriteria()
-        // Display data Model
-        displayDataModel();
+        // Instantiate NotificationsCriteria
+        instantiateNotificationsCriteria();
     }
     
     // Instanciate SearchCriteria
-    private instantiateSearchCriteria() {
+    private void instantiateSearchCriteria() {
         // If searchCriteria not exist then instantiate it
         if (Model.getInstance().getDataModel().getSearchCriteria() == null)
             Model.getInstance().getDataModel().setSearchCriteria(new SearchCriteria());
     }
     
     // Instanciate NotificationsCriteria
-    private instantiateSearchCriteria() {
+    private void instantiateNotificationsCriteria() {
         // If notificationsCriteria not exist then instantiate it
         if (Model.getInstance().getDataModel().getNotificationsCriteria() == null)
             Model.getInstance().getDataModel().setNotificationsCriteria(new NotificationsCriteria());
@@ -366,9 +361,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onTabUnselected(TabLayout.Tab tab) {}
     @Override
     public void onTabReselected(TabLayout.Tab tab) {}
-
-    // Display data Model
-    private void displayDataModel() {
-        SearchActivity.displayCriteria();
-        NotificationsActivity.displaycriteria();
 }

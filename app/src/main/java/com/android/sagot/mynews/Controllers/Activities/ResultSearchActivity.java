@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.android.sagot.mynews.Controllers.Fragments.ResultSearchFragment;
+import com.android.sagot.mynews.Controllers.Fragments.SearchFragment;
 import com.android.sagot.mynews.R;
 
 import butterknife.BindView;
@@ -57,12 +57,12 @@ public class ResultSearchActivity extends AppCompatActivity {
 
     private void configureAndShowSearchFragment(){
         // Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
-        ResultSearchFragment fragment = (ResultSearchFragment) getSupportFragmentManager()
+        SearchFragment fragment = (SearchFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.activity_result_frame_layout);
 
         if (fragment == null) {
             // Create new main fragment
-            fragment = ResultSearchFragment.newInstance(4);
+            fragment = SearchFragment.newInstance(4);
             // Add it to FrameLayout container
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_result_frame_layout, fragment)

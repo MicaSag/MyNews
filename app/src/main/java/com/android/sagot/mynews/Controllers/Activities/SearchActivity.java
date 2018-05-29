@@ -50,7 +50,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     }
     
     @Override
-    protected int getCriteria() { 
+    protected Criteria getCriteria() {
         return (Criteria)getModel().getSearchCriteria(); 
     }
 
@@ -65,11 +65,11 @@ public class SearchActivity extends BaseCriteriaActivity {
         this.manageDateFields();
 
         // Set BeginDate if present in Model
-        if (getModel().getSearhCriteria().getBeginDate() != null)
-            mBeginDate.setText(displayDateFormatter.format(getModel().getSearhCriteria().getBeginDate()));
+        if (getModel().getSearchCriteria().getBeginDate() != null)
+            mBeginDate.setText(displayDateFormatter.format(getModel().getSearchCriteria().getBeginDate()));
         // Set EndDate if present in Model
-        if (getModel().getSearhCriteria().getEndDate() != null)
-            mEndDate.setText(displayDateFormatter.format(getModel().getSearhCriteria().getEndDate()));
+        if (getModel().getSearchCriteria().getEndDate() != null)
+            mEndDate.setText(displayDateFormatter.format(getModel().getSearchCriteria().getEndDate()));
     }
 
     // -----------------------
@@ -105,7 +105,7 @@ public class SearchActivity extends BaseCriteriaActivity {
                 mBeginDate.setText(displayDateFormatter.format(newDate.getTime()));
 
                 // Save date selected in the Model
-                getModel().getSearhCriteria().setBeginDate(newDate.getTime());
+                getModel().getSearchCriteria().setBeginDate(newDate.getTime());
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -123,7 +123,7 @@ public class SearchActivity extends BaseCriteriaActivity {
                 mEndDate.setText(displayDateFormatter.format(newDate.getTime()));
 
                 // Save date selected
-                getModel().getSearhCriteria().setEndDate(newDate.getTime());
+                getModel().getSearchCriteria().setEndDate(newDate.getTime());
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -161,7 +161,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     @Override
     protected void displayCriteria(){
         super.displayCriteria();
-        Log.d(TAG, "displaySearchCriteria: Begin Date          = "+getModel().getSearhCriteria().getBeginDate());
-        Log.d(TAG, "displaySearchCriteria: End Date            = "+getModel().getSearhCriteria().getEndDate());
+        Log.d(TAG, "displaySearchCriteria: Begin Date          = "+getModel().getSearchCriteria().getBeginDate());
+        Log.d(TAG, "displaySearchCriteria: End Date            = "+getModel().getSearchCriteria().getEndDate());
     }
 }

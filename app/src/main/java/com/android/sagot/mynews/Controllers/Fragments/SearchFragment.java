@@ -1,10 +1,11 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.sagot.mynews.Models.Criteria;
+import com.android.sagot.mynews.Controllers.Activities.ItemSearchActivity;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
@@ -16,28 +17,37 @@ import java.util.Map;
 import io.reactivex.observers.DisposableObserver;
 
 /**
- * Sports FRAGMENT
+ * Search FRAGMENT
  */
-public class SportsFragment extends BaseNewsFragment {
+public class SearchFragment extends BaseNewsFragment {
 
     // For debug
-    private static final String TAG = SportsFragment.class.getSimpleName();
+    private static final String TAG = SearchFragment.class.getSimpleName();
 
-    public SportsFragment() {
+    public SearchFragment() {
         // Required empty public constructor
     }
 
-    public static SportsFragment newInstance(int tabLayoutPosition) {
+    public static SearchFragment newInstance(int tabLayoutPosition) {
 
         // Create new fragment
-        SportsFragment fragment = new SportsFragment();
+        SearchFragment fragment = new SearchFragment();
 
         // Create bundle and add it some data
         Bundle args = new Bundle();
+        // Put tabLayoutPosition
         args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    @Override
+    protected void launchItemActivity(int position) {
+        Intent myIntent = new Intent(getActivity(), ItemSearchActivity.class);
+        myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
+        myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
+        this.startActivity(myIntent);
     }
 
     // -------------------
@@ -46,20 +56,20 @@ public class SportsFragment extends BaseNewsFragment {
     /**
      *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
      */
-    protected  Map<String, String> formattingRequest() {
+     protected  Map<String, String> formattingRequest() {
 
-        // Create criteria Object
-        Criteria criteria = new Criteria();
-        // Set a Business search
-        criteria.setSports(true);
-        // Create a new request and put criteria
-        NYTimesRequest request = new NYTimesRequest();
-        request.createNYTimesRequest(criteria);
-        // Display request
-        request.displayRequest();
+         // Create a new request and put criteria
+         NYTimesRequest request = new NYTimesRequest();
+         request.createNYTimesRequest(Model.getInstance().getDataModel().getSearchCriteria());
+         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+                                .getBeginDate(), "BeginDate");
+         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+                                .getEndDate(), "EndDate");
+         // Display request
+         request.displayRequest();
 
-        return request.getFilters();
-    }
+         return request.getFilters();
+     }
     /**
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
      */
@@ -67,7 +77,7 @@ public class SportsFragment extends BaseNewsFragment {
     protected void executeHttpRequestWithRetrofit() {
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key, this.formattingRequest())
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  this.formattingRequest())
                 .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
@@ -93,10 +103,10 @@ public class SportsFragment extends BaseNewsFragment {
     //     UPDATE UI
     // -------------------
     /**
-     *  Update UI with list of Sports news
+     *  Update UI with list of Business news
      *
      * @param news
-     *              list of news Sports of the NewYorkTimes
+     *              list of news Business of the NewYorkTimes
      */
     protected void updateUIWithListOfNews(Object news) {
 
@@ -110,10 +120,11 @@ public class SportsFragment extends BaseNewsFragment {
         NYTimesNewsList newsList = new NYTimesNewsList();
         newsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
 
-        // Save the News in the Model
-        Model.getInstance().setListSportsNews(mListNYTimesNews);
-
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
+
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getHits());
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getOffset());
+        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getTime());
     }
 }

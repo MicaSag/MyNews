@@ -4,15 +4,13 @@ package com.android.sagot.mynews.Controllers.Fragments;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.sagot.mynews.Models.Criteria;
+import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Models.Model;
-import com.android.sagot.mynews.Models.NYTimesNews;
-import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
-import com.android.sagot.mynews.Utils.DateUtilities;
+import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.observers.DisposableObserver;
@@ -45,18 +43,31 @@ public class BusinessFragment extends BaseNewsFragment {
     // HTTP (RxJAVA)
     // -------------------
     /**
+     *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+     */
+    protected  Map<String, String> formattingRequest() {
+
+        // Create criteria Object
+        Criteria criteria = new Criteria();
+        // Set a Business search
+        criteria.setBusiness(true);
+        // Create a new request and put criteria
+        NYTimesRequest request = new NYTimesRequest();
+        request.createNYTimesRequest(criteria);
+        // Display request
+        request.displayRequest();
+
+        return request.getFilters();
+    }
+    /**
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
      */
     @Override
     protected void executeHttpRequestWithRetrofit() {
 
-        Map<String, String> filters = new HashMap<>(); // Filters following conditions
-        filters.put("fq", "news_desk:(\"Business\")");
-        // Results are sorted by newest to oldest
-        filters.put("sort", "newest");
-
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,filters).subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,this.formattingRequest())
+                .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
                 Log.d(TAG,"On Next");
@@ -94,47 +105,9 @@ public class BusinessFragment extends BaseNewsFragment {
         // Empty the list of previous news
         mListNYTimesNews.clear();
 
-        NYTimesArticleSearch newsArticleSearch = (NYTimesArticleSearch)news;
-
-        //Here we recover only the elements of the query that interests us
-        String imageURL;
-        String newsURL;
-        for (Doc docs : newsArticleSearch.getResponse().getDocs()){
-
-            // Initialize blank URL
-            imageURL = "";
-
-            // Affected newsURL
-            newsURL = docs.getWebUrl();
-            Log.d(TAG, "updateUIWithListOfNews: newsURL = "+newsURL);
-
-            // Affected imageURL
-            // Test if an image is present
-            if (docs.getMultimedia().size() != 0) {
-                imageURL = "https://www.nytimes.com/"+docs.getMultimedia().get(0).getUrl();
-            }
-
-            // Affected section label ( section > subSection )
-            String section = docs.getNewDesk();
-            if (docs.getSectionName() != null ) section = section+" > "+docs.getSectionName();
-            Log.d(TAG, "updateUIWithListOfNews: section = "+section);
-
-            // Affected date label ( SSAAMMJJ )
-            String newsDate = DateUtilities.dateReformatSSAAMMJJ(docs.getPubDate());
-
-            // Affected Title
-            String title = docs.getSnippet();
-
-            mListNYTimesNews.add( new NYTimesNews(title,
-                    imageURL,
-                    newsURL,
-                    newsDate,
-                    section
-            ));
-        }
-        // Sort the newsList by createdDate in Descending
-        Collections.sort(mListNYTimesNews,new NYTimesNews());
-        Collections.reverse(mListNYTimesNews);
+        // Create list of the article to be display
+        NYTimesNewsList newsList = new NYTimesNewsList();
+        newsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
 
         // Save the News in the Model
         Model.getInstance().setListBusinessNews(mListNYTimesNews);

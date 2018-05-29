@@ -7,7 +7,7 @@
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorPrimary">#03a9f4</color>
     <color name="colorPrimaryLight">#4fc3f7</color>
-    <color name="colorAccent">#FF9100</color>
+    <color name="colorAccent">#e6ed0d</color>
     <color name="colorTextSelected">@android:color/white</color>
     <color name="colorText">#e1dada</color>
 
