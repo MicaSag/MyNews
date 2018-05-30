@@ -16,8 +16,8 @@ import java.util.List;
  * */
 public class NYTimesNewsList {
 
-    // Create List of Article Search
-    public void createListArticleSearch(List<NYTimesNews> listNYTimesNews, NYTimesArticleSearch article) {
+    // Create List of Search Articles
+    public static void createListArticleSearch(List<NYTimesNews> listNYTimesNews, NYTimesArticleSearch article) {
 
         //Here we recover only the elements of the query that interests us
         for (Doc docs : article.getResponse().getDocs()){
@@ -50,5 +50,39 @@ public class NYTimesNewsList {
         // Sort the newsList by createdDate in Descending
         Collections.sort(listNYTimesNews, new NYTimesNews());
         Collections.reverse(listNYTimesNews);
+    }
+    
+    // Create List of Most Popular Articles 
+    public static void createListArticleMostPopular(List<NYTimesNews> listNYTimesNews, NYTimesMostPopular article) {
+        
+        //Here we recover only the elements of the query that interests us
+        for (ResultMostPopular results : article.getResults()){
+            
+            //  --> Create a news <--
+            NYTimesNews news = new NYTimesNews();
+            
+            // -- Affected newsURL
+            news.setNewsURL(results.getUrl());
+
+            // -- Affected imageURL
+            // Test if an image is present
+            if (results.getMedia().size() != 0) {
+                news.setImageURL(results.getMedia().get(0).getMediaMetadata().get(0).getUrl());
+            }
+
+            // -- Affected section label ( section > subSection )
+            news.setSection(results.getSection());
+
+            // -- Affected date label ( SSAAMMJJ )
+            news.setDate(DateUtilities.dateReformatSSAAMMJJ(results.getPublishedDate()));
+
+            // -- Affected Title
+            news.setTitle(results.getTitle());
+
+            listNYTimesNews.add(news);
+        }
+        // Sort the newsList by createdDate in Descending
+        Collections.sort(mListNYTimesNews,new NYTimesNews());
+        Collections.reverse(mListNYTimesNews);
     }
 }
