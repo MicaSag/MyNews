@@ -106,8 +106,7 @@ public class BusinessFragment extends BaseNewsFragment {
         mListNYTimesNews.clear();
 
         // Create list of the article to be display
-        NYTimesNewsList newsList = new NYTimesNewsList();
-        newsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
+        NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
 
         // Save the News in the Model
         Model.getInstance().setListBusinessNews(mListNYTimesNews);
