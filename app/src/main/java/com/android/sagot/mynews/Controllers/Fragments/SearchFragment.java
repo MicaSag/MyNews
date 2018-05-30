@@ -1,6 +1,5 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -117,8 +116,7 @@ public class SearchFragment extends BaseNewsFragment {
         mListNYTimesNews.clear();
 
         // Create list of the article to be display
-        NYTimesNewsList newsList = new NYTimesNewsList();
-        newsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
+        NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
