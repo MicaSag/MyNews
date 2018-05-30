@@ -72,56 +72,25 @@ public class TopStoriesFragment extends BaseNewsFragment {
             }
         });
     }
-
+    
+    // -------------------
+    //     UPDATE UI
+    // -------------------
+    /**
+     *  Update UI with list of TopStories news
+     *
+     * @param news
+     *              list of news TopStories of the NewYorkTimes
+     */
     protected void updateUIWithListOfNews(Object news) {
-        Log.d(TAG, "saveListTopStoriesInModel: ");
-
         // Stop refreshing
         swipeRefreshLayout.setRefreshing(false);
 
         // Empty the list of previous news
         mListNYTimesNews.clear();
 
-        // Cast Object news in NYTimesTopStories
-        NYTimesTopStories newsTopStories = (NYTimesTopStories)news;
-
-        //Here we recover only the elements of the query that interests us
-        String imageURL;
-        String newsURL;
-        for (Result results : newsTopStories.getResults()){
-
-            // Initialize blank URL
-            imageURL = "";
-
-            // Affected newsURL
-            newsURL = results.getUrl();
-
-            // Affected imageURL
-            // Test if an image is present
-            if (results.getMultimedia().size() != 0) {
-                imageURL = results.getMultimedia().get(0).getUrl();
-            }
-
-            // Affected section label ( section > subSection )
-            String section = results.getSection();
-            if (!results.getSubsection().equals("") ) section = section+" > "+results.getSubsection();
-
-            // Affected date label ( SSAAMMJJ ) to sort out the list of news later
-            String newsDate = DateUtilities.dateReformatSSAAMMJJ(results.getCreatedDate());
-
-            // Affected Title
-            String title = results.getTitle();
-
-            mListNYTimesNews.add( new NYTimesNews(title,
-                    imageURL,
-                    newsURL,
-                    newsDate,
-                    section
-            ));
-        }
-        // Sort the newsList by createdDate in Descending
-        Collections.sort(mListNYTimesNews,new NYTimesNews());
-        Collections.reverse(mListNYTimesNews);
+        // Create list of the article to be display
+        NYTimesNewsList.createListArticleTopStories(mListNYTimesNews,(NYTimesTopStories)news);
 
         // Save the News in the Model
         Model.getInstance().setListTopStoriesNews(mListNYTimesNews);
