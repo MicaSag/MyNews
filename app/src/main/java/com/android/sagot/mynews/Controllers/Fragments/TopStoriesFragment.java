@@ -40,6 +40,15 @@ public class TopStoriesFragment extends BaseNewsFragment {
 
         return fragment;
     }
+    
+    // --------------
+    //    ( IN )
+    // --------------
+    // Get the list of TopStories news saved in the Model
+    @Override
+    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+        return Model.getInstance().getListTopStoriesNews();
+    }
 
     // -------------------
     // HTTP (RxJAVA)
