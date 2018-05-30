@@ -18,7 +18,8 @@ public class Model {
     private List<NYTimesNews>  mListTopStoriesNews;     // List of news "TopsStories"    
     private List<NYTimesNews>  mListMostPopularNews;    // List of news "MostPopular"
     private List<NYTimesNews>  mListBusinessNews;       // List of news "Business"
-    private List<NYTimesNews>  mListSportsNews;         // List of news "Sports"
+    private List<NYTimesNews>  mListSportsNews;         // List of news "Sports
+    private List<NYTimesNews>  mListSearchNews;         // List of Search news
 
     private static final Model MODEL = new Model();
 
@@ -72,5 +73,13 @@ public class Model {
 
     public void setListSportsNews(List<NYTimesNews> listSportsNews) {
         mListSportsNews = listSportsNews;
+    }
+
+   public List<NYTimesNews> getListSearchNews() {
+        return mListSearchNews;
+    }
+
+    public void setListSearchNews(List<NYTimesNews> listSearchNews) {
+        mListSearchNews = listSearchNews;
     }
 }

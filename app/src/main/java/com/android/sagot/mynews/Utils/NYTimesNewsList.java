@@ -5,6 +5,10 @@ import android.util.Log;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
+import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.ResultMostPopular;
+import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
+import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.Result;
 import com.android.sagot.mynews.Utils.DateUtilities;
 
 import java.util.ArrayList;
@@ -82,8 +86,8 @@ public class NYTimesNewsList {
             listNYTimesNews.add(news);
         }
         // Sort the newsList by createdDate in Descending
-        Collections.sort(mListNYTimesNews,new NYTimesNews());
-        Collections.reverse(mListNYTimesNews);
+        Collections.sort(listNYTimesNews,new NYTimesNews());
+        Collections.reverse(listNYTimesNews);
     }
     
     // Create List of Top Stories Articles 
@@ -118,7 +122,7 @@ public class NYTimesNewsList {
             listNYTimesNews.add(news);
         }
         // Sort the newsList by createdDate in Descending
-        Collections.sort(mListNYTimesNews,new NYTimesNews());
-        Collections.reverse(mListNYTimesNews);
+        Collections.sort(listNYTimesNews,new NYTimesNews());
+        Collections.reverse(listNYTimesNews);
     }
 }

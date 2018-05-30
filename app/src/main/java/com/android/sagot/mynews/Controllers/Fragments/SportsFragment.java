@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.android.sagot.mynews.Models.Criteria;
+import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.observers.DisposableObserver;
@@ -37,6 +39,15 @@ public class SportsFragment extends BaseNewsFragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    // --------------
+    //    ( IN )
+    // --------------
+    // Get the list of Sports news saved in the Model
+    @Override
+    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+        return Model.getInstance().getListSportsNews();
     }
 
     // -------------------
@@ -113,5 +124,14 @@ public class SportsFragment extends BaseNewsFragment {
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
+    }
+
+    // --------------
+    //    ( OUT )
+    // --------------
+    // Save the list of Sports in the Model
+    @Override
+    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+        Model.getInstance().setListSportsNews(newsList);
     }
 }

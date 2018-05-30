@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,9 @@ public abstract class BaseNewsFragment extends Fragment {
 
     // Force developer implement those methods
     protected abstract void executeHttpRequestWithRetrofit();
-    protected List<NYTimesNews> getListNYTimesNewsInModel();
-    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList);
+    protected abstract void updateUIWithListOfNews(Object news);
+    protected abstract List<NYTimesNews> getListNYTimesNewsInModel();
+    protected abstract void setListNYTimesNewsInModel(List<NYTimesNews> newsList);
 
     // FOR TRACES
     private static final String TAG = BaseNewsFragment.class.getSimpleName();
@@ -77,12 +79,18 @@ public abstract class BaseNewsFragment extends Fragment {
 
         // Get data from Bundle (created in method newInstance)
         mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, 4);
+
+        // Get api_key
+        api_key = getResources().getString(R.string.api_key);
         
         // If we have not yet interrogate the NYTimes database, we do it
         this.mListNYTimesNews = getListNYTimesNewsInModel();
         if (mListNYTimesNews == null) {
+            Log.d(TAG, "onCreateView: mListNYTimesNews = "+mListNYTimesNews);
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
             this.executeHttpRequestWithRetrofit(); // Call the Stream of the New York Times
+        } else {
+            Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "+ getListNYTimesNewsInModel().getClass().getSimpleName());
         }
         
         // Configure RecyclerView
@@ -94,9 +102,6 @@ public abstract class BaseNewsFragment extends Fragment {
         // Calling the method that configuring click on RecyclerView
         this.configureOnClickRecyclerView();
 
-        // Get api_key
-        api_key = getResources().getString(R.string.api_key);
-            
         return mNewsView;
     }
 
@@ -181,9 +186,8 @@ public abstract class BaseNewsFragment extends Fragment {
      *  Generate a toast Message if error during Downloading
      */
     protected void updateUIWhenErrorHTTPRequest(){
-        Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
-
         // Stop refreshing
         swipeRefreshLayout.setRefreshing(false);
+        Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
     }
 }

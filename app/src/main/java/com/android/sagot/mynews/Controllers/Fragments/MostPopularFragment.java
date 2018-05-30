@@ -9,9 +9,11 @@ import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.ResultMostPopular;
 import com.android.sagot.mynews.Utils.DateUtilities;
+import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
 import java.util.Collections;
+import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
 
@@ -39,6 +41,15 @@ public class MostPopularFragment extends BaseNewsFragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    // --------------
+    //    ( IN )
+    // --------------
+    // Get the list of MostPopular news saved in the Model
+    @Override
+    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+        return Model.getInstance().getListMostPopularNews();
     }
 
     // -------------------
@@ -97,5 +108,14 @@ public class MostPopularFragment extends BaseNewsFragment {
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
+    }
+
+    // --------------
+    //    ( OUT )
+    // --------------
+    // Save the list of MostPopular in the Model
+    @Override
+    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+        Model.getInstance().setListMostPopularNews(newsList);
     }
 }

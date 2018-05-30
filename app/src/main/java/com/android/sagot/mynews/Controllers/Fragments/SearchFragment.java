@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.android.sagot.mynews.Controllers.Activities.ItemSearchActivity;
+import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.observers.DisposableObserver;
@@ -39,6 +41,15 @@ public class SearchFragment extends BaseNewsFragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    // --------------
+    //    ( IN )
+    // --------------
+    // Get the list of Search news saved in the Model
+    @Override
+    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+        return Model.getInstance().getListSearchNews();
     }
 
     @Override
@@ -80,15 +91,16 @@ public class SearchFragment extends BaseNewsFragment {
                 .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
-                Log.d(TAG,"On Next");
                 // Update UI with list of TopStories news
                 updateUIWithListOfNews(articleSearch);
+                Log.d(TAG, "onNext: ");
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.e(TAG,"On Error"+Log.getStackTraceString(e));
+                // Display a toast message
                 updateUIWhenErrorHTTPRequest();
+                Log.d(TAG, "onError: ");
             }
 
             @Override
@@ -107,6 +119,7 @@ public class SearchFragment extends BaseNewsFragment {
      * @param news
      *              list of news Business of the NewYorkTimes
      */
+    @Override
     protected void updateUIWithListOfNews(Object news) {
 
         // Stop refreshing
@@ -118,11 +131,23 @@ public class SearchFragment extends BaseNewsFragment {
         // Create list of the article to be display
         NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
 
+        // Save the News in the Model
+        setListNYTimesNewsInModel(mListNYTimesNews);
+
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
 
         Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getHits());
         Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getOffset());
         Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getTime());
+    }
+
+    // --------------
+    //    ( OUT )
+    // --------------
+    // Save the list of Search in the Model
+    @Override
+    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+        Model.getInstance().setListSearchNews(newsList);
     }
 }
