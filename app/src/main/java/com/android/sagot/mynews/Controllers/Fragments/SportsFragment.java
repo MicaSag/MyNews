@@ -1,6 +1,5 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
-
 import android.os.Bundle;
 import android.util.Log;
 
@@ -107,8 +106,7 @@ public class SportsFragment extends BaseNewsFragment {
         mListNYTimesNews.clear();
 
         // Create list of the article to be display
-        NYTimesNewsList newsList = new NYTimesNewsList();
-        newsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
+        NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
 
         // Save the News in the Model
         Model.getInstance().setListSportsNews(mListNYTimesNews);
