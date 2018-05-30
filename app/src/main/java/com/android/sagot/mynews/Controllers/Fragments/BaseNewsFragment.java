@@ -33,6 +33,7 @@ public abstract class BaseNewsFragment extends Fragment {
     // Force developer implement those methods
     protected abstract void executeHttpRequestWithRetrofit();
     protected List<NYTimesNews> getListNYTimesNewsInModel();
+    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList);
 
     // FOR TRACES
     private static final String TAG = BaseNewsFragment.class.getSimpleName();
@@ -78,6 +79,7 @@ public abstract class BaseNewsFragment extends Fragment {
         mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, 4);
         
         // If we have not yet interrogate the NYTimes database, we do it
+        this.mListNYTimesNews = getListNYTimesNewsInModel();
         if (mListNYTimesNews == null) {
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
             this.executeHttpRequestWithRetrofit(); // Call the Stream of the New York Times
