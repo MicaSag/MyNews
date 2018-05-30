@@ -85,4 +85,40 @@ public class NYTimesNewsList {
         Collections.sort(mListNYTimesNews,new NYTimesNews());
         Collections.reverse(mListNYTimesNews);
     }
+    
+    // Create List of Top Stories Articles 
+    public static void createListArticleTopStories(List<NYTimesNews> listNYTimesNews, NYTimesTopStories article) {
+        
+        //Here we recover only the elements of the query that interests us
+        for (Result results : article.getResults()){
+            
+            //  --> Create a news <--
+            NYTimesNews news = new NYTimesNews();
+            
+            // -- Affected newsURL
+            news.setNewsURL(results.getUrl());
+
+            // -- Affected imageURL
+            // Test if an image is present
+            if (results.getMultimedia().size() != 0) {
+                news.setImageURL(results.getMultimedia().get(0).getUrl());
+            }
+
+            // -- Affected section label ( section > subSection )
+            String section = results.getSection();
+            if (!results.getSubsection().equals("") ) section = section+" > "+results.getSubsection();
+            news.setSection(results.getSection());
+
+            // -- Affected date label ( SSAAMMJJ )
+            news.setDate(DateUtilities.dateReformatSSAAMMJJ(results.getPublishedDate()));
+
+            // -- Affected Title
+            news.setTitle(results.getTitle());
+
+            listNYTimesNews.add(news);
+        }
+        // Sort the newsList by createdDate in Descending
+        Collections.sort(mListNYTimesNews,new NYTimesNews());
+        Collections.reverse(mListNYTimesNews);
+    }
 }
