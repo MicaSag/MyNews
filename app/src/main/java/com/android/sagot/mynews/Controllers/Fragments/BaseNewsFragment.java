@@ -49,6 +49,7 @@ public abstract class BaseNewsFragment extends Fragment {
     // Declare list of news ( NewsList ) & Adapter
     protected List<NYTimesNews> mListNYTimesNews;
     protected NYTimesNewsAdapter mNYTimesNewsAdapter;
+    protected void getListNYTimesNewsModel();
 
     // Position of the fragment in the tabLayout
     int mTabLayoutPosition;
@@ -75,7 +76,13 @@ public abstract class BaseNewsFragment extends Fragment {
 
         // Get data from Bundle (created in method newInstance)
         mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, 4);
-
+        
+        // If we have not yet interrogate the NYTimes database, we do it
+        if (mListNYTimesNews == null) {
+            this.mListNYTimesNews = new ArrayList<>(); // Reset list
+            this.executeHttpRequestWithRetrofit(); // Call the Stream of the New York Times
+        }
+        
         // Configure RecyclerView
         this.configureRecyclerView();
 
@@ -87,10 +94,7 @@ public abstract class BaseNewsFragment extends Fragment {
 
         // Get api_key
         api_key = getResources().getString(R.string.api_key);
-
-        // Call the Stream of the New York Times
-        this.executeHttpRequestWithRetrofit();
-
+            
         return mNewsView;
     }
 
@@ -139,8 +143,6 @@ public abstract class BaseNewsFragment extends Fragment {
      *  Configure RECYCLER VIEW, ADAPTER, LAYOUTMANAGER & glue it together
      */
     private void configureRecyclerView(){
-        // Reset list
-        this.mListNYTimesNews = new ArrayList<>();
         // Create adapter passing the list of users
         this.mNYTimesNewsAdapter = new NYTimesNewsAdapter(this.mListNYTimesNews, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
