@@ -89,47 +89,8 @@ public class MostPopularFragment extends BaseNewsFragment {
         // Empty the list of previous news
         mListNYTimesNews.clear();
 
-        // Cast Object news in NYTimesMostPopular
-        NYTimesMostPopular newsMostPopular = (NYTimesMostPopular)news;
-
-        //Here we recover only the elements of the query that interests us
-        String imageURL;
-        String newsURL;
-        for (ResultMostPopular results : newsMostPopular.getResults()){
-
-            // Initialize blank URL
-            imageURL = "";
-
-            // Affected newsURL
-            newsURL = results.getUrl();
-            Log.d(TAG, "updateUIWithListOfNews: newsURL = "+newsURL);
-
-            // Affected imageURL
-            // Test if an image is present
-            if (results.getMedia().size() != 0) {
-                imageURL = results.getMedia().get(0).getMediaMetadata().get(0).getUrl();
-            }
-
-            // Affected section label ( section > subSection )
-            String section = results.getSection();
-            Log.d(TAG, "updateUIWithListOfNews: section = "+section);
-
-            // Affected date label ( SSAAMMJJ )  to sort out the list of news later
-            String newsDate = DateUtilities.dateReformatSSAAMMJJ(results.getPublishedDate());
-
-            // Affected Title
-            String title = results.getTitle();
-
-            mListNYTimesNews.add( new NYTimesNews(title,
-                                                imageURL,
-                                                newsURL,
-                                                newsDate,
-                                                section
-            ));
-        }
-        // Sort the newsList by createdDate in Descending
-        Collections.sort(mListNYTimesNews,new NYTimesNews());
-        Collections.reverse(mListNYTimesNews);
+        // Create list of the article to be display
+        NYTimesNewsList.createListArticleMostPopular(mListNYTimesNews,(NYTimesMostPopular)news);
 
         // Save the News in the Model
         Model.getInstance().setListMostPopularNews(mListNYTimesNews);
