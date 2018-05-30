@@ -102,9 +102,18 @@ public class TopStoriesFragment extends BaseNewsFragment {
         NYTimesNewsList.createListArticleTopStories(mListNYTimesNews,(NYTimesTopStories)news);
 
         // Save the News in the Model
-        Model.getInstance().setListTopStoriesNews(mListNYTimesNews);
+        setListNYTimesNewsInModel(mListNYTimesNews);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
+    }
+    
+    // --------------
+    //    ( OUT )
+    // --------------
+    // Save the list of TopStories in the Model
+    @Override
+    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+        Model.getInstance().setListTopStoriesNews(newsList);
     }
 }
