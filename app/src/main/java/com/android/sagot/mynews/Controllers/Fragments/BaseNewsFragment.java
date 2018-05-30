@@ -32,6 +32,7 @@ public abstract class BaseNewsFragment extends Fragment {
 
     // Force developer implement those methods
     protected abstract void executeHttpRequestWithRetrofit();
+    protected List<NYTimesNews> getListNYTimesNewsInModel();
 
     // FOR TRACES
     private static final String TAG = BaseNewsFragment.class.getSimpleName();
@@ -49,7 +50,6 @@ public abstract class BaseNewsFragment extends Fragment {
     // Declare list of news ( NewsList ) & Adapter
     protected List<NYTimesNews> mListNYTimesNews;
     protected NYTimesNewsAdapter mNYTimesNewsAdapter;
-    protected void getListNYTimesNewsModel();
 
     // Position of the fragment in the tabLayout
     int mTabLayoutPosition;
