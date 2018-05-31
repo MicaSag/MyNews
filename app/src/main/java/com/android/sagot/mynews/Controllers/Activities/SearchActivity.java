@@ -157,6 +157,17 @@ public class SearchActivity extends BaseCriteriaActivity {
         // Call ResultSearchActivity
         startActivity(intentResultSearchActivity);
     }
+    
+    private validateCriteria() {
+        // > Required data <
+        // the list of keywords and at least one category
+        If (( mEditKeysWords.getText() != null ) && !( mCheckBoxArts.isChecked() || mCheckBoxBusiness.isChecked() ||
+                                                       mCheckBoxEntrepreneurs.isChecked() || mCheckBoxPolitics.isChecked() ||
+                                                       mCheckBoxSports.isChecked() || mCheckBoxTravel.isChecked() ) {
+            Toast toast = Toast.makeText(this, "Required data : keywords and at least one category", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 
     @Override
     protected void displayCriteria(){
