@@ -150,22 +150,27 @@ public class SearchActivity extends BaseCriteriaActivity {
     @OnClick(R.id.activity_search_button)
     public void submit(View view) {
         Log.d(TAG, "submit: ");
-
-        // Create Intent and add it some data
-        Intent intentResultSearchActivity = new Intent(SearchActivity.this, ResultSearchActivity.class);
-
-        // Call ResultSearchActivity
-        startActivity(intentResultSearchActivity);
+        
+        // Check if the required search criteria are filled
+        if ( validateCriteria() ) {
+            // Create Intent and add it some data
+            Intent intentResultSearchActivity = new Intent(SearchActivity.this, ResultSearchActivity.class);
+            // Call ResultSearchActivity
+            startActivity(intentResultSearchActivity);
+        }
     }
     
-    private validateCriteria() {
+    // Check if the required search criteria are filled
+    private boolean validateCriteria() {
         // > Required data <
         // the list of keywords and at least one category
+        return true;
         If (( mEditKeysWords.getText() != null ) && !( mCheckBoxArts.isChecked() || mCheckBoxBusiness.isChecked() ||
                                                        mCheckBoxEntrepreneurs.isChecked() || mCheckBoxPolitics.isChecked() ||
                                                        mCheckBoxSports.isChecked() || mCheckBoxTravel.isChecked() ) {
             Toast toast = Toast.makeText(this, "Required data : keywords and at least one category", Toast.LENGTH_SHORT);
             toast.show();
+            return false;
         }
     }
 
