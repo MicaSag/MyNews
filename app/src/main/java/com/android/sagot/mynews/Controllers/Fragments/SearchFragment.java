@@ -109,39 +109,13 @@ public class SearchFragment extends BaseNewsFragment {
             }
         });
     }
-
-    // -------------------
-    //     UPDATE UI
-    // -------------------
-    /**
-     *  Update UI with list of Business news
-     *
-     * @param news
-     *              list of news Business of the NewYorkTimes
-     */
+    
+    // Create list of news to display
     @Override
-    protected void updateUIWithListOfNews(Object news) {
-
-        // Stop refreshing
-        swipeRefreshLayout.setRefreshing(false);
-
-        // Empty the list of previous news
-        mListNYTimesNews.clear();
-
-        // Create list of the article to be display
-        NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
-
-        // Save the News in the Model
-        setListNYTimesNewsInModel(mListNYTimesNews);
-
-        // Recharge Adapter
-        mNYTimesNewsAdapter.notifyDataSetChanged();
-
-        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getHits());
-        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getOffset());
-        Log.d(TAG, "updateUIWithListOfNews: meta:hits = "+((NYTimesArticleSearch) news).getResponse().getMeta().getTime());
+    private createNYTimesNewsList(Object news) {
+        NYTimesNewsList.createArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news)    
     }
-
+    
     // --------------
     //    ( OUT )
     // --------------
