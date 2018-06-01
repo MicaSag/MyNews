@@ -145,6 +145,51 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         getCriteria().setKeysWords(text.toString());
     }
     
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+    /**
+     *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+     */
+     protected  Map<String, String> formattingRequest() {
+
+         // Create a new request and put criteria
+         NYTimesRequest request = new NYTimesRequest();
+         request.createNYTimesRequest(Model.getInstance().getDataModel().getSearchCriteria());
+         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+                                .getBeginDate(), "BeginDate");
+         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+                                .getEndDate(), "EndDate");
+         // Display request
+         request.displayRequest();
+
+         return request.getFilters();
+     }
+    /**
+     *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
+     */
+    @Override
+    protected void executeHttpRequestWithRetrofit() {
+
+        // Execute the stream subscribing to Observable defined inside NYTimesStreams
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  this.formattingRequest())
+                .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+            @Override
+            public void onNext(NYTimesArticleSearch articleSearch) {
+                Log.d(TAG, "onNext: ");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // Display a toast message
+                updateUIWhenErrorHTTPRequest();
+                Log.d(TAG, "onError: ");
+            }
+            @Override
+            public void onComplete() { Log.d(TAG,"On Complete !!"); }
+        });
+    }
+    
     // -----------
     //  ( OUT )    
     // -----------
