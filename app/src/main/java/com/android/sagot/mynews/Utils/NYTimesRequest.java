@@ -18,23 +18,22 @@ public class NYTimesRequest {
     // For Debug
     private static final String TAG=NYTimesRequest.class.getSimpleName();
 
-    // Criteria of the request
-    private Map<String, String> mCriteria;
+    // Criteria of the query
+    private Map<String, String> mQuery;
     
     // Api Key
-    private mApiKey;
+    private static final String mApiKey = getResources().getString(R.string.api_key);
 
     // This function allows to execute a request on the API Article Search 
     // Params : disposable
-    public void executeAPIArticleSearchWithRetrofit(disposable,criteria,dateBegin,fateEnd) {
+    public void executeAPIArticleSearchWithRetrofit(disposable, criteria, dateBegin, dateEnd) {
         
-        // Set api_key
-        setApiKey(getRessource.....);
-        
-        this.createCriteria(criteria)
+        this.createQuery(criteria);
+        if (dateBegin != null) this.addDateCriteriaToQuery(datBegin,"dateBegin");
+        if (dateEnd != null) this.addDateCriteriaToQuery(datEnd,"dateEnd");
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        disposable = NYTimesStreams.streamFetchArticleSearch( api_key,  this.createCriteria(criteria) )
+        disposable = NYTimesStreams.streamFetchArticleSearch(mApiKey ,  mQuery)
                     .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
@@ -53,17 +52,17 @@ public class NYTimesRequest {
     }
 
     // Create criteria for request of NYTimes APIs
-    public void createCriteria(Criteria criteria) {
+    public void createQuery(Criteria criteria) {
 
         // Create filters
-        filters = new HashMap<>();
+        mQuery = new HashMap<>();
 
         // --> Add Criteria <--
         // -- Results are sorted by newest to oldest
-        filters.put("sort", "newest");
+        mQuery.put("sort", "newest");
 
         // -- Query criteria
-        if (criteria.getKeysWords() !="") filters.put("q", criteria.getKeysWords());
+        if (criteria.getKeysWords() !="") mQuery.put("q", criteria.getKeysWords());
 
         // -- Sections criteria
         String sections = "news_desk:(";
@@ -74,22 +73,22 @@ public class NYTimesRequest {
         if (criteria.isSports()) sections += " \"Sports\"";
         if (criteria.isTravel()) sections += " \"Travel\"";
         sections += ")";
-        filters.put("fq", sections);
+        mQuery.put("fq", sections);
     }
 
     // Add Date criteria to request
-    public void addDateCriteriaToRequest(Date date, String criteriaName) {
+    public void addDateCriteriaToQuery(Date date, String criteriaName) {
         // -- Date criteria
         SimpleDateFormat criteriaDateFormatter = new SimpleDateFormat("yyyyMMdd", Locale.US);
-        if (date != null) filters.put(criteriaName, criteriaDateFormatter.format(date));
+        if (date != null) mQuery.put(criteriaName, criteriaDateFormatter.format(date));
     }
 
-    public Map<String, String> getCriteria() {
-        return criteria;
+    public Map<String, String> getQuery() {
+        return mQuery;
     }
 
-    public void displayCriteria() {
-        Log.d(TAG, "displayCriteria: ");
-        for (String key: criteria.keySet()) Log.d(TAG, key + " : "+criteria.get(key));
+    public void displayQuery() {
+        Log.d(TAG, "displayQuery: ");
+        for (String key: mQuery.keySet()) Log.d(TAG, key + " : "+mQuery.get(key));
     }
 }
