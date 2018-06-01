@@ -102,28 +102,10 @@ public class SportsFragment extends BaseNewsFragment {
     // -------------------
     //     UPDATE UI
     // -------------------
-    /**
-     *  Update UI with list of Sports news
-     *
-     * @param news
-     *              list of news Sports of the NewYorkTimes
-     */
-    protected void updateUIWithListOfNews(Object news) {
-
-        // Stop refreshing
-        swipeRefreshLayout.setRefreshing(false);
-
-        // Empty the list of previous news
-        mListNYTimesNews.clear();
-
-        // Create list of the article to be display
-        NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
-
-        // Save the News in the Model
-        Model.getInstance().setListSportsNews(mListNYTimesNews);
-
-        // Recharge Adapter
-        mNYTimesNewsAdapter.notifyDataSetChanged();
+    // Create list of news to display
+    @Override
+    private createNYTimesNewsList(Object news) {
+        NYTimesNewsList.createArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);    
     }
 
     // --------------
