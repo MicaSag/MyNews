@@ -32,10 +32,10 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseNewsFragment extends Fragment {
 
     // Force developer implement those methods
-    protected abstract void executeHttpRequestWithRetrofit();
-    protected abstract void updateUIWithListOfNews(Object news);
-    protected abstract List<NYTimesNews> getListNYTimesNewsInModel();
-    protected abstract void setListNYTimesNewsInModel(List<NYTimesNews> newsList);
+    protected abstract void executeHttpRequestWithRetrofit();                       // Execute the request of the NYTimes
+    protected abstract void createNYTimesNewsList(Object news);                     // Create list of news to display
+    protected abstract List<NYTimesNews> getListNYTimesNewsInModel();               // Get list of news of the Model
+    protected abstract void setListNYTimesNewsInModel(List<NYTimesNews> newsList);  // Set list of news in the Model
 
     // FOR TRACES
     private static final String TAG = BaseNewsFragment.class.getSimpleName();
@@ -182,6 +182,27 @@ public abstract class BaseNewsFragment extends Fragment {
     // -------------------
     //     UPDATE UI
     // -------------------
+    /**
+     *  Update UI with list of news
+     */
+    private void updateUIWithListOfNews(Object news) {
+
+        // Stop refreshing
+        swipeRefreshLayout.setRefreshing(false);
+
+        // Empty the list of previous news
+        mListNYTimesNews.clear();
+
+        // Create list of the article to be display
+        createNYTimesNewsList(news);
+
+        // Save the News in the Model
+        setListNYTimesNewsInModel(mListNYTimesNews);
+
+        // Recharge Adapter
+        mNYTimesNewsAdapter.notifyDataSetChanged();
+    }
+    
     /**
      *  Generate a toast Message if error during Downloading
      */
