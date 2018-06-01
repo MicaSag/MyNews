@@ -86,28 +86,10 @@ public class MostPopularFragment extends BaseNewsFragment {
     // -------------------
     //     UPDATE UI
     // -------------------
-    /**
-     *  Update UI with list of MostPopular news
-     *
-     * @param news
-     *              list of news MostPopular of the NewYorkTimes
-     */
-    protected void updateUIWithListOfNews(Object news) {
-
-        // Stop refreshing
-        swipeRefreshLayout.setRefreshing(false);
-
-        // Empty the list of previous news
-        mListNYTimesNews.clear();
-
-        // Create list of the article to be display
-        NYTimesNewsList.createListArticleMostPopular(mListNYTimesNews,(NYTimesMostPopular)news);
-
-        // Save the News in the Model
-        Model.getInstance().setListMostPopularNews(mListNYTimesNews);
-
-        // Recharge Adapter
-        mNYTimesNewsAdapter.notifyDataSetChanged();
+    // Create list of news to display
+    @Override
+    private createNYTimesNewsList(Object news) {
+        NYTimesNewsList.createListArticleMostPopular(mListNYTimesNews,(NYTimesMostPopular)news);  
     }
 
     // --------------
