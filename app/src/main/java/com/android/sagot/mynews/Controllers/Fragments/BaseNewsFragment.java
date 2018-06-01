@@ -32,10 +32,10 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseNewsFragment extends Fragment {
 
     // Force developer implement those methods
-    protected abstract void executeHttpRequestWithRetrofit();                       // Execute the request of the NYTimes
-    protected abstract void createNYTimesNewsList(Object news);                     // Create list of news to display
-    protected abstract List<NYTimesNews> getListNYTimesNewsInModel();               // Get list of news of the Model
-    protected abstract void setListNYTimesNewsInModel(List<NYTimesNews> newsList);  // Set list of news in the Model
+    protected abstract void executeHttpRequestWithRetrofit();                          // Execute the request of the NYTimes
+    protected abstract void createListNYTimesNews(Object news);                        // Create list of news to display
+    protected abstract List<NYTimesNews> getListNYTimesNewsOfTheModel();               // Get list of news of the Model
+    protected abstract void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList);  // Set list of news in the Model
 
     // FOR TRACES
     private static final String TAG = BaseNewsFragment.class.getSimpleName();
@@ -105,19 +105,10 @@ public abstract class BaseNewsFragment extends Fragment {
         return mNewsView;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
-        this.disposeWhenDestroy();
-    }
-
     // -----------------
-    // ACTIONS
+    //     ACTIONS
     // -----------------
-    /**
-     *  Configure clickListener on Item of the RecyclerView
-     */
+    //  Configure clickListener on Item of the RecyclerView
     private void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_recycler_view_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -130,12 +121,8 @@ public abstract class BaseNewsFragment extends Fragment {
                     }
                 });
     }
-    /**
-     *  Launch ItemActivity
-     *
-     * @param position
-     *              Position of the Item in the RecyclerView
-     */
+     // Launch ItemActivity
+     // Param : Position of the Item in the RecyclerView
     protected void launchItemActivity(int position){
         Intent myIntent = new Intent(getActivity(), ItemActivity.class);
         myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
@@ -146,9 +133,7 @@ public abstract class BaseNewsFragment extends Fragment {
     // ---------------
     // CONFIGURATION
     // ---------------
-    /**
-     *  Configure RECYCLER VIEW, ADAPTER, LAYOUTMANAGER & glue it together
-     */
+    //Configure RECYCLER VIEW, ADAPTER, LAYOUTMANAGER & glue it together
     private void configureRecyclerView(){
         // Create adapter passing the list of users
         this.mNYTimesNewsAdapter = new NYTimesNewsAdapter(this.mListNYTimesNews, Glide.with(this));
@@ -157,9 +142,7 @@ public abstract class BaseNewsFragment extends Fragment {
         // Set layout manager to position the items
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-    /**
-     *  Configure the SwipeRefreshLayout
-     */
+    // Configure the SwipeRefreshLayout
     private void configureSwipeRefreshLayout(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -170,21 +153,9 @@ public abstract class BaseNewsFragment extends Fragment {
     }
 
     // -------------------
-    // HTTP (RxJAVA)
-    // -------------------
-    /**
-     *  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
-     */
-    private void disposeWhenDestroy(){
-        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
-    }
-
-    // -------------------
     //     UPDATE UI
     // -------------------
-    /**
-     *  Update UI with list of news
-     */
+    // Update UI with list of news
     private void updateUIWithListOfNews(Object news) {
 
         // Stop refreshing
@@ -203,12 +174,25 @@ public abstract class BaseNewsFragment extends Fragment {
         mNYTimesNewsAdapter.notifyDataSetChanged();
     }
     
-    /**
-     *  Generate a toast Message if error during Downloading
-     */
+    // Generate a toast Message if error during Downloading
     protected void updateUIWhenErrorHTTPRequest(){
         // Stop refreshing
         swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
+    }
+    
+    // -----------------
+    //     ( OUT )
+    // ----------------- 
+    @Override
+    public void onDestroy() {
+        //Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
+        this.disposeWhenDestroy();
+        super.onDestroy();
+    }
+    
+    //  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
+    private void disposeWhenDestroy(){
+        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 }
