@@ -87,28 +87,10 @@ public class TopStoriesFragment extends BaseNewsFragment {
     // -------------------
     //     UPDATE UI
     // -------------------
-    /**
-     *  Update UI with list of TopStories news
-     *
-     * @param news
-     *              list of news TopStories of the NewYorkTimes
-     */
+    // Create list of news to display
     @Override
-    protected void updateUIWithListOfNews(Object news) {
-        // Stop refreshing
-        swipeRefreshLayout.setRefreshing(false);
-
-        // Empty the list of previous news
-        mListNYTimesNews.clear();
-
-        // Create list of the article to be display
-        NYTimesNewsList.createListArticleTopStories(mListNYTimesNews,(NYTimesTopStories)news);
-
-        // Save the News in the Model
-        setListNYTimesNewsInModel(mListNYTimesNews);
-
-        // Recharge Adapter
-        mNYTimesNewsAdapter.notifyDataSetChanged();
+    private createNYTimesNewsList(Object news) {
+        NYTimesNewsList.createListArticleTopStories(mListNYTimesNews,(NYTimesTopStories)news);  
     }
     
     // --------------
