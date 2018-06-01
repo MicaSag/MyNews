@@ -165,7 +165,7 @@ public abstract class BaseNewsFragment extends Fragment {
         mListNYTimesNews.clear();
 
         // Create list of the article to be display
-        createNYTimesNewsList(news);
+        createListNYTimesNews(news);
 
         // Save the News in the Model
         setListNYTimesNewsInModel(mListNYTimesNews);
