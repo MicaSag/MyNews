@@ -11,18 +11,49 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- *  Formatting Request for API NYTimes Article Search
+ *  This Library is a set of functions to query the NYT APIs
  * */
 public class NYTimesRequest {
 
     // For Debug
     private static final String TAG=NYTimesRequest.class.getSimpleName();
 
-    // Filters following conditions
-    Map<String, String> filters;
+    // Criteria of the request
+    private Map<String, String> mCriteria;
+    
+    // Api Key
+    private mApiKey;
 
-    // Create request
-    public void createNYTimesRequest(Criteria criteria) {
+    // This function allows to execute a request on the API Article Search 
+    // Params : disposable
+    public void executeAPIArticleSearchWithRetrofit(disposable,criteria,dateBegin,fateEnd) {
+        
+        // Set api_key
+        setApiKey(getRessource.....);
+        
+        this.createCriteria(criteria)
+
+        // Execute the stream subscribing to Observable defined inside NYTimesStreams
+        disposable = NYTimesStreams.streamFetchArticleSearch( api_key,  this.createCriteria(criteria) )
+                    .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+            @Override
+            public void onNext(NYTimesArticleSearch articleSearch) {
+                // Update UI with list of TopStories news
+                Log.d(TAG, "onNext: ");
+            }
+            @Override
+            public void onError(Throwable e) {
+                // Display a toast Error message 
+                savedatainthemodel
+                Log.d(TAG, "onError: ");
+            }
+            @Override
+            public void onComplete() { Log.d(TAG,"On Complete !!"); }
+        });
+    }
+
+    // Create criteria for request of NYTimes APIs
+    public void createCriteria(Criteria criteria) {
 
         // Create filters
         filters = new HashMap<>();
@@ -53,12 +84,12 @@ public class NYTimesRequest {
         if (date != null) filters.put(criteriaName, criteriaDateFormatter.format(date));
     }
 
-    public Map<String, String> getFilters() {
-        return filters;
+    public Map<String, String> getCriteria() {
+        return criteria;
     }
 
-    public void displayRequest() {
-        Log.d(TAG, "displayRequest: ");
-        for (String key: filters.keySet()) Log.d(TAG, key + " : "+filters.get(key));
+    public void displayCriteria() {
+        Log.d(TAG, "displayCriteria: ");
+        for (String key: criteria.keySet()) Log.d(TAG, key + " : "+criteria.get(key));
     }
 }
