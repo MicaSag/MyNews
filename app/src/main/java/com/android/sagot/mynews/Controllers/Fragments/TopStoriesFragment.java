@@ -48,7 +48,7 @@ public class TopStoriesFragment extends BaseNewsFragment {
     // --------------
     // Get the list of TopStories news saved in the Model
     @Override
-    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+    protected List<NYTimesNews> getListNYTimesNewsOfTheModel() {
         return Model.getInstance().getListTopStoriesNews();
     }
 
@@ -89,7 +89,7 @@ public class TopStoriesFragment extends BaseNewsFragment {
     // -------------------
     // Create list of news to display
     @Override
-    private createNYTimesNewsList(Object news) {
+    protected void createListNYTimesNews(Object news) {
         NYTimesNewsList.createListArticleTopStories(mListNYTimesNews,(NYTimesTopStories)news);  
     }
     
@@ -98,7 +98,7 @@ public class TopStoriesFragment extends BaseNewsFragment {
     // --------------
     // Save the list of TopStories in the Model
     @Override
-    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+    protected void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList) {
         Model.getInstance().setListTopStoriesNews(newsList);
     }
 }

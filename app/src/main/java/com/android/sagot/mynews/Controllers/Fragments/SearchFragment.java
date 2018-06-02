@@ -48,7 +48,7 @@ public class SearchFragment extends BaseNewsFragment {
     // --------------
     // Get the list of Search news saved in the Model
     @Override
-    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+    protected List<NYTimesNews> getListNYTimesNewsOfTheModel() {
         return Model.getInstance().getListSearchNews();
     }
 
@@ -70,15 +70,15 @@ public class SearchFragment extends BaseNewsFragment {
 
          // Create a new request and put criteria
          NYTimesRequest request = new NYTimesRequest();
-         request.createNYTimesRequest(Model.getInstance().getDataModel().getSearchCriteria());
-         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+         request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
+         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
                                 .getBeginDate(), "BeginDate");
-         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
                                 .getEndDate(), "EndDate");
          // Display request
-         request.displayRequest();
+         request.displayQuery();
 
-         return request.getFilters();
+         return request.getQuery();
      }
     /**
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
@@ -95,25 +95,21 @@ public class SearchFragment extends BaseNewsFragment {
                 updateUIWithListOfNews(articleSearch);
                 Log.d(TAG, "onNext: ");
             }
-
             @Override
             public void onError(Throwable e) {
                 // Display a toast message
                 updateUIWhenErrorHTTPRequest();
                 Log.d(TAG, "onError: ");
             }
-
             @Override
-            public void onComplete() {
-                Log.d(TAG,"On Complete !!");
-            }
+            public void onComplete() { Log.d(TAG,"On Complete !!"); }
         });
     }
-    
+
     // Create list of news to display
     @Override
-    private createNYTimesNewsList(Object news) {
-        NYTimesNewsList.createArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news)    
+    protected void createListNYTimesNews(Object news) {
+        NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
     }
     
     // --------------
@@ -121,7 +117,7 @@ public class SearchFragment extends BaseNewsFragment {
     // --------------
     // Save the list of Search in the Model
     @Override
-    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+    protected void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList) {
         Model.getInstance().setListSearchNews(newsList);
     }
 }

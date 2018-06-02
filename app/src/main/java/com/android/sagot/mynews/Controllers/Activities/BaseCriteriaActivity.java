@@ -9,18 +9,26 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.DataModel;
 import com.android.sagot.mynews.Models.Model;
+import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.NYTimesRequest;
+import com.android.sagot.mynews.Utils.NYTimesStreams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 /*
  * ABSTRACT Class BaseCriteriaActivity
@@ -47,6 +55,9 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     @BindView(R.id.checkbox_travel) CheckBox mCheckBoxTravel;
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
+
+    // Declare Subscription
+    protected Disposable mDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,25 +162,27 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     /**
      *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
      */
-     protected  Map<String, String> formattingRequest() {
+     protected Map<String, String> formattingRequest() {
 
          // Create a new request and put criteria
          NYTimesRequest request = new NYTimesRequest();
-         request.createNYTimesRequest(Model.getInstance().getDataModel().getSearchCriteria());
-         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+         request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
+         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
                                 .getBeginDate(), "BeginDate");
-         request.addDateCriteriaToRequest(Model.getInstance().getDataModel().getSearchCriteria()
+         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
                                 .getEndDate(), "EndDate");
          // Display request
-         request.displayRequest();
+         request.displayQuery();
 
-         return request.getFilters();
+         return request.getQuery();
      }
     /**
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
      */
-    @Override
     protected void executeHttpRequestWithRetrofit() {
+
+        // Get api_key
+        String api_key = getResources().getString(R.string.api_key);
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
         mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  this.formattingRequest())
@@ -188,6 +201,11 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
             @Override
             public void onComplete() { Log.d(TAG,"On Complete !!"); }
         });
+    }
+
+    // Generate a toast Message if error during Downloading
+    protected void updateUIWhenErrorHTTPRequest(){
+        Toast.makeText(this, "Error during Downloading", Toast.LENGTH_LONG).show();
     }
     
     // -----------
@@ -208,6 +226,18 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
        Model.getInstance().getSharedPreferences().edit()
                 .putString(MainActivity.SHARED_PREF_MODEL, json).apply();
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        //Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
+        this.disposeWhenDestroy();
+        super.onDestroy();
+    }
+
+    //  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
+    private void disposeWhenDestroy(){
+        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
     protected void displayCriteria(){

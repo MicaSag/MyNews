@@ -45,7 +45,7 @@ public abstract class BaseNewsFragment extends Fragment {
 
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
     @BindView(R.id.fragment_news_recycler_view) RecyclerView mRecyclerView;
-    @BindView(R.id.fragment_news_swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_news_swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
     // Declare Subscription
     protected Disposable mDisposable;
@@ -84,13 +84,13 @@ public abstract class BaseNewsFragment extends Fragment {
         api_key = getResources().getString(R.string.api_key);
         
         // If we have not yet interrogate the NYTimes database, we do it
-        this.mListNYTimesNews = getListNYTimesNewsInModel();
+        this.mListNYTimesNews = getListNYTimesNewsOfTheModel();
         if (mListNYTimesNews == null) {
             Log.d(TAG, "onCreateView: mListNYTimesNews = "+mListNYTimesNews);
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
             this.executeHttpRequestWithRetrofit(); // Call the Stream of the New York Times
         } else {
-            Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "+ getListNYTimesNewsInModel().getClass().getSimpleName());
+            Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "+ getListNYTimesNewsOfTheModel().getClass().getSimpleName());
         }
         
         // Configure RecyclerView
@@ -144,7 +144,7 @@ public abstract class BaseNewsFragment extends Fragment {
     }
     // Configure the SwipeRefreshLayout
     private void configureSwipeRefreshLayout(){
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 executeHttpRequestWithRetrofit();
@@ -156,10 +156,10 @@ public abstract class BaseNewsFragment extends Fragment {
     //     UPDATE UI
     // -------------------
     // Update UI with list of news
-    private void updateUIWithListOfNews(Object news) {
+    protected void updateUIWithListOfNews(Object news) {
 
         // Stop refreshing
-        swipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
 
         // Empty the list of previous news
         mListNYTimesNews.clear();
@@ -168,7 +168,7 @@ public abstract class BaseNewsFragment extends Fragment {
         createListNYTimesNews(news);
 
         // Save the News in the Model
-        setListNYTimesNewsInModel(mListNYTimesNews);
+        setListNYTimesNewsInTheModel(mListNYTimesNews);
 
         // Recharge Adapter
         mNYTimesNewsAdapter.notifyDataSetChanged();
@@ -177,7 +177,7 @@ public abstract class BaseNewsFragment extends Fragment {
     // Generate a toast Message if error during Downloading
     protected void updateUIWhenErrorHTTPRequest(){
         // Stop refreshing
-        swipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
     }
     

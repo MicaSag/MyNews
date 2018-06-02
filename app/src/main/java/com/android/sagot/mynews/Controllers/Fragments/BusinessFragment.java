@@ -46,7 +46,7 @@ public class BusinessFragment extends BaseNewsFragment {
     // --------------
     // Get the list of TopStories news saved in the Model
     @Override
-    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+    protected List<NYTimesNews> getListNYTimesNewsOfTheModel() {
         return Model.getInstance().getListBusinessNews();
     }
 
@@ -64,11 +64,11 @@ public class BusinessFragment extends BaseNewsFragment {
         criteria.setBusiness(true);
         // Create a new request and put criteria
         NYTimesRequest request = new NYTimesRequest();
-        request.createNYTimesRequest(criteria);
+        request.createQuery(criteria);
         // Display request
-        request.displayRequest();
+        request.displayQuery();
 
-        return request.getFilters();
+        return request.getQuery();
     }
     /**
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
@@ -104,8 +104,8 @@ public class BusinessFragment extends BaseNewsFragment {
     // -------------------
     // Create list of news to display
     @Override
-    private createNYTimesNewsList(Object news) {
-        NYTimesNewsList.createArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news)    
+    protected void createListNYTimesNews(Object news) {
+        NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
     }
 
     // --------------
@@ -113,7 +113,7 @@ public class BusinessFragment extends BaseNewsFragment {
     // --------------
     // Save the list of Business in the Model
     @Override
-    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+    protected void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList) {
         Model.getInstance().setListBusinessNews(newsList);
     }
 }

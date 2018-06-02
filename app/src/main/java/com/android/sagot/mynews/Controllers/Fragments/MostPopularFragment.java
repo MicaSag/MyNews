@@ -48,7 +48,7 @@ public class MostPopularFragment extends BaseNewsFragment {
     // --------------
     // Get the list of MostPopular news saved in the Model
     @Override
-    protected List<NYTimesNews> getListNYTimesNewsInModel() {
+    protected List<NYTimesNews> getListNYTimesNewsOfTheModel() {
         return Model.getInstance().getListMostPopularNews();
     }
 
@@ -88,7 +88,7 @@ public class MostPopularFragment extends BaseNewsFragment {
     // -------------------
     // Create list of news to display
     @Override
-    private createNYTimesNewsList(Object news) {
+    protected void createListNYTimesNews(Object news) {
         NYTimesNewsList.createListArticleMostPopular(mListNYTimesNews,(NYTimesMostPopular)news);  
     }
 
@@ -97,7 +97,7 @@ public class MostPopularFragment extends BaseNewsFragment {
     // --------------
     // Save the list of MostPopular in the Model
     @Override
-    protected void setListNYTimesNewsInModel(List<NYTimesNews> newsList) {
+    protected void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList) {
         Model.getInstance().setListMostPopularNews(newsList);
     }
 }
