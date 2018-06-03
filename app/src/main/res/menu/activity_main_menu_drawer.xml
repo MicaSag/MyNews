@@ -21,4 +21,17 @@
             android:icon="@drawable/baseline_rowing_black_24"
             android:title="Sports" />
     </group>
+    <group android:id="@+id/group_article_search">
+        <item
+            android:id="@+id/activity_main_drawer_article_search"
+            android:icon="@drawable/ic_search_white_24dp"
+            android:title="Search Articles" />
+    </group>
+    <group android:id="@+id/group_notification">
+        <item
+            android:id="@+id/activity_main_drawer_notification"
+            android:icon="@drawable/ic_fiber_new_black_24dp"
+            android:title="Notification" />
+    </group>
+
 </menu>

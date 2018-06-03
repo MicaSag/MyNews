@@ -279,6 +279,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // Positioning the Sports Page
                 mViewPager.setCurrentItem(FRAGMENT_SPORTS);
                 break;
+            case R.id.activity_main_drawer_article_search:
+                // Change the color of the text menu item selected
+                colors[0] = getResources().getColor(R.color.searchPrimary);
+                // Call Article Search Activity
+                callSearchActivity();
+                break;
+            case R.id.activity_main_drawer_notification:
+                // Change the color of the text menu item selected
+                colors[0] = getResources().getColor(R.color.notificationsPrimary);
+                // Call Notification Activity
+                callNotificationsActivity();
+                break;
             default:
                 break;
         }
@@ -344,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d(TAG, "onTabSelected() called with: tab = [" + tab + "]");
         int position = tab.getPosition();
 
-        // Mark as selected the menu item corresponding to First tab 'TOP STORIES'
+        // Mark as selected the menu item corresponding to the current tab selected
         this.mNavigationView.getMenu().getItem(position).setChecked(true);
 
         // Change Color of the Tab selected

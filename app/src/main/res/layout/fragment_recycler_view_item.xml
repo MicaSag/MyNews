@@ -68,7 +68,6 @@
                 android:ellipsize="end"
                 android:hint="Title"
                 android:layout_weight="1"/>
-
         </LinearLayout>
 
     </LinearLayout>
