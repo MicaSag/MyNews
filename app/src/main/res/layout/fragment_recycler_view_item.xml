@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="@dimen/recycler_padding">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,9 +16,9 @@
         <!-- Image of the news -->
         <ImageView
             android:id="@+id/fragment_recycler_view_item_image"
-            android:layout_width="75dip"
-            android:layout_height="75dip"
-            android:layout_margin="5dip"/>
+            android:layout_width="@dimen/recycler_image_width"
+            android:layout_height="@dimen/recycler_image_height"
+            android:layout_margin="@dimen/recycler_image_margin"/>
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="top"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/recycler_text_margin"
                 android:textSize="18sp"
                 android:maxLines="2"
                 android:ellipsize="end"

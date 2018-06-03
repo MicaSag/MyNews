@@ -117,12 +117,15 @@ public class SearchActivity extends BaseCriteriaActivity {
     @OnClick(R.id.activity_search_button)
     public void submit(View view) {
         Log.d(TAG, "submit: ");
-        
+        // Deactivate the button of search the time to question the API of the NYTimes
+        mButton.setEnabled(false);
         // Check if the required search criteria are filled
         if ( validateCriteria() ) {
             // CALL BASE METHOD : HTTP (RxJAVA) : Execute the request of research on the API of the NYTimes
             executeHttpRequestWithRetrofit();
         }
+        // Revive the button of search when the interrogation of the API of the NYTimes is ended
+        mButton.setEnabled(true);
     }
 
     // Check if the required search criteria are filled
@@ -146,6 +149,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     // DECLARATION BASE METHODS
     // -------------------------
     // Analyze the answer of HttpRequestWithRetrofit
+    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit()'
     @Override
     protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch){
         Log.d(TAG, "responseHTTPRequestAnalyze: ");

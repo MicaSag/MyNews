@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Adapters.PageAdapter;
@@ -29,6 +30,7 @@ import com.google.gson.Gson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.view.View.VISIBLE;
 import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
 
 
@@ -130,14 +132,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         instantiateNotificationsCriteria();
     }
     
-    // Instanciate SearchCriteria
+    // Instantiate SearchCriteria
     private void instantiateSearchCriteria() {
         // If searchCriteria not exist then instantiate it
         if (Model.getInstance().getDataModel().getSearchCriteria() == null)
             Model.getInstance().getDataModel().setSearchCriteria(new SearchCriteria());
     }
     
-    // Instanciate NotificationsCriteria
+    // Instantiate NotificationsCriteria
     private void instantiateNotificationsCriteria() {
         // If notificationsCriteria not exist then instantiate it
         if (Model.getInstance().getDataModel().getNotificationsCriteria() == null)

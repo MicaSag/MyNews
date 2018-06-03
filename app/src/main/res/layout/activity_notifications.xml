@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_marginStart="@dimen/search_query_margin"
-        android:layout_marginEnd="@dimen/search_query_margin"
-        android:layout_marginTop="@dimen/margin_top"
+        android:layout_marginStart="@dimen/key_words_margin"
+        android:layout_marginEnd="@dimen/key_words_margin"
+        android:layout_marginTop="@dimen/key_words_margin"
         android:orientation="horizontal">
 
         <EditText
@@ -42,10 +42,10 @@
         android:id="@+id/activity_notifications_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="@dimen/switch_margin_start"
         android:textSize="16dp"
-        android:layout_marginEnd="@dimen/search_query_margin"
-        android:layout_marginTop="30dp"
+        android:layout_marginEnd="@dimen/switch_margin_end"
+        android:layout_marginTop="@dimen/switch_margin_top"
         android:text="Enable notifications (once per day)" />
 
 </LinearLayout>

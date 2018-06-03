@@ -1,0 +1,62 @@
+<resources>
+
+    <!-- ===== THEMES ===== -->
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- ===== STYLES ===== -->
+
+    <!-- | TOP STORIES | -->
+
+    <!-- Base Top Stories theme. -->
+    <style name="TopStoriesTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- tabLayout style. -->
+    <style name="tabLayout_style" parent="Widget.Design.TabLayout">
+        <item name="tabTextColor">@color/colorText</item>
+        <item name="tabSelectedTextColor">@color/colorTextSelected</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="android:background">@color/topStoriesPrimary</item>
+    </style>
+
+    <!-- TOOLBAR STYLES -->
+    <!-- MainActivity style -->
+    <style name="toolBar_main_activity_style" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="titleTextColor">@color/colorTextSelected</item>
+        <item name="colorControlNormal">@color/colorTextSelected</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <!-- | SEARCH ARTICLES | -->
+
+    <!-- Base application theme. -->
+    <style name="SearchArticlesTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/searchPrimaryDark</item>
+        <item name="colorPrimary">@color/searchPrimary</item>
+        <item name="colorAccent">@color/searchAccent</item>
+    </style>
+
+    <!-- | NOTIFICATIONS | -->
+
+    <!-- Base application theme. -->
+    <style name="NotificationsTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/notificationsPrimaryDark</item>
+        <item name="colorPrimary">@color/notificationsPrimary</item>
+        <item name="colorAccent">@color/notificationAccent</item>
+    </style>
+
+
+</resources>
