@@ -13,12 +13,19 @@ import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.Model;
+import com.android.sagot.mynews.Models.NYTimesNews;
+import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.NYTimesNewsList;
+import com.android.sagot.mynews.Utils.NYTimesRequest;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,48 +48,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     private DatePickerDialog mEndDatePickerDialog;
     private SimpleDateFormat displayDateFormatter;
     private Calendar newCalendar;
-    
-    // --------------
-    // BASE METHODS
-    // --------------
-    @Override
-    protected int getActivityLayout() { 
-        return R.layout.activity_search; 
-    }
-    
-    @Override
-    protected Criteria getCriteria() {
-        return (Criteria)getModel().getSearchCriteria(); 
-    }
 
-    // --------------
-    //   UPDATE UI
-    // --------------
-    @Override
-    protected void updateUI(Criteria criteria) {
-        super.updateUI(criteria);
-        
-        // Management of the date Fields
-        this.manageDateFields();
-
-        // Set BeginDate if present in Model
-        if (getModel().getSearchCriteria().getBeginDate() != null)
-            mBeginDate.setText(displayDateFormatter.format(getModel().getSearchCriteria().getBeginDate()));
-        // Set EndDate if present in Model
-        if (getModel().getSearchCriteria().getEndDate() != null)
-            mEndDate.setText(displayDateFormatter.format(getModel().getSearchCriteria().getEndDate()));
-    }
-
-    // -----------------------
-    // CONFIGURATION TOOLBAR
-    // -----------------------
-    @Override
-    protected void configureToolBar(){
-        super.configureToolBar();
-
-        // Change Color of the Toolbar
-        mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
-    }
 
     // -------------------
     // MANAGE DATE FIELDS
@@ -154,30 +120,117 @@ public class SearchActivity extends BaseCriteriaActivity {
         
         // Check if the required search criteria are filled
         if ( validateCriteria() ) {
-            // Create Intent and add it some data
-            Intent intentResultSearchActivity = new Intent(SearchActivity.this, ResultSearchActivity.class);
-            // Call ResultSearchActivity
-            startActivity(intentResultSearchActivity);
+            // CALL BASE METHOD : HTTP (RxJAVA) : Execute the request of research on the API of the NYTimes
+            executeHttpRequestWithRetrofit();
         }
     }
-    
+
     // Check if the required search criteria are filled
     private boolean validateCriteria() {
         // > Required data <
         // the list of keywords and at least one category
         if ( mEditKeysWords.getText().toString().equals("") || (!mCheckBoxTravel.isChecked() &&
-                                                                !mCheckBoxSports.isChecked() &&
-                                                                !mCheckBoxPolitics.isChecked() &&
-                                                                !mCheckBoxEntrepreneurs.isChecked() &&
-                                                                !mCheckBoxBusiness.isChecked() &&
-                                                                !mCheckBoxArts.isChecked())
-            ){
+                !mCheckBoxSports.isChecked() &&
+                !mCheckBoxPolitics.isChecked() &&
+                !mCheckBoxEntrepreneurs.isChecked() &&
+                !mCheckBoxBusiness.isChecked() &&
+                !mCheckBoxArts.isChecked())
+                ){
             Toast toast = Toast.makeText(this, "Required data : keywords and at least one category", Toast.LENGTH_SHORT);
             toast.show();
             return false;
         } else return true;
     }
 
+    // -------------------------
+    // DECLARATION BASE METHODS
+    // -------------------------
+    // Analyze the answer of HttpRequestWithRetrofit
+    @Override
+    protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch){
+        Log.d(TAG, "responseHTTPRequestAnalyze: ");
+        if (articleSearch.getResponse().getDocs().size() != 0) {
+            // Create List of Articles search in the Model
+            createListArticleSearch(articleSearch);
+            // Create Intent and add it some data
+            Intent intentResultSearchActivity = new Intent(SearchActivity.this, ResultSearchActivity.class);
+            // Call ResultSearchActivity
+            startActivity(intentResultSearchActivity);
+        } else {
+            Toast toast = Toast.makeText(this, "No article found for these criteria of searches", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+
+    protected void createListArticleSearch(NYTimesArticleSearch articleSearch) {
+
+        // Create list of articles
+        List<NYTimesNews> listNYTimesNews = new ArrayList<>();
+        NYTimesNewsList.createListArticleSearch(listNYTimesNews, articleSearch);
+
+        // Save the News in the Model
+        Model.getInstance().setListSearchNews(listNYTimesNews);
+    }
+
+     // Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+    @Override
+    protected Map<String, String> formattingRequest() {
+
+        // Create a new request and put criteria
+        NYTimesRequest request = new NYTimesRequest();
+        request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
+        request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
+                .getBeginDate(), "BeginDate");
+        request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
+                .getEndDate(), "EndDate");
+        // Display request
+        request.displayQuery();
+
+        return request.getQuery();
+    }
+
+    @Override
+    protected int getActivityLayout() {
+        return R.layout.activity_search;
+    }
+
+    @Override
+    protected Criteria getCriteria() {
+        return (Criteria)getModel().getSearchCriteria();
+    }
+
+    // ----------------------
+    // OVERRIDE BASE METHODS
+    // ----------------------
+    //   Update UI
+    @Override
+    protected void updateUI(Criteria criteria) {
+        super.updateUI(criteria);
+
+        // Management of the date Fields
+        this.manageDateFields();
+
+        // Set BeginDate if present in Model
+        if (getModel().getSearchCriteria().getBeginDate() != null)
+            mBeginDate.setText(displayDateFormatter.format(getModel().getSearchCriteria().getBeginDate()));
+        // Set EndDate if present in Model
+        if (getModel().getSearchCriteria().getEndDate() != null)
+            mEndDate.setText(displayDateFormatter.format(getModel().getSearchCriteria().getEndDate()));
+
+        // For Debug
+        displayCriteria();
+    }
+
+    //Configuration ToolBar
+    @Override
+    protected void configureToolBar(){
+        super.configureToolBar();
+
+        // Change Color of the Toolbar
+        mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
+    }
+
+    // Displays for Debug
     @Override
     protected void displayCriteria(){
         super.displayCriteria();

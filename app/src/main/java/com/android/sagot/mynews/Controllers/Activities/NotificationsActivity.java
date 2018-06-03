@@ -11,8 +11,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Criteria;
+import com.android.sagot.mynews.Models.Model;
+import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NotificationsAlarmReceiver;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -82,6 +87,29 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         // Save the state of the switch in the model
         getModel().getNotificationsCriteria().setNotificationStatus(isChecked);
+    }
+
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
+    /**
+     *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+     */
+    @Override
+    protected Map<String, String> formattingRequest() {
+
+        // Create a new request and put criteria
+        NYTimesRequest request = new NYTimesRequest();
+        request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
+        // Display request
+        request.displayQuery();
+
+        return request.getQuery();
+    }
+
+    @Override
+    protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch) {
+
     }
 
     // ----------------------------

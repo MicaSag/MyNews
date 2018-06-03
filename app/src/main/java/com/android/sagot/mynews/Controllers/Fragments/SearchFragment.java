@@ -91,7 +91,7 @@ public class SearchFragment extends BaseNewsFragment {
                 .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
-                // Update UI with list of TopStories news
+                // BASE METHOD : Update UI with list of ArticleSearch
                 updateUIWithListOfNews(articleSearch);
                 Log.d(TAG, "onNext: ");
             }

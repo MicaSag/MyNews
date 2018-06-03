@@ -39,6 +39,8 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     // Force developer implement those methods
     protected abstract int getActivityLayout(); // Layout of the Child Activity
     protected abstract Criteria getCriteria();  // Criteria of the Child Activity
+    protected abstract Map<String, String> formattingRequest();  // Execute the request of the NYTimes
+    protected abstract void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch); //
 
     // For debugging Mode
     private static final String TAG = BaseCriteriaActivity.class.getSimpleName();
@@ -160,23 +162,6 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     // HTTP (RxJAVA)
     // -------------------
     /**
-     *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
-     */
-     protected Map<String, String> formattingRequest() {
-
-         // Create a new request and put criteria
-         NYTimesRequest request = new NYTimesRequest();
-         request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
-         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
-                                .getBeginDate(), "BeginDate");
-         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
-                                .getEndDate(), "EndDate");
-         // Display request
-         request.displayQuery();
-
-         return request.getQuery();
-     }
-    /**
      *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
      */
     protected void executeHttpRequestWithRetrofit() {
@@ -185,11 +170,13 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         String api_key = getResources().getString(R.string.api_key);
 
         // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  this.formattingRequest())
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  formattingRequest())
                 .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
                 Log.d(TAG, "onNext: ");
+                // Analyze the answer
+                responseHttpRequestAnalyze(articleSearch);
             }
 
             @Override
@@ -207,7 +194,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     protected void updateUIWhenErrorHTTPRequest(){
         Toast.makeText(this, "Error during Downloading", Toast.LENGTH_LONG).show();
     }
-    
+
     // -----------
     //  ( OUT )    
     // -----------
@@ -240,6 +227,9 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
+    // -------------------
+    //  DISPLAY FOR DEBUG
+    // -------------------
     protected void displayCriteria(){
         Log.d(TAG, "displayCriteria: Query               = "+getCriteria().getKeysWords());
         Log.d(TAG, "displayCriteria: checkArts           = "+getCriteria().isArts());
