@@ -148,6 +148,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     // -------------------------
     // DECLARATION BASE METHODS
     // -------------------------
+    // BASE METHOD Implementation
     // Analyze the answer of HttpRequestWithRetrofit
     // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit()'
     @Override
@@ -165,18 +166,20 @@ public class SearchActivity extends BaseCriteriaActivity {
             toast.show();
         }
     }
-
+    
+    // Create list of Article search and save it in the Model
     protected void createListArticleSearch(NYTimesArticleSearch articleSearch) {
 
         // Create list of articles
         List<NYTimesNews> listNYTimesNews = new ArrayList<>();
         NYTimesNewsList.createListArticleSearch(listNYTimesNews, articleSearch);
-
         // Save the News in the Model
         Model.getInstance().setListSearchNews(listNYTimesNews);
     }
 
-     // Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+    // BASE METHOD Implementation
+    // Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit(...)'
     @Override
     protected Map<String, String> formattingRequest() {
 
@@ -193,11 +196,17 @@ public class SearchActivity extends BaseCriteriaActivity {
         return request.getQuery();
     }
 
+    // BASE METHOD Implementation
+    // Get the activity layout
+    // CALLED BY BASE METHOD 'onCreate(...)'
     @Override
     protected int getActivityLayout() {
         return R.layout.activity_search;
     }
 
+    // BASE METHOD Implementation
+    // Get the search criteria List of the Model
+    // CALLED BY BASE METHOD 'onCreate(...)'
     @Override
     protected Criteria getCriteria() {
         return (Criteria)getModel().getSearchCriteria();
@@ -206,7 +215,8 @@ public class SearchActivity extends BaseCriteriaActivity {
     // ----------------------
     // OVERRIDE BASE METHODS
     // ----------------------
-    //   Update UI
+    // OVERRIDE BASE METHOD : UpdateUI(Criteria criteria)
+    // To add the date criteria to the UI
     @Override
     protected void updateUI(Criteria criteria) {
         super.updateUI(criteria);
@@ -225,16 +235,17 @@ public class SearchActivity extends BaseCriteriaActivity {
         displayCriteria();
     }
 
-    //Configuration ToolBar
+    // OVERRIDE BASE METHOD : ConfigurationToolBar()
+    // To change ToolBar color
     @Override
     protected void configureToolBar(){
         super.configureToolBar();
-
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
     }
 
-    // Displays for Debug
+    // OVERRIDE BASE METHOD : displayCriteria()
+    // To add the date criteria to the display debug
     @Override
     protected void displayCriteria(){
         super.displayCriteria();
