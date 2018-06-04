@@ -28,30 +28,68 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     private static final String TAG = NotificationsActivity.class.getSimpleName();
 
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
-    // Of the ToolBar
-    @BindView(R.id.toolbar) Toolbar mToolbar;
     // Of the Switch
     @BindView(R.id.activity_notifications_switch) Switch mSwitch;
+    // Of the ToolBar
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     // Creating an intent to execute our broadcast
     private PendingIntent pendingIntent;
     
-    // --------------
-    // BASE METHODS
-    // --------------
+    // -------------------------
+    // DECLARATION BASE METHODS
+    // -------------------------
+    // BASE METHOD Implementation
+    // Get the activity layout
+    // CALLED BY BASE METHOD 'onCreate(...)'
     @Override
     protected int getActivityLayout() { 
         return R.layout.activity_notifications; 
     }
     
+    // BASE METHOD Implementation
+    // Get the search criteria List of the Model
+    // CALLED BY BASE METHOD 'onCreate(...)'
     @Override
     protected Criteria getCriteria() {
         return (Criteria)getModel().getNotificationsCriteria(); 
     }
+    
+    // BASE METHOD Implementation
+    // Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
+    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit(...)'
+    @Override
+    protected Map<String, String> formattingRequest() {
+        // Create a new request and put criteria
+        NYTimesRequest request = new NYTimesRequest();
+        request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
+        // FOR DEBUG : Display request
+        request.displayQuery();
 
-    // --------------
-    //      UI
-    //---------------
+        return request.getQuery();
+    }
+
+    // BASE METHOD Implementation
+    // Analyze the answer of HttpRequestWithRetrofit
+    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit()'
+    @Override
+    protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch) {
+    }
+
+    // ----------------------
+    // OVERRIDE BASE METHODS
+    // ----------------------
+    // OVERRIDE BASE METHOD : onCreate(Bundle savedInstanceState)
+    // To add the call to configureAlarmManager();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //Configuring The AlarmManager
+        this.configureAlarmManager();
+    }
+    
+    // OVERRIDE BASE METHOD : UpdateUI(Criteria criteria)
+    // To add the notifiation status to the UI
     @Override
     protected void updateUI(Criteria criteria){
         super.updateUI(criteria);
@@ -60,18 +98,25 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         mSwitch.setChecked(getModel().getNotificationsCriteria().isNotificationStatus());
     }
 
-    // -----------------------
-    // CONFIGURATION TOOLBAR
-    // -----------------------
+    // OVERRIDE BASE METHOD : ConfigurationToolBar()
+    // To change ToolBar color
     @Override
     protected void configureToolBar() {
         super.configureToolBar();
 
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.notificationsPrimary));
-        //Configuring The AlarmManager
-        this.configureAlarmManager();
     }
+       
+    // OVERRIDE BASE METHOD : displayCriteria()
+    // To add the date criteria to the display debug
+    @Override
+    protected void displayCriteria(){
+        super.displayCriteria();
+
+        Log.d(TAG, "displayCriteria: switch              = "+getModel()
+              .getNotificationsCriteria().isNotificationStatus());
+    } 
 
     // ---------------
     // ACTIONS SWITCH
@@ -87,29 +132,6 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         // Save the state of the switch in the model
         getModel().getNotificationsCriteria().setNotificationStatus(isChecked);
-    }
-
-    // -------------------
-    // HTTP (RxJAVA)
-    // -------------------
-    /**
-     *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
-     */
-    @Override
-    protected Map<String, String> formattingRequest() {
-
-        // Create a new request and put criteria
-        NYTimesRequest request = new NYTimesRequest();
-        request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
-        // Display request
-        request.displayQuery();
-
-        return request.getQuery();
-    }
-
-    @Override
-    protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch) {
-
     }
 
     // ----------------------------
@@ -140,13 +162,5 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
         Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void displayCriteria(){
-        super.displayCriteria();
-
-        Log.d(TAG, "displayCriteria: switch              = "+getModel()
-              .getNotificationsCriteria().isNotificationStatus());
     }
 }
