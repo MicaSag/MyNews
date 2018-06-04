@@ -1,6 +1,5 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
-
 import android.os.Bundle;
 import android.util.Log;
 
@@ -62,11 +61,12 @@ public class BusinessFragment extends BaseNewsFragment {
         // Create a new request and put criteria
         NYTimesRequest request = new NYTimesRequest();
         request.createQuery(criteria);
-        // Display request
+        // FOR DEBUG : Display request
         request.displayQuery();
 
         return request.getQuery();
     }
+    
     //  BASE METHOD Implementation
     //  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
     // CALLED BY BASE METHOD 'updateUIWithListOfNews((...)'
@@ -82,18 +82,14 @@ public class BusinessFragment extends BaseNewsFragment {
                 // CALL BASE METHOD : Update UI with list of news
                 updateUIWithListOfNews(articleSearch);
             }
-
             @Override
             public void onError(Throwable e) {
                 Log.e(TAG,"On Error"+Log.getStackTraceString(e));
                 // CALL BASE METHOD : Generate a toast Message if error during Downloading
                 updateUIWhenErrorHTTPRequest();
             }
-
             @Override
-            public void onComplete() {
-                Log.d(TAG,"On Complete !!");
-            }
+            public void onComplete() { Log.d(TAG,"On Complete !!"); }
         });
     }
 
