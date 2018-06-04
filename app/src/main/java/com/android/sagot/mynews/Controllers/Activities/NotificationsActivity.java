@@ -125,14 +125,29 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     @OnCheckedChanged(R.id.activity_notifications_switch)
     public void OnCheckedChanged(CompoundButton cb, boolean isChecked){
         Log.d(TAG, "OnCheckedChanged: isChecked = "+isChecked);
+        Log.d(TAG, "OnCheckedChanged: isChecked on Model Before = "
+                +getModel().getNotificationsCriteria().isNotificationStatus());
 
-        // If checked and not already checked in the model, Start Alarm
-        if (isChecked && !(getModel().getNotificationsCriteria().isNotificationStatus())) this.startAlarm();
-        // If not checked and pendingIntent <> null , Stop alarm
-        if (!isChecked && pendingIntent != null) this.stopAlarm();
-
-        // Save the state of the switch in the model
-        getModel().getNotificationsCriteria().setNotificationStatus(isChecked);
+        // If check switch and old state is not checked
+        if ( isChecked && !getModel().getNotificationsCriteria().isNotificationStatus()) {
+            // Check if the required criteria are filled
+            if (validateCriteria() ) {
+                // It's Ok, start alarm and Save the state of the switch in the model
+                getModel().getNotificationsCriteria().setNotificationStatus(true);
+                this.startAlarm();
+            }else { // It's KO, Check False for the state of the switch ans save in the model
+                cb.setChecked(false);
+                getModel().getNotificationsCriteria().setNotificationStatus(false);
+            }
+        }else { // Not Checked  and old state is checked
+            if ( !isChecked && getModel().getNotificationsCriteria().isNotificationStatus()) {
+                // Stop Alarm and save the state of the switch in the model
+                getModel().getNotificationsCriteria().setNotificationStatus(false);
+                this.stopAlarm();
+            }
+        }
+        Log.d(TAG, "OnCheckedChanged: isChecked on Model After = " +
+                ""+ getModel().getNotificationsCriteria().isNotificationStatus());
     }
 
     // ----------------------------

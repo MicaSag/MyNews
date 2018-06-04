@@ -128,23 +128,6 @@ public class SearchActivity extends BaseCriteriaActivity {
         mButton.setEnabled(true);
     }
 
-    // Check if the required search criteria are filled
-    private boolean validateCriteria() {
-        // > Required data <
-        // the list of keywords and at least one category
-        if ( mEditKeysWords.getText().toString().equals("") || (!mCheckBoxTravel.isChecked() &&
-                !mCheckBoxSports.isChecked() &&
-                !mCheckBoxPolitics.isChecked() &&
-                !mCheckBoxEntrepreneurs.isChecked() &&
-                !mCheckBoxBusiness.isChecked() &&
-                !mCheckBoxArts.isChecked())
-                ){
-            Toast toast = Toast.makeText(this, "Required data : keywords and at least one category", Toast.LENGTH_SHORT);
-            toast.show();
-            return false;
-        } else return true;
-    }
-
     // -------------------------
     // DECLARATION BASE METHODS
     // -------------------------
