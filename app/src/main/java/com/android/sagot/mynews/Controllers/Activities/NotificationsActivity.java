@@ -18,6 +18,7 @@ import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NotificationsAlarmReceiver;
 
+import java.util.Calendar;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -35,7 +36,9 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     // Creating an intent to execute our broadcast
-    private PendingIntent pendingIntent;
+    private PendingIntent mPendingIntent;
+    // Creating alarmManager
+    private AlarmManager mAlarmManager;
     
     // -------------------------
     // DECLARATION BASE METHODS
@@ -158,25 +161,36 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         Intent alarmIntent = new Intent(NotificationsActivity.this,
                 NotificationsAlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0,
+        mPendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0,
                 alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     // ------------------------------
     // SCHEDULE TASK  : AlarmManager
     // ------------------------------
+
+    private Calendar createCalendar() {
+        // The schedule is set to be launch at midnight
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.add(Calendar.DATE, 1);
+        return calendar;
+    }
+
     // Start Alarm
     private void startAlarm() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,
-                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                createCalendar().getTimeInMillis(), AlarmManager.INTERVAL_DAY, mPendingIntent);
         Toast.makeText(this, "Notifications set !", Toast.LENGTH_SHORT).show();
     }
 
     // Stop Alarm
     private void stopAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(pendingIntent);
+        manager.cancel(mPendingIntent);
         Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
     }
 }
