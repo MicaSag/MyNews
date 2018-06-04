@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.sagot.mynews.Controllers.Activities.ItemActivity;
+import com.android.sagot.mynews.Controllers.Activities.WebViewActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
@@ -63,10 +63,6 @@ public abstract class BaseNewsFragment extends Fragment {
 
     // Key for NYTimes Api access
     protected String api_key;
-
-    public BaseNewsFragment() {
-        // Required empty public constructor
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,10 +117,10 @@ public abstract class BaseNewsFragment extends Fragment {
                     }
                 });
     }
-     // Launch ItemActivity
+     // Launch WebViewActivity
      // Param : Position of the Item in the RecyclerView
     protected void launchItemActivity(int position){
-        Intent myIntent = new Intent(getActivity(), ItemActivity.class);
+        Intent myIntent = new Intent(getActivity(), WebViewActivity.class);
         myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
         myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
         this.startActivity(myIntent);

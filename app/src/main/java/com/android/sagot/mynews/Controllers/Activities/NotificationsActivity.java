@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.CompoundButton;
@@ -89,7 +90,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     }
     
     // OVERRIDE BASE METHOD : UpdateUI(Criteria criteria)
-    // To add the notifiation status to the UI
+    // To add the notification status to the UI
     @Override
     protected void updateUI(Criteria criteria){
         super.updateUI(criteria);

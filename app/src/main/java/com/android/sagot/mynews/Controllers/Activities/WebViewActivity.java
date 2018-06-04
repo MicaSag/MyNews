@@ -18,13 +18,13 @@ import butterknife.ButterKnife;
 
 import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
 
-public class ItemActivity extends AppCompatActivity {
+public class WebViewActivity extends AppCompatActivity {
 
     // For Debug
-    private static final String TAG = ItemActivity.class.getSimpleName();
+    private static final String TAG = WebViewActivity.class.getSimpleName();
 
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
-    @BindView(R.id.activity_item_webView) WebView mWebView;
+    @BindView(R.id.activity_web_view_layout) WebView mWebView;
     @BindView(R.id.toolbar) Toolbar mToolBar;
 
     // URL of the news
@@ -37,7 +37,7 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
+        setContentView(R.layout.activity_web_view);
 
         // Get & serialise all views
         ButterKnife.bind(this);

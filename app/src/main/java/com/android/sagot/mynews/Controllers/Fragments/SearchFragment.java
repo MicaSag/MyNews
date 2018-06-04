@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.sagot.mynews.Controllers.Activities.ItemSearchActivity;
+import com.android.sagot.mynews.Controllers.Activities.WebViewActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Models.Model;
@@ -53,7 +53,7 @@ public class SearchFragment extends BaseNewsFragment {
 
     @Override
     protected void launchItemActivity(int position) {
-        Intent myIntent = new Intent(getActivity(), ItemSearchActivity.class);
+        Intent myIntent = new Intent(getActivity(), WebViewActivity.class);
         myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
         myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
         this.startActivity(myIntent);

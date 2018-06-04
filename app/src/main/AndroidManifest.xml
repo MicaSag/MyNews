@@ -43,7 +43,7 @@
         </activity>
         <!-- A other child of the main activity -->
         <activity
-            android:name=".Controllers.Activities.ItemActivity"
+            android:name=".Controllers.Activities.WebViewActivity"
             android:label="News Details"
             android:parentActivityName=".Controllers.Activities.MainActivity">
 
@@ -61,16 +61,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controllers.Activities.SearchActivity" />
-        </activity>
-        <activity
-            android:name=".Controllers.Activities.ItemSearchActivity"
-            android:label="News Search Details"
-            android:parentActivityName=".Controllers.Activities.ResultSearchActivity">
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controllers.Activities.ResultSearchActivity" />
         </activity>
         <!-- Notification Permission -->
         <receiver
