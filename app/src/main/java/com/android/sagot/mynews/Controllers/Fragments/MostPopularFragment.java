@@ -1,6 +1,5 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
-
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;
-
 /**
  * MostPopular FRAGMENT
  */
@@ -31,22 +29,21 @@ public class MostPopularFragment extends BaseNewsFragment {
 
     // Method that will create a new instance of MostPopularFragment, and add data to its bundle.
     public static MostPopularFragment newInstance(int tabLayoutPosition) {
-
         // Create new fragment
         MostPopularFragment fragment = new MostPopularFragment();
-
         // Create bundle and add it some data
         Bundle args = new Bundle();
         args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
         fragment.setArguments(args);
-
         return fragment;
     }
-
+    
     // --------------
     //    ( IN )
     // --------------
-    // Get the list of MostPopular news saved in the Model
+    // BASE METHOD Implementation
+    // Get the list of Most Popular news saved in the Model
+    // CALLED BY BASE METHOD 'onCreateView(...)
     @Override
     protected List<NYTimesNews> getListNYTimesNewsOfTheModel() {
         return Model.getInstance().getListMostPopularNews();
@@ -55,9 +52,9 @@ public class MostPopularFragment extends BaseNewsFragment {
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
-    /**
-     *  Execute Stream " NYTimesStreams.streamFetchMostPopularFragment "
-     */
+    //  BASE METHOD Implementation
+    //  Execute Stream " NYTimesStreams.streamFetchMostPopular "
+    // CALLED BY BASE METHOD 'updateUIWithListOfNews((...)'
     @Override
     protected void executeHttpRequestWithRetrofit() {
 
@@ -66,27 +63,26 @@ public class MostPopularFragment extends BaseNewsFragment {
             @Override
             public void onNext(NYTimesMostPopular mostPopular) {
                 Log.e("TAG","On Next");
-                // Update Model with list of TopStories news
+                // CALL BASE METHOD : Update UI with list of news
                 updateUIWithListOfNews(mostPopular);
             }
-
             @Override
             public void onError(Throwable e) {
                 Log.e("TAG","On Error"+Log.getStackTraceString(e));
+                // CALL BASE METHOD : Generate a toast Message if error during Downloading
                 updateUIWhenErrorHTTPRequest();
             }
-
             @Override
-            public void onComplete() {
-                Log.e("TAG","On Complete !!");
-            }
+            public void onComplete() { Log.e("TAG","On Complete !!"); }
         });
     }
-
-    // -------------------
-    //     UPDATE UI
-    // -------------------
+    
+    // --------------
+    //   UPDATE UI
+    // --------------
+    // BASE METHOD Implementation
     // Create list of news to display
+    // CALLED BY BASE METHOD 'updateUIWithListOfNews(...)
     @Override
     protected void createListNYTimesNews(Object news) {
         NYTimesNewsList.createListArticleMostPopular(mListNYTimesNews,(NYTimesMostPopular)news);  
@@ -95,7 +91,9 @@ public class MostPopularFragment extends BaseNewsFragment {
     // --------------
     //    ( OUT )
     // --------------
-    // Save the list of MostPopular in the Model
+    // BASE METHOD Implementation
+    // Save the list of Business in the Model
+    // CALLED BY BASE METHOD 'updateUIWithListOfNews(...)
     @Override
     protected void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList) {
         Model.getInstance().setListMostPopularNews(newsList);
