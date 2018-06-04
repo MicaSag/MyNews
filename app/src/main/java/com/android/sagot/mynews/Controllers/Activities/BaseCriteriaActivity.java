@@ -1,6 +1,7 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +39,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     
     // Force developer implement those methods
     protected abstract int getActivityLayout(); // Layout of the Child Activity
+    protected abstract int getCoordinatorLayout(); // Layout of the CoordinatorLayout of the Child Activity
     protected abstract Criteria getCriteria();  // Criteria of the Child Activity
     protected abstract Map<String, String> formattingRequest();  // Execute the request of the NYTimes
     protected abstract void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch); //
@@ -172,8 +174,10 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
                 !mCheckBoxBusiness.isChecked() &&
                 !mCheckBoxArts.isChecked())
                 ){
-            Toast toast = Toast.makeText(this, "Required data : keywords and at least one category", Toast.LENGTH_SHORT);
-            toast.show();
+            Snackbar.make(findViewById(getCoordinatorLayout()),
+                    "Required data : keywords and at least one category",
+                    Snackbar.LENGTH_LONG)
+                    .show();
             return false;
         } else return true;
     }
@@ -212,7 +216,10 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
 
     // Generate a toast Message if error during Downloading
     protected void updateUIWhenErrorHTTPRequest(){
-        Toast.makeText(this, "Error during Downloading", Toast.LENGTH_LONG).show();
+        Snackbar.make(findViewById(getCoordinatorLayout()),
+                "Error during Downloading",
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 
     // -----------

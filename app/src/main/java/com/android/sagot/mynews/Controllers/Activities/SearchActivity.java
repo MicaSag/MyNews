@@ -188,6 +188,14 @@ public class SearchActivity extends BaseCriteriaActivity {
     }
 
     // BASE METHOD Implementation
+    // Get the coordinator layout
+    // CALLED BY BASE METHOD 'validateCriteria()' and 'updateUIWhenErrorHTTPRequest()'
+    @Override
+    protected int getCoordinatorLayout() {
+        return R.id.activity_search_coordinatorLayout;
+    }
+
+    // BASE METHOD Implementation
     // Get the search criteria List of the Model
     // CALLED BY BASE METHOD 'onCreate(...)'
     @Override

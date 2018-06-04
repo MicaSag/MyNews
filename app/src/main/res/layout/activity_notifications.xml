@@ -1,51 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_notification_coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- Toolbar Importation -->
-    <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <!-- Keys Words zone -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_marginStart="@dimen/key_words_margin"
-        android:layout_marginEnd="@dimen/key_words_margin"
-        android:layout_marginTop="@dimen/key_words_margin"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/keys_words_edit"
+        <!-- Toolbar Importation -->
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- Keys Words zone -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:hint="Search query term">
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_marginStart="@dimen/key_words_margin"
+            android:layout_marginEnd="@dimen/key_words_margin"
+            android:layout_marginTop="@dimen/key_words_margin"
+            android:orientation="horizontal">
 
-        </EditText>
+            <EditText
+                android:id="@+id/keys_words_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:hint="Search query term">
+
+            </EditText>
+
+        </LinearLayout>
+
+        <!-- CATEGORY zone -->
+        <include
+            layout="@layout/category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/activity_notifications_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/switch_margin_start"
+            android:textSize="16dp"
+            android:layout_marginEnd="@dimen/switch_margin_end"
+            android:layout_marginTop="@dimen/switch_margin_top"
+            android:text="Enable notifications (once per day)" />
 
     </LinearLayout>
 
-    <!-- CATEGORY zone -->
-    <include
-        layout="@layout/category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+</android.support.design.widget.CoordinatorLayout>
 
-    <Switch
-        android:id="@+id/activity_notifications_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/switch_margin_start"
-        android:textSize="16dp"
-        android:layout_marginEnd="@dimen/switch_margin_end"
-        android:layout_marginTop="@dimen/switch_margin_top"
-        android:text="Enable notifications (once per day)" />
-
-</LinearLayout>

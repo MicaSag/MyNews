@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.CompoundButton;
@@ -45,12 +46,20 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // -------------------------
     // BASE METHOD Implementation
     // Get the activity layout
-    // CALLED BY BASE METHOD 'onCreate(...)'
+    // CALLED BY BASE METHOD 'validateCriteria()' and 'updateUIWhenErrorHTTPRequest()'
     @Override
     protected int getActivityLayout() { 
         return R.layout.activity_notifications; 
     }
-    
+
+    // BASE METHOD Implementation
+    // Get the coordinator layout
+    // CALLED BY BASE METHOD 'onCreate(...)'
+    @Override
+    protected int getCoordinatorLayout() {
+        return R.id.activity_notification_coordinatorLayout;
+    }
+
     // BASE METHOD Implementation
     // Get the search criteria List of the Model
     // CALLED BY BASE METHOD 'onCreate(...)'
@@ -184,13 +193,19 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 createCalendar().getTimeInMillis(), AlarmManager.INTERVAL_DAY, mPendingIntent);
-        Toast.makeText(this, "Notifications set !", Toast.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(R.id.activity_notification_coordinatorLayout),
+                "Notifications set !",
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 
     // Stop Alarm
     private void stopAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(mPendingIntent);
-        Toast.makeText(this, "Notifications Canceled !", Toast.LENGTH_SHORT).show();
+        Snackbar.make(findViewById(R.id.activity_notification_coordinatorLayout),
+                "Notifications canceled !",
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 }
