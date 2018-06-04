@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.observers.DisposableObserver;
-
 /**
  * Search FRAGMENT
  */
@@ -29,24 +28,24 @@ public class SearchFragment extends BaseNewsFragment {
         // Required empty public constructor
     }
 
+    // Method that will create a new instance ofSearchFragment and add data to its bundle.
     public static SearchFragment newInstance(int tabLayoutPosition) {
-
         // Create new fragment
         SearchFragment fragment = new SearchFragment();
-
         // Create bundle and add it some data
         Bundle args = new Bundle();
         // Put tabLayoutPosition
         args.putInt(BUNDLE_TAB_LAYOUT_POSITION, tabLayoutPosition);
         fragment.setArguments(args);
-
         return fragment;
     }
 
     // --------------
     //    ( IN )
     // --------------
-    // Get the list of Search news saved in the Model
+    // BASE METHOD Implementation
+    // Get the list of Top Stories news saved in the Model
+    // CALLED BY BASE METHOD 'onCreateView(...)'
     @Override
     protected List<NYTimesNews> getListNYTimesNewsOfTheModel() {
         return Model.getInstance().getListSearchNews();
@@ -63,9 +62,7 @@ public class SearchFragment extends BaseNewsFragment {
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
-    /**
-     *  Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
-     */
+    // Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
      protected  Map<String, String> formattingRequest() {
 
          // Create a new request and put criteria
@@ -80,9 +77,10 @@ public class SearchFragment extends BaseNewsFragment {
 
          return request.getQuery();
      }
-    /**
-     *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
-     */
+    
+    //  BASE METHOD Implementation
+    //  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
+    // CALLED BY BASE METHOD 'updateUIWithListOfNews(...)'
     @Override
     protected void executeHttpRequestWithRetrofit() {
 
@@ -91,13 +89,13 @@ public class SearchFragment extends BaseNewsFragment {
                 .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
             @Override
             public void onNext(NYTimesArticleSearch articleSearch) {
-                // BASE METHOD : Update UI with list of ArticleSearch
+                // CALL BASE METHOD : Update UI with list of news
                 updateUIWithListOfNews(articleSearch);
                 Log.d(TAG, "onNext: ");
             }
             @Override
             public void onError(Throwable e) {
-                // Display a toast message
+                // CALL BASE METHOD : Generate a toast Message if error during Downloading
                 updateUIWhenErrorHTTPRequest();
                 Log.d(TAG, "onError: ");
             }
@@ -106,7 +104,12 @@ public class SearchFragment extends BaseNewsFragment {
         });
     }
 
+    // --------------
+    //   UPDATE UI
+    // --------------
+    // BASE METHOD Implementation
     // Create list of news to display
+    // CALLED BY BASE METHOD 'updateUIWithListOfNews((...)'
     @Override
     protected void createListNYTimesNews(Object news) {
         NYTimesNewsList.createListArticleSearch(mListNYTimesNews,(NYTimesArticleSearch)news);
@@ -115,7 +118,9 @@ public class SearchFragment extends BaseNewsFragment {
     // --------------
     //    ( OUT )
     // --------------
-    // Save the list of Search in the Model
+    // BASE METHOD Implementation
+    // Save the list of Business in the Model
+    // CALLED BY BASE METHOD 'updateUIWithListOfNews((...)'
     @Override
     protected void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList) {
         Model.getInstance().setListSearchNews(newsList);
