@@ -51,6 +51,9 @@
     <color name="notificationAccent">#FF9800</color>
     <color name="notificationsText">@android:color/black</color>
 
+    <!-- colors that will be used by dialog box -->
+    <color name="dialogPrimaryDark">#3700b3</color>
+    <color name="dialogPrimary">#6200ee</color>
 
     <!-- APP ARRAYS COLORS DEFINITIONS -->
 
@@ -61,6 +64,7 @@
         <item>@color/businessPrimaryDark</item>
         <item>@color/sportsPrimaryDark</item>
         <item>@color/searchPrimaryDark</item>
+        <item>@color/dialogPrimaryDark</item>
     </array>
 
     <!-- Array of all the primary colors -->
@@ -70,6 +74,7 @@
         <item>@color/businessPrimary</item>
         <item>@color/sportsPrimary</item>
         <item>@color/searchPrimary</item>
+        <item>@color/dialogPrimary</item>
     </array>
 
     <!-- Array of all the primary colors -->

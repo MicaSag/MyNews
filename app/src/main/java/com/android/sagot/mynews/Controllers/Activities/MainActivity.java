@@ -1,8 +1,10 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,8 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.sagot.mynews.Adapters.PageAdapter;
 import com.android.sagot.mynews.Models.DataModel;
@@ -30,7 +30,8 @@ import com.google.gson.Gson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.view.View.VISIBLE;
+import static com.android.sagot.mynews.Controllers.Fragments.BaseNewsFragment.BUNDLE_NEWS_URL;
+import static com.android.sagot.mynews.Controllers.Fragments.BaseNewsFragment.BUNDLE_TAB_LAYOUT_POSITION;
 import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
 
 
@@ -183,16 +184,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 callNotificationsActivity();
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_help:
-                Toast.makeText(this, "Select Help", Toast.LENGTH_LONG).show();
+                String url = "https://github.com/MicaSag/MyNews";
+                callWebViewActivity(url, 4);
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_about:
-                Toast.makeText(this, "Select About", Toast.LENGTH_LONG).show();
+                url = "https://openclassrooms.com/projects/renouez-avec-l-actualite";
+                callWebViewActivity(url, 4);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    
+
     // Call Search Activity
     private void callSearchActivity() {
         Intent searchActivity = new Intent(MainActivity.this, SearchActivity.class);
@@ -203,6 +206,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void callNotificationsActivity() {
         Intent notificationsActivity = new Intent(MainActivity.this, NotificationsActivity.class);
          startActivity(notificationsActivity);
+    }
+
+    // Launch WebViewActivity
+    // Param : 1 _ Url to display
+    //         2 _ Position of the Item in the RecyclerView
+    protected void callWebViewActivity(String url, int position){
+        Intent myIntent = new Intent(this, WebViewActivity.class);
+        myIntent.putExtra(BUNDLE_NEWS_URL,url);
+        myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,position);
+        this.startActivity(myIntent);
     }
     // ---------------------------------------------------------------------------------------------
     //                                     NAVIGATION DRAWER

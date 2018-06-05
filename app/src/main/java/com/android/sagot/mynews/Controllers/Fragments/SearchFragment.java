@@ -51,14 +51,6 @@ public class SearchFragment extends BaseNewsFragment {
         return Model.getInstance().getListSearchNews();
     }
 
-    @Override
-    protected void launchItemActivity(int position) {
-        Intent myIntent = new Intent(getActivity(), WebViewActivity.class);
-        myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
-        myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
-        this.startActivity(myIntent);
-    }
-
     // -------------------
     // HTTP (RxJAVA)
     // -------------------

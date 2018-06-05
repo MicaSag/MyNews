@@ -214,7 +214,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         });
     }
 
-    // Generate a toast Message if error during Downloading
+    // Generate a SnakeBar Message if error during Downloading
     protected void updateUIWhenErrorHTTPRequest(){
         Snackbar.make(findViewById(getCoordinatorLayout()),
                 "Error during Downloading",

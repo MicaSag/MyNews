@@ -3,6 +3,7 @@ package com.android.sagot.mynews.Controllers.Activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -145,8 +146,10 @@ public class SearchActivity extends BaseCriteriaActivity {
             // Call ResultSearchActivity
             startActivity(intentResultSearchActivity);
         } else {
-            Toast toast = Toast.makeText(this, "No article found for these criteria of searches", Toast.LENGTH_SHORT);
-            toast.show();
+            Snackbar.make(findViewById(getCoordinatorLayout()),
+                    "No article found for these criteria of searches",
+                    Snackbar.LENGTH_LONG)
+                    .show();
         }
     }
     

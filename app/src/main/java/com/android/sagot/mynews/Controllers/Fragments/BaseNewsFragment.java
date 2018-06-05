@@ -16,6 +16,7 @@ import com.android.sagot.mynews.Controllers.Activities.WebViewActivity;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
+import com.android.sagot.mynews.Utils.UIUtilities;
 import com.android.sagot.mynews.Views.NYTimesNewsAdapter;
 import com.bumptech.glide.Glide;
 
@@ -110,29 +111,29 @@ public abstract class BaseNewsFragment extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        // Get news from adapter
-                        NYTimesNews news = mNYTimesNewsAdapter.getNews(position);
-                        //Launch Item Activity
-                        launchItemActivity(position);
+                        //Launch WebView Activity
+                        callWebViewActivity(mListNYTimesNews.get(position).getNewsURL(),
+                                mTabLayoutPosition);
                     }
                 });
     }
      // Launch WebViewActivity
-     // Param : Position of the Item in the RecyclerView
-    protected void launchItemActivity(int position){
+     // Param : 1 _ Url to display
+     //         2 _ Position of the Item in the RecyclerView
+    protected void callWebViewActivity(String url, int position){
         Intent myIntent = new Intent(getActivity(), WebViewActivity.class);
-        myIntent.putExtra(BUNDLE_NEWS_URL,mListNYTimesNews.get(position).getNewsURL());
-        myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,mTabLayoutPosition);
+        myIntent.putExtra(BUNDLE_NEWS_URL,url);
+        myIntent.putExtra(BUNDLE_TAB_LAYOUT_POSITION,position);
         this.startActivity(myIntent);
     }
 
     // ---------------
     // CONFIGURATION
     // ---------------
-    //Configure RECYCLER VIEW, ADAPTER, LAYOUTMANAGER & glue it together
+    //Configure RECYCLER VIEW, ADAPTER, LAYOUT_MANAGER & glue it together
     private void configureRecyclerView(){
         // Add separator between items
-        this.mRecyclerView..addItemDecoration(new DividerItemDecoration(getApplicationContext()));
+        this.mRecyclerView.addItemDecoration(new UIUtilities.DividerItemDecoration(getActivity()));
         // Create adapter passing the list of users
         this.mNYTimesNewsAdapter = new NYTimesNewsAdapter(this.mListNYTimesNews, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
