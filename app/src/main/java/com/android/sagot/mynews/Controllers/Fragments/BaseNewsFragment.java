@@ -131,6 +131,8 @@ public abstract class BaseNewsFragment extends Fragment {
     // ---------------
     //Configure RECYCLER VIEW, ADAPTER, LAYOUTMANAGER & glue it together
     private void configureRecyclerView(){
+        // Add separator between items
+        this.mRecyclerView..addItemDecoration(new DividerItemDecoration(getApplicationContext()));
         // Create adapter passing the list of users
         this.mNYTimesNewsAdapter = new NYTimesNewsAdapter(this.mListNYTimesNews, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
