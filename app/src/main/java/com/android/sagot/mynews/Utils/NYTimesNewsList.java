@@ -2,6 +2,7 @@ package com.android.sagot.mynews.Utils;
 
 import android.util.Log;
 
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
@@ -20,11 +21,13 @@ import java.util.List;
  * */
 public class NYTimesNewsList {
 
+    private static final String TAG = NYTimesNewsList.class.getSimpleName();
+
     // Create List of Search Articles
     public static void createListArticleSearch(List<NYTimesNews> listNYTimesNews, NYTimesArticleSearch article) {
 
         //Here we recover only the elements of the query that interests us
-        for (Doc docs : article.getResponse().getDocs()){
+        for (Doc docs : article.getResponse().getDocs()) {
 
             //  --> Create a news <--
             NYTimesNews news = new NYTimesNews();
@@ -35,7 +38,7 @@ public class NYTimesNewsList {
             // -- Affected imageURL
             // Test if an image is present
             if (docs.getMultimedia().size() != 0) {
-                 news.setImageURL("https://www.nytimes.com/" + docs.getMultimedia().get(0).getUrl());
+                news.setImageURL("https://www.nytimes.com/" + docs.getMultimedia().get(0).getUrl());
             }
 
             // -- Affected section label ( section > subSection )
@@ -49,6 +52,11 @@ public class NYTimesNewsList {
             // -- Affected Title
             news.setTitle(docs.getSnippet());
 
+            // set the everRead at true if necessary
+            for (String url : Model.getInstance().getSavedModel().getListUrlArticleRead())
+                if (news.getNewsURL() == url) news.setEverRead(true);
+
+            // Add news at Lit
             listNYTimesNews.add(news);
         }
         // Sort the newsList by createdDate in Descending
@@ -82,6 +90,10 @@ public class NYTimesNewsList {
 
             // -- Affected Title
             news.setTitle(results.getTitle());
+
+            // set the everRead at true if necessary
+            for (String url : Model.getInstance().getSavedModel().getListUrlArticleRead())
+                if (news.getNewsURL() == url) news.setEverRead(true);
 
             listNYTimesNews.add(news);
         }
@@ -119,10 +131,26 @@ public class NYTimesNewsList {
             // -- Affected Title
             news.setTitle(results.getTitle());
 
+            // set the everRead at true if necessary
+
+            Log.d(TAG, "createListArticleTopStories: news.getNewsURL() ="+news.getNewsURL());
+            List<String> listUrlSaved = Model.getInstance().getSavedModel().getListUrlArticleRead();
+            for (String url : listUrlSaved) {
+
+                Log.d(TAG, "createListArticleTopStories:URL ="+url);
+                if (news.getNewsURL().equals(url)) {
+                    Log.d(TAG, "createListArticleTopStories: URLs IDENTIQUE");
+                    news.setEverRead(true);
+                } else {
+                    Log.d(TAG, "createListArticleTopStories: URLs <>");
+                }
+            }
+            Log.d(TAG, "createListArticleTopStories:***********************************");
+
             listNYTimesNews.add(news);
         }
         // Sort the newsList by createdDate in Descending
-        Collections.sort(listNYTimesNews,new NYTimesNews());
-        Collections.reverse(listNYTimesNews);
+        //Collections.sort(listNYTimesNews,new NYTimesNews());
+        //Collections.reverse(listNYTimesNews);
     }
 }

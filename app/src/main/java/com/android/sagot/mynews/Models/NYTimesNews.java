@@ -10,11 +10,12 @@ import java.util.Comparator;
  */
 public class NYTimesNews implements Comparator<NYTimesNews> {
 
-    String mDate;       // It's created date of the news
-    String mSection;    // It's the "section > subSection" label
-    String mTitle;      // It's Title of the news
-    String mNewsURL;    // It's the Url of the news page
-    String mImageURL;   // It's the Url where the image is
+    String mDate;               // It's created date of the news
+    String mSection;            // It's the "section > subSection" label
+    String mTitle;              // It's Title of the news
+    String mNewsURL;            // It's the Url of the news page
+    String mImageURL;           // It's the Url where the image is
+    boolean mEverRead = false;  // Indicator of ever read article ( not read by default )
 
     // Default Constructor
     public NYTimesNews() {}
@@ -70,5 +71,13 @@ public class NYTimesNews implements Comparator<NYTimesNews> {
     @Override
     public int compare(NYTimesNews news1, NYTimesNews news2) {
         return news1.mDate.compareTo(news2.getDate());
+    }
+
+    public boolean isEverRead() {
+        return mEverRead;
+    }
+
+    public void setEverRead(boolean everRead) {
+        mEverRead = everRead;
     }
 }

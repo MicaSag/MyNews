@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.Model;
@@ -75,7 +74,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     protected Map<String, String> formattingRequest() {
         // Create a new request and put criteria
         NYTimesRequest request = new NYTimesRequest();
-        request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
+        request.createQuery(Model.getInstance().getSavedModel().getSearchCriteria());
         // FOR DEBUG : Display request
         request.displayQuery();
 

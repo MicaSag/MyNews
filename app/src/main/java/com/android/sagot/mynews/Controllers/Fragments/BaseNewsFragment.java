@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Activities.WebViewActivity;
+import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.ItemClickSupport;
@@ -111,8 +112,14 @@ public abstract class BaseNewsFragment extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        // Save in the model, the URL of the article in the list of articles already read
-                        Model.getSavedModel.getListArticleRead.add(mListNYTimesNews.get(position).getNewsURL());
+                        // If we have not already read
+                        if (!mListNYTimesNews.get(position).isEverRead()) {
+                            // Save in the model, the URL of the article in the list of articles already read
+                            Model.getInstance().getSavedModel().getListUrlArticleRead()
+                                    .add(mListNYTimesNews.get(position).getNewsURL());
+                            // Set at True everRead in the list of articles
+                            mListNYTimesNews.get(position).setEverRead(true);
+                        }
                         //Launch WebView Activity
                         callWebViewActivity(mListNYTimesNews.get(position).getNewsURL(),
                                 mTabLayoutPosition);
@@ -137,7 +144,8 @@ public abstract class BaseNewsFragment extends Fragment {
         // Add separator between items
         this.mRecyclerView.addItemDecoration(new UIUtilities.DividerItemDecoration(getActivity()));
         // Create adapter passing the list of users
-        this.mNYTimesNewsAdapter = new NYTimesNewsAdapter(this.mListNYTimesNews, Glide.with(this));
+        this.mNYTimesNewsAdapter = new NYTimesNewsAdapter(this.mTabLayoutPosition,
+                this.mListNYTimesNews, Glide.with(this));
         // Attach the adapter to the recyclerView to populate items
         this.mRecyclerView.setAdapter(this.mNYTimesNewsAdapter);
         // Set layout manager to position the items

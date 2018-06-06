@@ -62,4 +62,7 @@ dependencies {
     api 'frankiesardo:icepick:3.2.0'
     compileOnly 'frankiesardo:icepick-processor:3.2.0'
     annotationProcessor 'frankiesardo:icepick-processor:3.2.0'
+
+    // Add Card View Library
+    implementation 'com.android.support:cardview-v7:27.1.0'
 }

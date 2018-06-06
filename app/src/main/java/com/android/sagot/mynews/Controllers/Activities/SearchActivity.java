@@ -2,7 +2,6 @@ package com.android.sagot.mynews.Controllers.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,13 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
-import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
@@ -142,7 +139,8 @@ public class SearchActivity extends BaseCriteriaActivity {
             // Create List of Articles search in the Model
             createListArticleSearch(articleSearch);
             // Create Intent and add it some data
-            Intent intentResultSearchActivity = new Intent(SearchActivity.this, ResultSearchActivity.class);
+            Intent intentResultSearchActivity =
+                    new Intent(SearchActivity.this, ResultSearchActivity.class);
             // Call ResultSearchActivity
             startActivity(intentResultSearchActivity);
         } else {
@@ -171,10 +169,10 @@ public class SearchActivity extends BaseCriteriaActivity {
 
         // Create a new request and put criteria
         NYTimesRequest request = new NYTimesRequest();
-        request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
-        request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
+        request.createQuery(Model.getInstance().getSavedModel().getSearchCriteria());
+        request.addDateCriteriaToQuery(Model.getInstance().getSavedModel().getSearchCriteria()
                 .getBeginDate(), "BeginDate");
-        request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
+        request.addDateCriteriaToQuery(Model.getInstance().getSavedModel().getSearchCriteria()
                 .getEndDate(), "EndDate");
         // Display request
         request.displayQuery();

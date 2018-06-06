@@ -1,16 +1,17 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.sagot.mynews.Controllers.Activities.WebViewActivity;
-import com.android.sagot.mynews.Models.NYTimesNews;
-import com.android.sagot.mynews.Utils.NYTimesNewsList;
+import com.android.sagot.mynews.Controllers.Activities.MainActivity;
 import com.android.sagot.mynews.Models.Model;
+import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -59,10 +60,10 @@ public class SearchFragment extends BaseNewsFragment {
 
          // Create a new request and put criteria
          NYTimesRequest request = new NYTimesRequest();
-         request.createQuery(Model.getInstance().getDataModel().getSearchCriteria());
-         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
+         request.createQuery(Model.getInstance().getSavedModel().getSearchCriteria());
+         request.addDateCriteriaToQuery(Model.getInstance().getSavedModel().getSearchCriteria()
                                 .getBeginDate(), "BeginDate");
-         request.addDateCriteriaToQuery(Model.getInstance().getDataModel().getSearchCriteria()
+         request.addDateCriteriaToQuery(Model.getInstance().getSavedModel().getSearchCriteria()
                                 .getEndDate(), "EndDate");
          // Display request
          request.displayQuery();

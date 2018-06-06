@@ -6,12 +6,9 @@ import android.util.Log;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
-import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.ResultMostPopular;
-import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
-import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.observers.DisposableObserver;

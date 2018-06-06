@@ -15,14 +15,18 @@ import java.util.List;
 
 public class NYTimesNewsAdapter extends RecyclerView.Adapter<NYTimesNewsViewHolder> {
 
-    // FOR DATA
+    // List of news
     private List<NYTimesNews> mListNews;
+
+    // TabLayout position
+    private int mTabLayoutPosition;
 
     // Declaring a Glide Object
     private RequestManager glide;
 
     // CONSTRUCTOR
-    public NYTimesNewsAdapter(List<NYTimesNews> listNews, RequestManager glide) {
+    public NYTimesNewsAdapter(int tabLayoutPosition, List<NYTimesNews> listNews, RequestManager glide) {
+        this.mTabLayoutPosition = tabLayoutPosition;
         this.mListNews = listNews;
         this.glide = glide;
     }
@@ -37,10 +41,10 @@ public class NYTimesNewsAdapter extends RecyclerView.Adapter<NYTimesNewsViewHold
         return new NYTimesNewsViewHolder(view);
     }
 
-    // UPDATE VIEW HOLDER WITH A NYTIMESNEWS
+    // UPDATE VIEW HOLDER WITH A NY_TIMES_NEWS
     @Override
     public void onBindViewHolder(NYTimesNewsViewHolder viewHolder, int position) {
-        viewHolder.updateWithNews(this.mListNews.get(position),this.glide);
+        viewHolder.updateWithNews(this.mTabLayoutPosition,this.mListNews.get(position),this.glide);
     }
 
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST
@@ -49,7 +53,5 @@ public class NYTimesNewsAdapter extends RecyclerView.Adapter<NYTimesNewsViewHold
         return this.mListNews.size();
     }
 
-    public NYTimesNews getNews(int position){
-        return this.mListNews.get(position);
-    }
+
 }

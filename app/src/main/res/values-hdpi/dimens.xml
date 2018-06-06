@@ -19,7 +19,7 @@
     <dimen name="switch_margin_top">30dp</dimen>
 
     <!-- Item recycler view -->
-    <dimen name="recycler_padding">5dip</dimen>
+    <dimen name="recycler_padding">1dip</dimen>
     <dimen name="recycler_image_width">75dip</dimen>
     <dimen name="recycler_image_height">75dip</dimen>
     <dimen name="recycler_image_margin">5dip</dimen>

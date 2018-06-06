@@ -44,7 +44,7 @@
         <!-- A other child of the main activity -->
         <activity
             android:name=".Controllers.Activities.WebViewActivity"
-            android:label="News Details"
+            android:label="Web View"
             android:parentActivityName=".Controllers.Activities.MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

@@ -1,10 +1,8 @@
 package com.android.sagot.mynews.Controllers.Activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -20,12 +18,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.sagot.mynews.Adapters.PageAdapter;
-import com.android.sagot.mynews.Models.DataModel;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NotificationsCriteria;
+import com.android.sagot.mynews.Models.SavedModel;
 import com.android.sagot.mynews.Models.SearchCriteria;
 import com.android.sagot.mynews.R;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,11 +105,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Log.i("MOOD","CLEAR COMMIT PREFERENCES");
         //mSharedPreferences.edit().clear().commit();
 
-        //Model retrieves
+        //Saved Model retrieves
         this.retrieveModel();
     }
 
-    // >> MODEL RETRIEVES <-------
+    // >> SAVED MODEL RETRIEVES <-------
     private void retrieveModel() {
         Log.d(TAG, "retrieveModels: ");
         String modelPreferences = mSharedPreferences.getString(SHARED_PREF_MODEL, null);
@@ -118,33 +119,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (modelPreferences != null) {
             Log.d(TAG, "retrievesPreferences: model Restoration");
             // Retrieves the model of the SharedPreferences
-            Model.getInstance().setDataModel(gson.fromJson(modelPreferences, DataModel.class));
+            Model.getInstance().setSavedModel(gson.fromJson(modelPreferences, SavedModel.class));
         }else
         {
             Log.d(TAG, "retrieveModels: First call of the App, No Model saved");
             // First call of the app, not model saved
             // INSTANTIATE DataModel Object in the Model Singleton
-            Model.getInstance().setDataModel(new DataModel());
+            Model.getInstance().setSavedModel(new SavedModel());
         }
-        
         // Instantiate SearchCriteria
         instantiateSearchCriteria();
         // Instantiate NotificationsCriteria
         instantiateNotificationsCriteria();
-    }
+        // Instantiate ListUrlArticleRead
+        instantiateListUrlArticleRead();
+}
     
     // Instantiate SearchCriteria
     private void instantiateSearchCriteria() {
         // If searchCriteria not exist then instantiate it
-        if (Model.getInstance().getDataModel().getSearchCriteria() == null)
-            Model.getInstance().getDataModel().setSearchCriteria(new SearchCriteria());
+        if (Model.getInstance().getSavedModel().getSearchCriteria() == null)
+            Model.getInstance().getSavedModel().setSearchCriteria(new SearchCriteria());
     }
     
     // Instantiate NotificationsCriteria
     private void instantiateNotificationsCriteria() {
         // If notificationsCriteria not exist then instantiate it
-        if (Model.getInstance().getDataModel().getNotificationsCriteria() == null)
-            Model.getInstance().getDataModel().setNotificationsCriteria(new NotificationsCriteria());
+        if (Model.getInstance().getSavedModel().getNotificationsCriteria() == null)
+            Model.getInstance().getSavedModel().setNotificationsCriteria(new NotificationsCriteria());
+    }
+
+    // Instantiate ListUrlArticleRead
+    private void instantiateListUrlArticleRead() {
+        // If listUrlArticleRead not exist then instantiate it
+        if (Model.getInstance().getSavedModel().getListUrlArticleRead() == null)
+            Model.getInstance().getSavedModel().setListUrlArticleRead(new ArrayList<String>());
     }
         
     // ---------------------------------------------------------------------------------------------
@@ -185,11 +194,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_help:
                 String url = "https://github.com/MicaSag/MyNews";
-                callWebViewActivity(url, 4);
+                callWebViewActivity(url, 5);
                 return true;
             case R.id.activity_main_menu_toolbar_overflow_about:
                 url = "https://openclassrooms.com/projects/renouez-avec-l-actualite";
-                callWebViewActivity(url, 4);
+                callWebViewActivity(url, 5);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -307,7 +316,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             default:
                 break;
         }
-
         // Close menu drawer
         this.mDrawerLayout.closeDrawer(GravityCompat.START);
 
@@ -388,4 +396,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onTabUnselected(TabLayout.Tab tab) {}
     @Override
     public void onTabReselected(TabLayout.Tab tab) {}
+
+
+    // -----------
+    //  ( OUT )
+    // -----------
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: ");
+        // SAVE MODEL IN THE SHARED_PREFERENCES
+        // Create à SHARED_PREF_MODEL String with a Gson Object
+        final Gson gson = new GsonBuilder()
+                .serializeNulls()
+                .disableHtmlEscaping()
+                .create();
+        String json = gson.toJson(Model.getInstance().getSavedModel());
+
+        // Add the Model in shared Preferences
+        Model.getInstance().getSharedPreferences().edit()
+                .putString(MainActivity.SHARED_PREF_MODEL, json).apply();
+        super.onPause();
+    }
 }

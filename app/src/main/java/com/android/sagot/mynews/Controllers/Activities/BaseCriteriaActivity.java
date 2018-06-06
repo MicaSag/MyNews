@@ -10,14 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.sagot.mynews.Models.Criteria;
-import com.android.sagot.mynews.Models.DataModel;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
+import com.android.sagot.mynews.Models.SavedModel;
 import com.android.sagot.mynews.R;
-import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -85,8 +83,8 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     //    ( IN )
     // --------------
      // Model of the App
-    protected DataModel getModel() {
-        return Model.getInstance().getDataModel();
+    protected SavedModel getModel() {
+        return Model.getInstance().getSavedModel();
     }
 
     // --------------

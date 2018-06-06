@@ -6,70 +6,80 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/recycler_padding">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fragment_recycler_view_item_card"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-        <!-- Image of the news -->
-        <ImageView
-            android:id="@+id/fragment_recycler_view_item_image"
-            android:layout_width="@dimen/recycler_image_width"
-            android:layout_height="@dimen/recycler_image_height"
-            android:layout_margin="@dimen/recycler_image_margin"/>
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="1dp">
 
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center">
 
+            <!-- Image of the news -->
+            <ImageView
+                android:id="@+id/fragment_recycler_view_item_image"
+                android:layout_width="@dimen/recycler_image_width"
+                android:layout_height="@dimen/recycler_image_height"
+                android:layout_margin="@dimen/recycler_image_margin"/>
+
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
                 android:gravity="center">
 
-                <!-- Section > subSection -->
-                <TextView
-                    android:id="@+id/fragment_recycler_view_item_section"
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="section"
-                    android:layout_gravity="start"
-                    android:textStyle="bold"
+                    android:layout_weight="2"
+                    android:gravity="center">
+
+                    <!-- Section > subSection -->
+                    <TextView
+                        android:id="@+id/fragment_recycler_view_item_section"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="section"
+                        android:layout_gravity="start"
+                        android:textStyle="bold"
+                        android:layout_weight="1"/>
+
+                    <!-- created Date -->
+                    <TextView
+                        android:id="@+id/fragment_recycler_view_item_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="date"
+                        android:layout_gravity="end"
+                        android:layout_weight="3"/>
+
+                </LinearLayout>
+
+                <!-- Title of the nws -->
+                <TextView
+                    android:id="@+id/fragment_recycler_view_item_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="@dimen/recycler_text_margin"
+                    android:textSize="18sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:hint="Title"
                     android:layout_weight="1"/>
-
-                <!-- created Date -->
-                <TextView
-                    android:id="@+id/fragment_recycler_view_item_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="date"
-                    android:layout_gravity="end"
-                    android:layout_weight="3"/>
-
             </LinearLayout>
 
-            <!-- Title of the nws -->
-            <TextView
-                android:id="@+id/fragment_recycler_view_item_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:layout_marginRight="@dimen/recycler_text_margin"
-                android:textSize="18sp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:hint="Title"
-                android:layout_weight="1"/>
         </LinearLayout>
 
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>
