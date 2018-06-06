@@ -111,6 +111,8 @@ public abstract class BaseNewsFragment extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        // Save in the model, the URL of the article in the list of articles already read
+                        Model.getSavedModel.getListArticleRead.add(mListNYTimesNews.get(position).getNewsURL());
                         //Launch WebView Activity
                         callWebViewActivity(mListNYTimesNews.get(position).getNewsURL(),
                                 mTabLayoutPosition);
