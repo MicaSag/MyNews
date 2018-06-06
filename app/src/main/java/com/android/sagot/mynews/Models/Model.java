@@ -13,7 +13,7 @@ import java.util.List;
 public class Model {
 
     private SharedPreferences mSharedPreferences;       // Reference backup of the SharedPreferences
-    private DataModel mDataModel;                       // Model data that will be saved in SharedPreferences
+    private SavedModel mSavedModel;                     // Model data saved in the SharedPreferences
     // Saving the list of news that are loaded when the application starts
     private List<NYTimesNews>  mListTopStoriesNews;     // List of news "TopsStories"    
     private List<NYTimesNews>  mListMostPopularNews;    // List of news "MostPopular"
@@ -27,12 +27,12 @@ public class Model {
         return MODEL;
     }
 
-    public DataModel getDataModel() {
-        return mDataModel;
+    public SavedModel getSavedModel() {
+        return mSavedModel;
     }
 
-    public void setDataModel(DataModel dataModel) {
-        this.mDataModel = dataModel;
+    public void setSavedModel(SavedModel savedModel) {
+        this.mSavedModel = savedModel;
     }
 
     public SharedPreferences getSharedPreferences() {
