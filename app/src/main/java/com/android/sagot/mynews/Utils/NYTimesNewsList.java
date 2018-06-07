@@ -123,7 +123,7 @@ public class NYTimesNewsList {
             // -- Affected section label ( section > subSection )
             String section = results.getSection();
             if (!results.getSubsection().equals("") ) section = section+" > "+results.getSubsection();
-            news.setSection(results.getSection());
+            news.setSection(section);
 
             // -- Affected date label ( SSAAMMJJ )
             news.setDate(DateUtilities.dateReformatSSAAMMJJ(results.getPublishedDate()));

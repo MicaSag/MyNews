@@ -95,10 +95,11 @@ public abstract class BaseNewsFragment extends Fragment {
         if (mListNYTimesNews == null) {
             Log.d(TAG, "onCreateView: mListNYTimesNews = "+mListNYTimesNews);
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
-            mProgressBar.setVisibility(View.VISIBLE);   // Display ProgressBar
+            mProgressBar.setVisibility(View.VISIBLE);  // Display ProgressBar
             this.executeHttpRequestWithRetrofit();     // Call the Stream of the New York Times
         } else {
-            Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "+ getListNYTimesNewsOfTheModel().getClass().getSimpleName());
+            Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "
+                    + getListNYTimesNewsOfTheModel().getClass().getSimpleName());
         }
         
         // Configure RecyclerView

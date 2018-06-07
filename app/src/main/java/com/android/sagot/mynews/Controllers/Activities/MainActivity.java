@@ -120,42 +120,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d(TAG, "retrievesPreferences: model Restoration");
             // Retrieves the model of the SharedPreferences
             Model.getInstance().setSavedModel(gson.fromJson(modelPreferences, SavedModel.class));
-        }else
-        {
+        } else {
             Log.d(TAG, "retrieveModels: First call of the App, No Model saved");
             // First call of the app, not model saved
             // INSTANTIATE DataModel Object in the Model Singleton
             Model.getInstance().setSavedModel(new SavedModel());
         }
-        // Instantiate SearchCriteria
-        instantiateSearchCriteria();
-        // Instantiate NotificationsCriteria
-        instantiateNotificationsCriteria();
-        // Instantiate ListUrlArticleRead
-        instantiateListUrlArticleRead();
-}
-    
-    // Instantiate SearchCriteria
-    private void instantiateSearchCriteria() {
-        // If searchCriteria not exist then instantiate it
-        if (Model.getInstance().getSavedModel().getSearchCriteria() == null)
-            Model.getInstance().getSavedModel().setSearchCriteria(new SearchCriteria());
-    }
-    
-    // Instantiate NotificationsCriteria
-    private void instantiateNotificationsCriteria() {
-        // If notificationsCriteria not exist then instantiate it
-        if (Model.getInstance().getSavedModel().getNotificationsCriteria() == null)
-            Model.getInstance().getSavedModel().setNotificationsCriteria(new NotificationsCriteria());
     }
 
-    // Instantiate ListUrlArticleRead
-    private void instantiateListUrlArticleRead() {
-        // If listUrlArticleRead not exist then instantiate it
-        if (Model.getInstance().getSavedModel().getListUrlArticleRead() == null)
-            Model.getInstance().getSavedModel().setListUrlArticleRead(new ArrayList<String>());
-    }
-        
     // ---------------------------------------------------------------------------------------------
     //                                     TOOLBAR
     // ---------------------------------------------------------------------------------------------

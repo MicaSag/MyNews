@@ -45,15 +45,9 @@ public class NYTimesNewsViewHolder extends RecyclerView.ViewHolder {
         int color = mCard.getResources()
                 .obtainTypedArray(R.array.everRead_colors).getColor(tabLayoutPosition, 0);
         if (NYTimesNews.isEverRead()) {
-            this.mSection.setTextColor(Color.BLUE);
-            this.mDate.setTextColor(Color.BLUE);
-            this.mTitle.setTextColor(Color.BLUE);
             this.mCard.setCardBackgroundColor(color);
         } else {
             // Obligation to put a color because otherwise the color is randomly positioned
-            this.mSection.setTextColor(Color.BLACK);
-            this.mDate.setTextColor(Color.BLACK);
-            this.mTitle.setTextColor(Color.BLACK);
             this.mCard.setCardBackgroundColor(Color.WHITE);
         }
 
