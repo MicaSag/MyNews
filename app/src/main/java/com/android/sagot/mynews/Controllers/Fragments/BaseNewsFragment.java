@@ -48,6 +48,7 @@ public abstract class BaseNewsFragment extends Fragment {
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
     @BindView(R.id.fragment_news_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.fragment_news_swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.fragment_base_progress_bar) ProgressBar mProgressBar;
 
     // Declare Subscription
     protected Disposable mDisposable;
@@ -74,6 +75,10 @@ public abstract class BaseNewsFragment extends Fragment {
 
         // Telling ButterKnife to bind all views in layout
         ButterKnife.bind(this, mNewsView);
+        
+        // ProgressBar configuration
+        mProgressBar.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
 
         // Get data from Bundle (created in method newInstance)
         mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, 4);
@@ -86,7 +91,8 @@ public abstract class BaseNewsFragment extends Fragment {
         if (mListNYTimesNews == null) {
             Log.d(TAG, "onCreateView: mListNYTimesNews = "+mListNYTimesNews);
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
-            this.executeHttpRequestWithRetrofit(); // Call the Stream of the New York Times
+            progressBar.setVisibility(View.VISIBLE);   // Display ProgressBar
+            this.executeHttpRequestWithRetrofit();     // Call the Stream of the New York Times
         } else {
             Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "+ getListNYTimesNewsOfTheModel().getClass().getSimpleName());
         }
@@ -156,6 +162,7 @@ public abstract class BaseNewsFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                progressBar.setVisibility(View.VISIBLE);   // Display ProgressBar
                 executeHttpRequestWithRetrofit();
             }
         });
@@ -169,6 +176,9 @@ public abstract class BaseNewsFragment extends Fragment {
 
         // Stop refreshing
         mSwipeRefreshLayout.setRefreshing(false);
+        
+        // Hidden ProgressBar
+        mProgressBar.setVisibility(View.GONE);
 
         // Empty the list of previous news
         mListNYTimesNews.clear();
@@ -187,6 +197,8 @@ public abstract class BaseNewsFragment extends Fragment {
     protected void updateUIWhenErrorHTTPRequest(){
         // Stop refreshing
         mSwipeRefreshLayout.setRefreshing(false);
+        // Hidden ProgressBar
+        mProgressBar.setVisibility(View.GONE);
         Toast.makeText(getActivity(), "Error during Downloading", Toast.LENGTH_LONG).show();
     }
     
