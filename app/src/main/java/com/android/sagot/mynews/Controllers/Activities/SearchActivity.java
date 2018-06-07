@@ -38,6 +38,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     @BindView(R.id.activity_search_begin_date) EditText mBeginDate;
     @BindView(R.id.activity_search_end_date) EditText mEndDate;
     @BindView(R.id.activity_search_button) Button mButton;
+    @BindView(R.id.activity_search_progress_bar) ProgressBar mProgressBar;
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -119,6 +120,8 @@ public class SearchActivity extends BaseCriteriaActivity {
         mButton.setEnabled(false);
         // Check if the required search criteria are filled
         if ( validateCriteria() ) {
+            // Display ProgressBar
+            progressBar.setVisibility(View.VISIBLE);   
             // CALL BASE METHOD : HTTP (RxJAVA) : Execute the request of research on the API of the NYTimes
             executeHttpRequestWithRetrofit();
         }
@@ -135,6 +138,8 @@ public class SearchActivity extends BaseCriteriaActivity {
     @Override
     protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch){
         Log.d(TAG, "responseHTTPRequestAnalyze: ");
+        // Hidden ProgressBar
+        progressBar.setVisibility(View.GONE);
         if (articleSearch.getResponse().getDocs().size() != 0) {
             // Create List of Articles search in the Model
             createListArticleSearch(articleSearch);
@@ -234,6 +239,14 @@ public class SearchActivity extends BaseCriteriaActivity {
         super.configureToolBar();
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
+    }
+    
+    // OVERRIDE BASE METHOD : updateUIWhenErrorHTTPRequest()
+    // To Hide the ProgressBar
+    protected void updateUIWhenErrorHTTPRequest(){
+        super.updateUIWhenErrorHTTPRequest();
+        // Hidden ProgressBar
+        progressBar.setVisibility(View.GONE);
     }
 
     // OVERRIDE BASE METHOD : displayCriteria()
