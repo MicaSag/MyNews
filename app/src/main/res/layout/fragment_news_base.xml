@@ -12,3 +12,11 @@
         android:dividerHeight="1dp"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/fragment_news_progress_bar"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+android:visibility="gone" />
