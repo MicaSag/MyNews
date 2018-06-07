@@ -190,8 +190,10 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // Start Alarm
     private void startAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                createCalendar().getTimeInMillis(), AlarmManager.INTERVAL_DAY, mPendingIntent);
+        mAlarmManager.setInexactRepeating(  AlarmManager.ELAPSED_REALTIME_WAKEUP,   // which will wake up the device when it goes off
+                                            createCalendar().getTimeInMillis(),     // 
+                                            AlarmManager.INTERVAL_FIFTEEN_MINUTES,  // Will trigger every 15 minutes 
+                                            mPendingIntent);
         Snackbar.make(findViewById(R.id.activity_notification_coordinatorLayout),
                 "Notifications set !",
                 Snackbar.LENGTH_LONG)
