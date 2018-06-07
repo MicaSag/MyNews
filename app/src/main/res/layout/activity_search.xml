@@ -118,5 +118,12 @@
                 android:text="SEARCH">
             </Button>
         </LinearLayout>
+        <ProgressBar
+            android:id="@+id/activity_main_progress_bar"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
