@@ -39,8 +39,6 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     protected abstract int getActivityLayout(); // Layout of the Child Activity
     protected abstract int getCoordinatorLayout(); // Layout of the CoordinatorLayout of the Child Activity
     protected abstract Criteria getCriteria();  // Criteria of the Child Activity
-    protected abstract Map<String, String> formattingRequest();  // Execute the request of the NYTimes
-    protected abstract void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch); //
 
     // For debugging Mode
     private static final String TAG = BaseCriteriaActivity.class.getSimpleName();
@@ -57,9 +55,6 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     @BindView(R.id.checkbox_travel) CheckBox mCheckBoxTravel;
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
-
-    // Declare Subscription
-    protected Disposable mDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,46 +175,6 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         } else return true;
     }
 
-    // -------------------
-    // HTTP (RxJAVA)
-    // -------------------
-    /**
-     *  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
-     */
-    protected void executeHttpRequestWithRetrofit() {
-
-        // Get api_key
-        String api_key = getResources().getString(R.string.api_key);
-
-        // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  formattingRequest())
-                .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
-            @Override
-            public void onNext(NYTimesArticleSearch articleSearch) {
-                Log.d(TAG, "onNext: ");
-                // Analyze the answer
-                responseHttpRequestAnalyze(articleSearch);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                // Display a toast message
-                updateUIWhenErrorHTTPRequest();
-                Log.d(TAG, "onError: ");
-            }
-            @Override
-            public void onComplete() { Log.d(TAG,"On Complete !!"); }
-        });
-    }
-
-    // Generate a SnakeBar Message if error during Downloading
-    protected void updateUIWhenErrorHTTPRequest(){
-        Snackbar.make(findViewById(getCoordinatorLayout()),
-                "Error during Downloading",
-                Snackbar.LENGTH_LONG)
-                .show();
-    }
-
     // -----------
     //  ( OUT )    
     // -----------
@@ -238,18 +193,6 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
        Model.getInstance().getSharedPreferences().edit()
                 .putString(MainActivity.SHARED_PREF_MODEL, json).apply();
         super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        //Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
-        this.disposeWhenDestroy();
-        super.onDestroy();
-    }
-
-    //  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
-    private void disposeWhenDestroy(){
-        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 
     // -------------------

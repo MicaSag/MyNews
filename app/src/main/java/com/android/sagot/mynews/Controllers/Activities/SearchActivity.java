@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.Model;
@@ -17,6 +18,7 @@ import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArtic
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
+import com.android.sagot.mynews.Utils.NYTimesStreams;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +29,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class SearchActivity extends BaseCriteriaActivity {
 
@@ -48,6 +52,8 @@ public class SearchActivity extends BaseCriteriaActivity {
     private SimpleDateFormat displayDateFormatter;
     private Calendar newCalendar;
 
+    // Declare Subscription
+    protected Disposable mDisposable;
 
     // -------------------
     // MANAGE DATE FIELDS
@@ -121,55 +127,17 @@ public class SearchActivity extends BaseCriteriaActivity {
         // Check if the required search criteria are filled
         if ( validateCriteria() ) {
             // Display ProgressBar
-            progressBar.setVisibility(View.VISIBLE);   
+            mProgressBar.setVisibility(View.VISIBLE);
             // CALL BASE METHOD : HTTP (RxJAVA) : Execute the request of research on the API of the NYTimes
             executeHttpRequestWithRetrofit();
         }
         // Revive the button of search when the interrogation of the API of the NYTimes is ended
         mButton.setEnabled(true);
     }
-
-    // -------------------------
-    // DECLARATION BASE METHODS
-    // -------------------------
-    // BASE METHOD Implementation
-    // Analyze the answer of HttpRequestWithRetrofit
-    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit()'
-    @Override
-    protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch){
-        Log.d(TAG, "responseHTTPRequestAnalyze: ");
-        // Hidden ProgressBar
-        progressBar.setVisibility(View.GONE);
-        if (articleSearch.getResponse().getDocs().size() != 0) {
-            // Create List of Articles search in the Model
-            createListArticleSearch(articleSearch);
-            // Create Intent and add it some data
-            Intent intentResultSearchActivity =
-                    new Intent(SearchActivity.this, ResultSearchActivity.class);
-            // Call ResultSearchActivity
-            startActivity(intentResultSearchActivity);
-        } else {
-            Snackbar.make(findViewById(getCoordinatorLayout()),
-                    "No article found for these criteria of searches",
-                    Snackbar.LENGTH_LONG)
-                    .show();
-        }
-    }
-    
-    // Create list of Article search and save it in the Model
-    protected void createListArticleSearch(NYTimesArticleSearch articleSearch) {
-
-        // Create list of articles
-        List<NYTimesNews> listNYTimesNews = new ArrayList<>();
-        NYTimesNewsList.createListArticleSearch(listNYTimesNews, articleSearch);
-        // Save the News in the Model
-        Model.getInstance().setListSearchNews(listNYTimesNews);
-    }
-
-    // BASE METHOD Implementation
+    // -------------------
+    // HTTP (RxJAVA)
+    // -------------------
     // Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
-    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit(...)'
-    @Override
     protected Map<String, String> formattingRequest() {
 
         // Create a new request and put criteria
@@ -185,6 +153,77 @@ public class SearchActivity extends BaseCriteriaActivity {
         return request.getQuery();
     }
 
+    //  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
+    protected void executeHttpRequestWithRetrofit() {
+
+        // Get api_key
+        String api_key = getResources().getString(R.string.api_key);
+
+        // Execute the stream subscribing to Observable defined inside NYTimesStreams
+        mDisposable = NYTimesStreams.streamFetchArticleSearch(api_key,  formattingRequest())
+                .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
+                    @Override
+                    public void onNext(NYTimesArticleSearch articleSearch) {
+                        Log.d(TAG, "onNext: ");
+                        // Analyze the answer
+                        responseHttpRequestAnalyze(articleSearch);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        // Display a toast message
+                        updateUIWhenErrorHTTPRequest();
+                        Log.d(TAG, "onError: ");
+                    }
+                    @Override
+                    public void onComplete() { Log.d(TAG,"On Complete !!"); }
+                });
+    }
+
+    // Analyze the answer of HttpRequestWithRetrofit
+    protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch){
+        Log.d(TAG, "responseHTTPRequestAnalyze: ");
+        // Hidden ProgressBar
+        mProgressBar.setVisibility(View.GONE);
+        if (articleSearch.getResponse().getDocs().size() != 0) {
+            // Create List of Articles search in the Model
+            createListArticleSearch(articleSearch);
+            // Create Intent and add it some data
+            Intent intentResultSearchActivity =
+                    new Intent(SearchActivity.this, ResultSearchActivity.class);
+            // Call ResultSearchActivity
+            startActivity(intentResultSearchActivity);
+        } else {
+            Snackbar.make(findViewById(getCoordinatorLayout()),
+                    "No article found for these criteria of searches",
+                    Snackbar.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    // Create list of Article search and save it in the Model
+    protected void createListArticleSearch(NYTimesArticleSearch articleSearch) {
+        // Create list of articles
+        List<NYTimesNews> listNYTimesNews = new ArrayList<>();
+        NYTimesNewsList.createListArticleSearch(listNYTimesNews, articleSearch);
+        // Save the News in the Model
+        Model.getInstance().setListSearchNews(listNYTimesNews);
+    }
+
+    // Generate a SnakeBar Message if error during Downloading
+    protected void updateUIWhenErrorHTTPRequest(){
+        // Hidden ProgressBar
+        mProgressBar.setVisibility(View.GONE);
+        // Display Snake Error message
+        Snackbar.make(findViewById(getCoordinatorLayout()),
+                "Error during Downloading",
+                Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    // -------------------------
+    // DECLARATION BASE METHODS
+    // -------------------------
     // BASE METHOD Implementation
     // Get the activity layout
     // CALLED BY BASE METHOD 'onCreate(...)'
@@ -240,14 +279,6 @@ public class SearchActivity extends BaseCriteriaActivity {
         // Change Color of the Toolbar
         mToolbar.setBackgroundColor(getResources().getColor(R.color.searchPrimary));
     }
-    
-    // OVERRIDE BASE METHOD : updateUIWhenErrorHTTPRequest()
-    // To Hide the ProgressBar
-    protected void updateUIWhenErrorHTTPRequest(){
-        super.updateUIWhenErrorHTTPRequest();
-        // Hidden ProgressBar
-        progressBar.setVisibility(View.GONE);
-    }
 
     // OVERRIDE BASE METHOD : displayCriteria()
     // To add the date criteria to the display debug
@@ -256,5 +287,20 @@ public class SearchActivity extends BaseCriteriaActivity {
         super.displayCriteria();
         Log.d(TAG, "displaySearchCriteria: Begin Date          = "+getModel().getSearchCriteria().getBeginDate());
         Log.d(TAG, "displaySearchCriteria: End Date            = "+getModel().getSearchCriteria().getEndDate());
+    }
+
+    // -----------
+    //  ( OUT )
+    // -----------
+    @Override
+    public void onDestroy() {
+        //Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
+        this.disposeWhenDestroy();
+        super.onDestroy();
+    }
+
+    //  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
+    private void disposeWhenDestroy(){
+        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 }

@@ -1,8 +1,10 @@
 package com.android.sagot.mynews.Controllers.Fragments;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.sagot.mynews.Controllers.Activities.WebViewActivity;
@@ -48,7 +51,7 @@ public abstract class BaseNewsFragment extends Fragment {
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
     @BindView(R.id.fragment_news_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.fragment_news_swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
-    @BindView(R.id.fragment_base_progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.fragment_news_progress_bar) ProgressBar mProgressBar;
 
     // Declare Subscription
     protected Disposable mDisposable;
@@ -78,7 +81,8 @@ public abstract class BaseNewsFragment extends Fragment {
         
         // ProgressBar configuration
         mProgressBar.getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(context, R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
+                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark),
+                        PorterDuff.Mode.SRC_IN);
 
         // Get data from Bundle (created in method newInstance)
         mTabLayoutPosition = getArguments().getInt(BUNDLE_TAB_LAYOUT_POSITION, 4);
@@ -91,7 +95,7 @@ public abstract class BaseNewsFragment extends Fragment {
         if (mListNYTimesNews == null) {
             Log.d(TAG, "onCreateView: mListNYTimesNews = "+mListNYTimesNews);
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
-            progressBar.setVisibility(View.VISIBLE);   // Display ProgressBar
+            mProgressBar.setVisibility(View.VISIBLE);   // Display ProgressBar
             this.executeHttpRequestWithRetrofit();     // Call the Stream of the New York Times
         } else {
             Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "+ getListNYTimesNewsOfTheModel().getClass().getSimpleName());
@@ -125,6 +129,9 @@ public abstract class BaseNewsFragment extends Fragment {
                                     .add(mListNYTimesNews.get(position).getNewsURL());
                             // Set at True everRead in the list of articles
                             mListNYTimesNews.get(position).setEverRead(true);
+                            // Recharge RecyclerView Adapter
+                            // for taking into account thr item everRead
+                            mNYTimesNewsAdapter.notifyDataSetChanged();
                         }
                         //Launch WebView Activity
                         callWebViewActivity(mListNYTimesNews.get(position).getNewsURL(),
@@ -162,7 +169,6 @@ public abstract class BaseNewsFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                progressBar.setVisibility(View.VISIBLE);   // Display ProgressBar
                 executeHttpRequestWithRetrofit();
             }
         });

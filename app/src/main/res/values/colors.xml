@@ -18,42 +18,42 @@
     <color name="topStoriesPrimaryDark">@color/colorPrimaryDark</color>
     <color name="topStoriesPrimary">@color/colorPrimary</color>
     <color name="topStoriesPrimaryLight">@color/colorPrimaryLight</color>
-    <color name="topStoriesEverRead">#E1F5FE</color>
+    <color name="topStoriesEverRead">#B3E5FC</color>
     <color name="topStoriesAccent">@color/colorAccent</color>
     <color name="topStoriesText">@color/colorText</color>
 
     <!-- colors that will be used by MostPopular -->
     <color name="mostPopularPrimaryDark">#0097a7</color>
     <color name="mostPopularPrimary">#00bcd4</color>
-    <color name="mostPopularEverRead">#E0F7FA</color>
+    <color name="mostPopularEverRead">#B2EBF2</color>
     <color name="mostPopularAccent">#f50057</color>
     <color name="mostPopularText">@android:color/black</color>
 
     <!-- colors that will be used by Business -->
     <color name="businessPrimaryDark">#00796b</color>
     <color name="businessPrimary">#009688</color>
-    <color name="businessEverRead">#E0F2F1</color>
+    <color name="businessEverRead">#B2DFDB</color>
     <color name="businessAccent">#d500f9</color>
     <color name="businessText">@android:color/white</color>
 
     <!-- colors that will be used by Sports -->
     <color name="sportsPrimaryDark">#388e3c</color>
     <color name="sportsPrimary">#4caf50</color>
-    <color name="sportsEverRead">#E8F5E9</color>
+    <color name="sportsEverRead">#C8E6C9</color>
     <color name="sportsAccent">#651fff</color>
     <color name="sportsText">@android:color/black</color>
 
     <!-- colors that will be used by search -->
     <color name="searchPrimaryDark">#689f38</color>
     <color name="searchPrimary">#8bc34a</color>
-    <color name="searchEverRead">#F1F8E9</color>
+    <color name="searchEverRead">#DCEDC8</color>
     <color name="searchAccent">#8bc34a</color>
     <color name="searchText">@android:color/black</color>
 
     <!-- colors that will be used by notifications -->
     <color name="notificationsPrimaryDark">#F57C00</color>
     <color name="notificationsPrimary">#FF9800</color>
-    <color name="notificationsEverRead">#FFF3E0</color>
+    <color name="notificationsEverRead">#FFE0B2</color>
     <color name="notificationAccent">#FF9800</color>
     <color name="notificationsText">@android:color/black</color>
 

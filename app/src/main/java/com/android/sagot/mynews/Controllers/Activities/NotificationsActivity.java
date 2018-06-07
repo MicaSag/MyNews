@@ -13,7 +13,6 @@ import android.widget.Switch;
 
 import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.Model;
-import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArticleSearch;
 import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NotificationsAlarmReceiver;
@@ -34,6 +33,9 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     @BindView(R.id.activity_notifications_switch) Switch mSwitch;
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
+
+    // Static variables for intent parameters
+    public static final String BUNDLE_NBR_ARTICLE_FOUND = "BUNDLE_NBR_ARTICLE_FOUND";
 
     // Creating an intent to execute our broadcast
     private PendingIntent mPendingIntent;
@@ -68,29 +70,6 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     @Override
     protected Criteria getCriteria() {
         return (Criteria)getModel().getNotificationsCriteria(); 
-    }
-    
-    // BASE METHOD Implementation
-    // Formatting Request for Stream " NYTimesStreams.streamFetchArticleSearch "
-    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit(...)'
-    @Override
-    protected Map<String, String> formattingRequest() {
-        // Create a new request and put criteria
-        NYTimesRequest request = new NYTimesRequest();
-        request.createQuery(Model.getInstance().getSavedModel().getSearchCriteria());
-        // FOR DEBUG : Display request
-        request.displayQuery();
-
-        return request.getQuery();
-    }
-
-    // BASE METHOD Implementation
-    // Analyze the answer of HttpRequestWithRetrofit
-    // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit()'
-    @Override
-    protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch) {
-        // ici on récupère le nombre d articles trouvées par la requete
-        mNbrArticleFound = resultat de la requete;
     }
 
     // ----------------------
@@ -175,7 +154,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         Intent alarmIntent = new Intent(NotificationsActivity.this,
                 NotificationsAlarmReceiver.class);
         // Put mNbrArticleFound in the intent
-        alarmIntent.putEXTRA("NBR_ARTICLE_FOUND",mNbrArticleFound);
+        alarmIntent.putExtra(BUNDLE_NBR_ARTICLE_FOUND,mNbrArticleFound);
         mPendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0,
                 alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -196,9 +175,10 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
     // Start Alarm
     private void startAlarm() {
+        //createCalendar().getTimeInMillis()
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setInexactRepeating(  AlarmManager.ELAPSED_REALTIME_WAKEUP,   // which will wake up the device when it goes off
-                                            createCalendar().getTimeInMillis(),     // 
+                                            60000,     //
                                             AlarmManager.INTERVAL_FIFTEEN_MINUTES,  // Will trigger every 15 minutes 
                                             mPendingIntent);
         Snackbar.make(findViewById(R.id.activity_notification_coordinatorLayout),
