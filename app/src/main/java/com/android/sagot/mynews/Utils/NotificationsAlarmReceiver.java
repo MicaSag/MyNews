@@ -18,6 +18,15 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive: ");
+        // Description of the notification
+        int nbrArticle;
+        
+         // Execute Stream " NYTimesStreams.streamFetchArticleSearch "
+         executeHttpRequestWithRetrofit();
+        
+        getEXTRA("NBR_ARTICLE_FOUND",nbrArticleFound);
+        
+        String description = "Today, "+ nbrArticleFound +"articles match your expectations. Come quickly to consult them.";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Log.d(TAG, "onReceive: Android 8.0 (API level 26) and higher");
@@ -30,7 +39,7 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
             notificationManagerNew.createNotificationChannel(channel);
             Notification notification = new Notification.Builder(context,"My Channel")
                     .setContentTitle("TITRE")
-                    .setContentText("DESCRIPTION")
+                    .setContentText(description)
                     .setSmallIcon(R.drawable.ic_fiber_new_black_24dp)
                     .build();
             notificationManagerNew.notify(1, notification);
@@ -38,7 +47,7 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
             Log.d(TAG, "onReceive: Other Android Version");
             Notification notification = new Notification.Builder(context)
                     .setContentTitle("TITRE")
-                    .setContentText("DESCRIPTION")
+                    .setContentText(description)
                     .setSmallIcon(R.drawable.ic_fiber_new_black_24dp)
                     .build();
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
