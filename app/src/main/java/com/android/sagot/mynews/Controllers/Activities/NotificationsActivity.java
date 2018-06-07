@@ -40,6 +40,9 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // Creating alarmManager
     private AlarmManager mAlarmManager;
     
+    // Number of articles meeting the criteria of the notification
+    int mNbrArticleFound;
+    
     // -------------------------
     // DECLARATION BASE METHODS
     // -------------------------
@@ -86,6 +89,8 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // CALLED BY BASE METHOD 'executeHttpRequestWithRetrofit()'
     @Override
     protected void responseHttpRequestAnalyze(NYTimesArticleSearch articleSearch) {
+        // ici on récupère le nombre d articles trouvées par la requete
+        mNbrArticleFound = resultat de la requete;
     }
 
     // ----------------------
@@ -166,9 +171,11 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // ----------------------------
     private void configureAlarmManager(){
         Log.d(TAG, "configureAlarmManager: ");
-
+        // Create the Intent to destination of the BroadcastReceiver
         Intent alarmIntent = new Intent(NotificationsActivity.this,
                 NotificationsAlarmReceiver.class);
+        // Put mNbrArticleFound in the intent
+        alarmIntent.putEXTRA("NBR_ARTICLE_FOUND",mNbrArticleFound);
         mPendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0,
                 alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
