@@ -54,8 +54,8 @@ public class NYTimesNewsList {
 
             // set the everRead at true if necessary
             for (String url : Model.getInstance().getSavedModel().getListUrlArticleRead())
-                if (news.getNewsURL() == url) news.setEverRead(true);
-
+                if (news.getNewsURL().equals(url)) news.setEverRead(true);
+            
             // Add news at Lit
             listNYTimesNews.add(news);
         }
@@ -93,7 +93,7 @@ public class NYTimesNewsList {
 
             // set the everRead at true if necessary
             for (String url : Model.getInstance().getSavedModel().getListUrlArticleRead())
-                if (news.getNewsURL() == url) news.setEverRead(true);
+                if (news.getNewsURL().equals(url)) news.setEverRead(true);
 
             listNYTimesNews.add(news);
         }
