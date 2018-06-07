@@ -132,25 +132,13 @@ public class NYTimesNewsList {
             news.setTitle(results.getTitle());
 
             // set the everRead at true if necessary
-
-            Log.d(TAG, "createListArticleTopStories: news.getNewsURL() ="+news.getNewsURL());
-            List<String> listUrlSaved = Model.getInstance().getSavedModel().getListUrlArticleRead();
-            for (String url : listUrlSaved) {
-
-                Log.d(TAG, "createListArticleTopStories:URL ="+url);
-                if (news.getNewsURL().equals(url)) {
-                    Log.d(TAG, "createListArticleTopStories: URLs IDENTIQUE");
-                    news.setEverRead(true);
-                } else {
-                    Log.d(TAG, "createListArticleTopStories: URLs <>");
-                }
-            }
-            Log.d(TAG, "createListArticleTopStories:***********************************");
+            for (String url : Model.getInstance().getSavedModel().getListUrlArticleRead())
+                if (news.getNewsURL().equals(url)) news.setEverRead(true);
 
             listNYTimesNews.add(news);
         }
         // Sort the newsList by createdDate in Descending
-        //Collections.sort(listNYTimesNews,new NYTimesNews());
-        //Collections.reverse(listNYTimesNews);
+        Collections.sort(listNYTimesNews,new NYTimesNews());
+        Collections.reverse(listNYTimesNews);
     }
 }
