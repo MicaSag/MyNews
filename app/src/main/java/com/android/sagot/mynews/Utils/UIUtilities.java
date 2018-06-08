@@ -14,9 +14,10 @@ import android.view.WindowManager;
 
 public class UIUtilities {
 
-    /********************************************************
+    /**
      * Method allowing to change the color of bar of status
      * Only SDK_VERSION > 21
+     * @param content Activity , int color of the toolbar
      */
     // Change the color of the status bar
     public static void changeStatusBarColor(Activity content, int color) {
@@ -71,5 +72,32 @@ public class UIUtilities {
                 divider.draw(c);
             }
         }
+    }
+      
+    /**
+     * Checking whether network is connected
+     * @param context Context to get {@link ConnectivityManager}
+     * @return true if Network is connected, else false
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        int[] networkTypes = {  ConnectivityManager.TYPE_MOBILE,
+                                ConnectivityManager.TYPE_WIFI};
+        try {
+            // Get ConnectivityManager
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            // // Look if the connection is a Wifi or Mobile connection 
+            for (int networkType : networkTypes) {
+                // Get ActiveNetworkInfo
+                NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                // see if a network connection is established and Wifi or Mobile connection  
+                if (activeNetworkInfo != null &&
+                        activeNetworkInfo.getType() == networkType)
+                    return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 }
