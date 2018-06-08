@@ -64,6 +64,10 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
         return request.getQuery();
     }
 
+    public void setNbrArticleFound(int nbrArticleFound) {
+        this.nbrArticleFound = nbrArticleFound;
+    }
+
     //  Execute Stream " NYTimesStreams.streamFetchArticleSearch "
     protected void executeHttpRequestWithRetrofit() {
 
@@ -76,6 +80,7 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
                     @Override
                     public void onNext(NYTimesArticleSearch articleSearch) {
                         Log.d(TAG, "onNext: ");
+                        setNbrArticleFound(articleSearch.getResponse().getMeta().getHits());
                     }
 
                     @Override
