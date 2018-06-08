@@ -96,7 +96,8 @@ public abstract class BaseNewsFragment extends Fragment {
             Log.d(TAG, "onCreateView: mListNYTimesNews = "+mListNYTimesNews);
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
             mProgressBar.setVisibility(View.VISIBLE);  // Display ProgressBar
-            this.executeHttpRequestWithRetrofit();     // Call the Stream of the New York Times
+            if (this.testconnectivity()) 
+                this.executeHttpRequestWithRetrofit();     // Call the Stream of the New York Times
         } else {
             Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "
                     + getListNYTimesNewsOfTheModel().getClass().getSimpleName());
@@ -112,6 +113,16 @@ public abstract class BaseNewsFragment extends Fragment {
         this.configureOnClickRecyclerView();
 
         return mNewsView;
+    }
+    
+    // Checking whether network is connected
+    private boolean testconnectivity() {
+        if (!isNetworkAvailable(context)) {
+             Snackbar.make(findViewById(getCoordinatorLayout()),
+             "Not Connected",
+             Snackbar.LENGTH_LONG).show();
+             return false;
+        else return true;
     }
 
     // -----------------
