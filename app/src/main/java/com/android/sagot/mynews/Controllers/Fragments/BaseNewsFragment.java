@@ -3,6 +3,8 @@ package com.android.sagot.mynews.Controllers.Fragments;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -31,6 +33,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 
+import static com.android.sagot.mynews.Utils.UIUtilities.isNetworkAvailable;
+
 /**
  *  BASE FRAGMENT
  */
@@ -52,6 +56,7 @@ public abstract class BaseNewsFragment extends Fragment {
     @BindView(R.id.fragment_news_recycler_view) RecyclerView mRecyclerView;
     @BindView(R.id.fragment_news_swipe_refresh_layout) SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.fragment_news_progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.fragment_news_coordinator_layout) CoordinatorLayout mCoordinatorLayout;
 
     // Declare Subscription
     protected Disposable mDisposable;
@@ -95,14 +100,18 @@ public abstract class BaseNewsFragment extends Fragment {
         if (mListNYTimesNews == null) {
             Log.d(TAG, "onCreateView: mListNYTimesNews = "+mListNYTimesNews);
             this.mListNYTimesNews = new ArrayList<>(); // Reset list
-            mProgressBar.setVisibility(View.VISIBLE);  // Display ProgressBar
-            if (this.testconnectivity()) 
+            if (this.testConnectivity()) {
+                Log.d(TAG, "onCreateView: CONNECTION OK");
+                mProgressBar.setVisibility(View.VISIBLE);  // Display ProgressBar
                 this.executeHttpRequestWithRetrofit();     // Call the Stream of the New York Times
+            }else{
+                Log.d(TAG, "onCreateView: CONNEXION KOOOOOOOOO");
+            }
         } else {
             Log.d(TAG, "onCreateView: mListNYTimesNews <> 0 : "
                     + getListNYTimesNewsOfTheModel().getClass().getSimpleName());
         }
-        
+
         // Configure RecyclerView
         this.configureRecyclerView();
 
@@ -116,12 +125,12 @@ public abstract class BaseNewsFragment extends Fragment {
     }
     
     // Checking whether network is connected
-    private boolean testconnectivity() {
-        if (!isNetworkAvailable(context)) {
-             Snackbar.make(findViewById(getCoordinatorLayout()),
-             "Not Connected",
-             Snackbar.LENGTH_LONG).show();
-             return false;
+    private boolean testConnectivity() {
+        if (!isNetworkAvailable(getContext())) {
+            Snackbar.make(getActivity().findViewById(R.id.activity_main_coordinator_layout),
+                    "Not Connected",Snackbar.LENGTH_LONG).show();
+            return false;
+        }
         else return true;
     }
 
@@ -131,25 +140,28 @@ public abstract class BaseNewsFragment extends Fragment {
     //  Configure clickListener on Item of the RecyclerView
     private void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_recycler_view_item)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        // If we have not already read
-                        if (!mListNYTimesNews.get(position).isEverRead()) {
-                            // Save in the model, the URL of the article in the list of articles already read
-                            Model.getInstance().getSavedModel().getListUrlArticleRead()
-                                    .add(mListNYTimesNews.get(position).getNewsURL());
-                            // Set at True everRead in the list of articles
-                            mListNYTimesNews.get(position).setEverRead(true);
-                            // Recharge RecyclerView Adapter
-                            // for taking into account thr item everRead
-                            mNYTimesNewsAdapter.notifyDataSetChanged();
-                        }
-                        //Launch WebView Activity
-                        callWebViewActivity(mListNYTimesNews.get(position).getNewsURL(),
-                                mTabLayoutPosition);
+        .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                // If not connexion, not article view
+                if (testConnectivity()) {
+                    // If we have not already read
+                    if (!mListNYTimesNews.get(position).isEverRead()) {
+                        // Save in the model, the URL of the article in the list of articles already read
+                        Model.getInstance().getSavedModel().getListUrlArticleRead()
+                                .add(mListNYTimesNews.get(position).getNewsURL());
+                        // Set at True everRead in the list of articles
+                        mListNYTimesNews.get(position).setEverRead(true);
+                        // Recharge RecyclerView Adapter
+                        // for taking into account thr item everRead
+                        mNYTimesNewsAdapter.notifyDataSetChanged();
                     }
-                });
+                    //Launch WebView Activity
+                    callWebViewActivity(mListNYTimesNews.get(position).getNewsURL(),
+                            mTabLayoutPosition);
+                }
+            }
+        });
     }
      // Launch WebViewActivity
      // Param : 1 _ Url to display
@@ -181,7 +193,14 @@ public abstract class BaseNewsFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                executeHttpRequestWithRetrofit();
+                if (testConnectivity()) {
+                    Log.d(TAG, "onCreateView: CONNECTION OK");
+                    executeHttpRequestWithRetrofit();     // Call the Stream of the New York Times
+                }else{
+                    Log.d(TAG, "onCreateView: CONNEXION KOOOOOOOOO");
+                    // Stop refreshing
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }

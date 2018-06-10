@@ -2,6 +2,7 @@ package com.android.sagot.mynews.Controllers.Activities;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,6 +33,8 @@ import butterknife.OnClick;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.android.sagot.mynews.Utils.UIUtilities.isNetworkAvailable;
+
 public class SearchActivity extends BaseCriteriaActivity {
 
     // For debugging Mode
@@ -43,6 +46,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     @BindView(R.id.activity_search_end_date) EditText mEndDate;
     @BindView(R.id.activity_search_button) Button mButton;
     @BindView(R.id.activity_search_progress_bar) ProgressBar mProgressBar;
+    @BindView(R.id.activity_search_coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -126,13 +130,24 @@ public class SearchActivity extends BaseCriteriaActivity {
         mButton.setEnabled(false);
         // Check if the required search criteria are filled
         if ( validateCriteria() ) {
-            // Display ProgressBar
-            mProgressBar.setVisibility(View.VISIBLE);
-            // CALL BASE METHOD : HTTP (RxJAVA) : Execute the request of research on the API of the NYTimes
-            executeHttpRequestWithRetrofit();
+            // Not connectivity, not search
+            if (this.testConnectivity()) {
+                // Display ProgressBar
+                mProgressBar.setVisibility(View.VISIBLE);
+                // CALL BASE METHOD : HTTP (RxJAVA) : Execute the request of research on the API of the NYTimes
+                executeHttpRequestWithRetrofit();
+            }
         }
         // Revive the button of search when the interrogation of the API of the NYTimes is ended
         mButton.setEnabled(true);
+    }
+    // Checking whether network is connected
+    private boolean testConnectivity() {
+        if (!isNetworkAvailable(this)) {
+            Snackbar.make(mCoordinatorLayout,"Not Connected",Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+        else return true;
     }
     // -------------------
     // HTTP (RxJAVA)
@@ -194,10 +209,8 @@ public class SearchActivity extends BaseCriteriaActivity {
             // Call ResultSearchActivity
             startActivity(intentResultSearchActivity);
         } else {
-            Snackbar.make(findViewById(getCoordinatorLayout()),
-                    "No article found for these criteria of searches",
-                    Snackbar.LENGTH_LONG)
-                    .show();
+            Snackbar.make(mCoordinatorLayout,"No article found for these criteria of searches",
+                    Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -215,10 +228,7 @@ public class SearchActivity extends BaseCriteriaActivity {
         // Hidden ProgressBar
         mProgressBar.setVisibility(View.GONE);
         // Display Snake Error message
-        Snackbar.make(findViewById(getCoordinatorLayout()),
-                "Error during Downloading",
-                Snackbar.LENGTH_LONG)
-                .show();
+        Snackbar.make(mCoordinatorLayout,"Error during Downloading",Snackbar.LENGTH_LONG).show();
     }
 
     // -------------------------

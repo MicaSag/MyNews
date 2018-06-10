@@ -27,6 +27,8 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.android.sagot.mynews.Utils.UIUtilities.isNetworkAvailable;
+
 public class NotificationsAlarmReceiver extends BroadcastReceiver {
 
     private static final String TAG = NotificationsAlarmReceiver.class.getSimpleName();
@@ -44,11 +46,13 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive: ");
-
         mContext = context;
 
-        // Execute Stream " NYTimesStreams.streamFetchArticleSearch "
-        executeHttpRequestWithRetrofit();
+        // If not connection, not notification
+        if (isNetworkAvailable(context)) {
+            // Execute Stream " NYTimesStreams.streamFetchArticleSearch "
+            executeHttpRequestWithRetrofit();
+        }
     }
 
     // -------------------

@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,6 +30,8 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     private static final String TAG = NotificationsActivity.class.getSimpleName();
 
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
+    // Of the Switch
+    @BindView(R.id.activity_notifications_coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
     // Of the Switch
     @BindView(R.id.activity_notifications_switch) Switch mSwitch;
     // Of the ToolBar
@@ -61,7 +64,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // CALLED BY BASE METHOD 'onCreate(...)'
     @Override
     protected int getCoordinatorLayout() {
-        return R.id.activity_notification_coordinatorLayout;
+        return R.id.activity_notifications_coordinatorLayout;
     }
 
     // BASE METHOD Implementation
@@ -162,7 +165,6 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // ------------------------------
     // SCHEDULE TASK  : AlarmManager
     // ------------------------------
-
     private Calendar createCalendar() {
         // The schedule is set to be launch at midnight
         Calendar calendar = Calendar.getInstance();
@@ -172,28 +174,20 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         calendar.add(Calendar.DATE, 1);
         return calendar;
     }
-
     // Start Alarm
     private void startAlarm() {
-        //createCalendar().getTimeInMillis()
+        Log.d(TAG, "startAlarm: = Times Millis = "+createCalendar().getTimeInMillis());
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setInexactRepeating(  AlarmManager.ELAPSED_REALTIME_WAKEUP,   // which will wake up the device when it goes off
                                             60000,     //
                                             AlarmManager.INTERVAL_FIFTEEN_MINUTES,  // Will trigger every 15 minutes 
                                             mPendingIntent);
-        Snackbar.make(findViewById(R.id.activity_notification_coordinatorLayout),
-                "Notifications set !",
-                Snackbar.LENGTH_LONG)
-                .show();
+        Snackbar.make(mCoordinatorLayout,"Notifications set !",Snackbar.LENGTH_LONG).show();
     }
-
     // Stop Alarm
     private void stopAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(mPendingIntent);
-        Snackbar.make(findViewById(R.id.activity_notification_coordinatorLayout),
-                "Notifications canceled !",
-                Snackbar.LENGTH_LONG)
-                .show();
+        Snackbar.make(mCoordinatorLayout,"Notifications canceled !",Snackbar.LENGTH_LONG).show();
     }
 }

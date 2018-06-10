@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -42,16 +43,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = MainActivity.class.getSimpleName();
 
     // Adding @BindView in order to indicate to ButterKnife to get & serialise it
-    @BindView(R.id.activity_main_drawer_layout)
-    DrawerLayout mDrawerLayout;
-    @BindView(R.id.activity_main_nav_view)
-    NavigationView mNavigationView;
-    @BindView(R.id.activity_main_viewpager)
-    ViewPager mViewPager;
-    @BindView(R.id.activity_main_tabs)
-    TabLayout mTabLayout;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+    @BindView(R.id.activity_main_drawer_layout) DrawerLayout mDrawerLayout;
+    @BindView(R.id.activity_main_nav_view) NavigationView mNavigationView;
+    @BindView(R.id.activity_main_viewpager) ViewPager mViewPager;
+    @BindView(R.id.activity_main_tabs) TabLayout mTabLayout;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
     // VIEWPAGER FRAGMENTS
     // Identify each fragment of the ViewPager with a number
