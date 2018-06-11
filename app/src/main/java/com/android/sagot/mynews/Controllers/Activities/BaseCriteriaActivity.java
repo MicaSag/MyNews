@@ -116,7 +116,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     // ------------------
     // Hide the keyboard when the editText loses the focus and checkbox arts obtains it
     @OnTouch(R.id.checkbox_arts)
-    public boolean onToucharts(View v, MotionEvent event){
+    public boolean onTouchArts(View v, MotionEvent event){
        hideKeyboardFrom(this);
         return false;
     }
@@ -128,7 +128,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
 
     // Hide the keyboard when the editText loses the focus and checkbox business obtains it
     @OnTouch(R.id.checkbox_business)
-    public boolean onTouchbusiness(View v, MotionEvent event){
+    public boolean onTouchBusiness(View v, MotionEvent event){
         hideKeyboardFrom(this);
         return false;
     }
@@ -140,7 +140,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
 
     // Hide the keyboard when the editText loses the focus and checkbox entrepreneurs obtains it
     @OnTouch(R.id.checkbox_entrepreneurs)
-    public boolean onTouchentrepreneurs(View v, MotionEvent event){
+    public boolean onTouchEntrepreneurs(View v, MotionEvent event){
         hideKeyboardFrom(this);
         return false;
     }
@@ -164,7 +164,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
 
     // Hide the keyboard when the editText loses the focus and checkbox sports obtains it
     @OnTouch(R.id.checkbox_sports)
-    public boolean onTouchsports(View v, MotionEvent event){
+    public boolean onTouchSports(View v, MotionEvent event){
         hideKeyboardFrom(this);
         return false;
     }

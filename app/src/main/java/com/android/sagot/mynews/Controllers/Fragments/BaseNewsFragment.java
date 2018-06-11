@@ -45,6 +45,7 @@ public abstract class BaseNewsFragment extends Fragment {
     protected abstract void createListNYTimesNews(Object news);                        // Create list of news to display
     protected abstract List<NYTimesNews> getListNYTimesNewsOfTheModel();               // Get list of news of the Model
     protected abstract void setListNYTimesNewsInTheModel(List<NYTimesNews> newsList);  // Set list of news in the Model
+    protected abstract View getCoordinatorLayoutActivity();                            // View of the CoordinatorLayout of the origin activity
 
     // FOR TRACES
     private static final String TAG = BaseNewsFragment.class.getSimpleName();
@@ -127,7 +128,7 @@ public abstract class BaseNewsFragment extends Fragment {
     // Checking whether network is connected
     private boolean testConnectivity() {
         if (!isNetworkAvailable(getContext())) {
-            Snackbar.make(getActivity().findViewById(R.id.activity_main_coordinator_layout),
+            Snackbar.make(getCoordinatorLayoutActivity(),
                     "Not Connected",Snackbar.LENGTH_LONG).show();
             return false;
         }

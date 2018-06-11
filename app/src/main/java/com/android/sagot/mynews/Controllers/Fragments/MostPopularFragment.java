@@ -2,10 +2,12 @@ package com.android.sagot.mynews.Controllers.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPopular;
+import com.android.sagot.mynews.R;
 import com.android.sagot.mynews.Utils.NYTimesNewsList;
 import com.android.sagot.mynews.Utils.NYTimesStreams;
 
@@ -83,6 +85,14 @@ public class MostPopularFragment extends BaseNewsFragment {
     @Override
     protected void createListNYTimesNews(Object news) {
         NYTimesNewsList.createListArticleMostPopular(mListNYTimesNews,(NYTimesMostPopular)news);  
+    }
+
+    // BASE METHOD Implementation
+    // Return coordinatorLayout of the parent activity
+    // CALLED BY BASE METHOD 'testConnectivity()'
+    @Override
+    protected View getCoordinatorLayoutActivity() {
+        return getActivity().findViewById(R.id.activity_main_coordinator_layout);
     }
 
     // --------------
