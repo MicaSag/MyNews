@@ -171,16 +171,19 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 1);
         calendar.set(Calendar.SECOND, 0);
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, 0);
         return calendar;
     }
     // Start Alarm
     private void startAlarm() {
-        Log.d(TAG, "startAlarm: = Times Millis = "+createCalendar().getTimeInMillis());
+        int timeInSec = 5;
+        long startTime = System.currentTimeMillis() + (timeInSec * 1000);
+        Log.d(TAG, "startAlarm: = Times Millis system = "+startTime);
+        //Log.d(TAG, "startAlarm: = Times Millis = "+createCalendar().getTimeInMillis());
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setInexactRepeating(  AlarmManager.ELAPSED_REALTIME_WAKEUP,   // which will wake up the device when it goes off
-                                            60000,     //
-                                            AlarmManager.INTERVAL_FIFTEEN_MINUTES,  // Will trigger every 15 minutes 
+                                            startTime,     //
+                                            AlarmManager.INTERVAL_DAY,  // Will trigger every 15 minutes
                                             mPendingIntent);
         Snackbar.make(mCoordinatorLayout,"Notifications set !",Snackbar.LENGTH_LONG).show();
     }
