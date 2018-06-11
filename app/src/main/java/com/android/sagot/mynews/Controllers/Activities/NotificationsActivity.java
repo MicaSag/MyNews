@@ -9,6 +9,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -23,6 +25,9 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
+import butterknife.OnTouch;
+
+import static com.android.sagot.mynews.Utils.UIUtilities.hideKeyboardFrom;
 
 public class NotificationsActivity extends BaseCriteriaActivity {
 
@@ -115,11 +120,28 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         Log.d(TAG, "displayCriteria: switch              = "+getModel()
               .getNotificationsCriteria().isNotificationStatus());
-    } 
+    }
+
+    // -------------------
+    //   ACTION LAYOUT
+    // -------------------
+    // Hide the keyboard when the editText loses the focus and coordinator layout obtains it
+    @OnTouch(R.id.activity_notifications_coordinatorLayout)
+    public boolean onTouchLayout(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
 
     // ---------------
     // ACTIONS SWITCH
     // ---------------
+    // Hide the keyboard when the editText loses the focus and notifications switch obtains it
+    @OnTouch(R.id.activity_notifications_switch)
+    public boolean onTouchSwitch(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
+
     @OnCheckedChanged(R.id.activity_notifications_switch)
     public void OnCheckedChanged(CompoundButton cb, boolean isChecked){
         Log.d(TAG, "OnCheckedChanged: isChecked = "+isChecked);

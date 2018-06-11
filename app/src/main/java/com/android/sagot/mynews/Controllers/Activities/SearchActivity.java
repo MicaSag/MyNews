@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,9 +31,12 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTouch;
+import butterknife.internal.Utils;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.android.sagot.mynews.Utils.UIUtilities.hideKeyboardFrom;
 import static com.android.sagot.mynews.Utils.UIUtilities.isNetworkAvailable;
 
 public class SearchActivity extends BaseCriteriaActivity {
@@ -46,7 +50,8 @@ public class SearchActivity extends BaseCriteriaActivity {
     @BindView(R.id.activity_search_end_date) EditText mEndDate;
     @BindView(R.id.activity_search_button) Button mButton;
     @BindView(R.id.activity_search_progress_bar) ProgressBar mProgressBar;
-    @BindView(R.id.activity_search_coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.activity_search_coordinator_layout) CoordinatorLayout mCoordinatorLayout;
+    //@BindView(R.id.activity_search_linear_layout) LinearLayout mLinearLayout;
     // Of the ToolBar
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
@@ -107,12 +112,23 @@ public class SearchActivity extends BaseCriteriaActivity {
     // --------------------
     // ACTIONS DATE FIELDS
     // --------------------
+    // Hide the keyboard when the editText loses the focus and begin date obtains it
+    @OnTouch(R.id.activity_search_begin_date)
+    public boolean onTouchBeginDate(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
+    // Hide the keyboard when the editText loses the focus and end date obtains it
+    @OnTouch(R.id.activity_search_end_date)
+    public boolean onTouchEndDate(View v, MotionEvent event) {
+        hideKeyboardFrom(this);
+        return false;
+    }
     // Click on BeginDate Field
     @OnClick(R.id.activity_search_begin_date)
     public void onClickBeginDate(View v) {
         mBeginDatePickerDialog.show();
     }
-
     // Click on EndDate Field
     @OnClick(R.id.activity_search_end_date)
     public void onClickEndDate(View v) {
@@ -122,6 +138,13 @@ public class SearchActivity extends BaseCriteriaActivity {
     // ----------------------
     // ACTIONS SEARCH BUTTON
     // ----------------------
+    // Hide the keyboard when the editText loses the focus and search button obtains it
+    @OnTouch(R.id.activity_search_button)
+    public boolean onTouchEndButton(View v, MotionEvent event) {
+        hideKeyboardFrom(this);
+        return false;
+    }
+
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.activity_search_button)
     public void submit(View view) {
@@ -149,6 +172,17 @@ public class SearchActivity extends BaseCriteriaActivity {
         }
         else return true;
     }
+
+    // -------------------
+    //   ACTION LAYOUT
+    // -------------------
+    // Hide the keyboard when the editText loses the focus and coordinator layout obtains it
+    @OnTouch(R.id.activity_search_coordinator_layout)
+    public boolean onTouchLayout(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
+
     // -------------------
     // HTTP (RxJAVA)
     // -------------------
@@ -247,7 +281,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     // CALLED BY BASE METHOD 'validateCriteria()' and 'updateUIWhenErrorHTTPRequest()'
     @Override
     protected int getCoordinatorLayout() {
-        return R.id.activity_search_coordinatorLayout;
+        return R.id.activity_search_coordinator_layout;
     }
 
     // BASE METHOD Implementation

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,8 +27,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import butterknife.OnTouch;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
+
+import static com.android.sagot.mynews.Utils.UIUtilities.hideKeyboardFrom;
 
 /*
  * ABSTRACT Class BaseCriteriaActivity
@@ -110,35 +114,72 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     // ------------------
     // ACTIONS CHECKBOX
     // ------------------
+    // Hide the keyboard when the editText loses the focus and checkbox arts obtains it
+    @OnTouch(R.id.checkbox_arts)
+    public boolean onToucharts(View v, MotionEvent event){
+       hideKeyboardFrom(this);
+        return false;
+    }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_arts)
     protected void checkBoxArts(View view) {
         getCriteria().setArts(mCheckBoxArts.isChecked());
     }
+
+    // Hide the keyboard when the editText loses the focus and checkbox business obtains it
+    @OnTouch(R.id.checkbox_business)
+    public boolean onTouchbusiness(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
     // click on Search Button and call ResultSearchActivity
-    @OnClick(R.id.checkbox_business)
+        @OnClick(R.id.checkbox_business)
     protected void checkBoxBusiness(View view) {
         getCriteria().setBusiness(mCheckBoxBusiness.isChecked());
     }
 
+    // Hide the keyboard when the editText loses the focus and checkbox entrepreneurs obtains it
+    @OnTouch(R.id.checkbox_entrepreneurs)
+    public boolean onTouchentrepreneurs(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_entrepreneurs)
     protected void checkBoxEntrepreneurs(View view) {
         getCriteria().setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked());
     }
 
+    // Hide the keyboard when the editText loses the focus and checkbox politics obtains it
+    @OnTouch(R.id.checkbox_politics)
+    public boolean onTouchPolitics(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_politics)
     protected void checkBoxPolitics(View view) {
         getCriteria().setPolitics(mCheckBoxPolitics.isChecked());
     }
 
+    // Hide the keyboard when the editText loses the focus and checkbox sports obtains it
+    @OnTouch(R.id.checkbox_sports)
+    public boolean onTouchsports(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_sports)
     protected void checkBoxSports(View view) {
         getCriteria().setSports(mCheckBoxSports.isChecked());
     }
 
+    // Hide the keyboard when the editText loses the focus and checkbox travel obtains it
+    @OnTouch(R.id.checkbox_travel)
+    public boolean onTouchTravel(View v, MotionEvent event){
+        hideKeyboardFrom(this);
+        return false;
+    }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_travel)
     protected void checkBoxTravel(View view) {
