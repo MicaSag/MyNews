@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
@@ -21,6 +22,7 @@ import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.NYTimesArtic
 import com.android.sagot.mynews.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +64,9 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
     protected Map<String, String> formattingRequest() {
         // Create a new request and put criteria
         NYTimesRequest request = new NYTimesRequest();
-        request.createQuery(Model.getInstance().getSavedModel().getSearchCriteria());
+        request.createQuery(Model.getInstance().getSavedModel().getNotificationsCriteria());
+        // Get only the articles of the day
+        request.addDateCriteriaToQuery(new Date(),"begin_date");
         // Display request
         request.displayQuery();
         return request.getQuery();
@@ -121,6 +125,7 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
                     .setStyle(new Notification.BigTextStyle().bigText(notificationDescription))
                     .setContentText(notificationDescription)
                     .setSmallIcon(R.drawable.ic_fiber_new_black_24dp)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .build();
             notificationManagerNew.notify(1, notification);
         }else{
@@ -133,17 +138,6 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
                     .build();
             NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(1, notification);
-
-            //  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
-            dispose();
         }
-    }
-
-    // -----------
-    //  ( OUT )
-    // -----------
-    //  Unsubscribe the stream when the fragment is destroyed so as not to create a memory leaks
-    private void dispose(){
-        if (this.mDisposable != null && !this.mDisposable.isDisposed()) this.mDisposable.dispose();
     }
 }

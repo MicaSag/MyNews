@@ -38,43 +38,7 @@ public class NYTimesRequest {
     SwipeRefreshLayout mSwipeRefreshLayout;
     NYTimesArticleSearch mArticleSearch;
 
-    // This function allows to execute a request on the API Article Search 
-    // Params : disposable
-    public void executeAPIArticleSearchWithRetrofit(Context context,
-                SwipeRefreshLayout swipeRefreshLayout, Disposable disposable,
-                Criteria criteria, Date dateBegin, Date dateEnd, NYTimesArticleSearch articleSearch) {
-
-        mContext = context;
-        mSwipeRefreshLayout = swipeRefreshLayout;
-        mArticleSearch = articleSearch;
-
-        // Api Key
-        String mApiKey = context.getResources().getString(R.string.api_key);
-        this.createQuery(criteria);
-        if (dateBegin != null) this.addDateCriteriaToQuery(dateBegin,"dateBegin");
-        if (dateEnd != null) this.addDateCriteriaToQuery(dateEnd,"dateEnd");
-        displayQuery();
-
-        // Execute the stream subscribing to Observable defined inside NYTimesStreams
-        disposable = NYTimesStreams.streamFetchArticleSearch(mApiKey ,  mQuery)
-                    .subscribeWith(new DisposableObserver<NYTimesArticleSearch>() {
-            @Override
-            public void onNext(NYTimesArticleSearch articleSearch) {
-                // Update UI with list of TopStories news
-                Log.d(TAG, "onNext: ");
-                setArticleSearch(articleSearch);
-            }
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "onError: ");
-                updateUIWhenErrorHTTPRequest();
-            }
-            @Override
-            public void onComplete() { Log.d(TAG,"On Complete !!"); }
-        });
-    }
-
-    // Create criteria for request of NYTimes APIs
+     // Create criteria for request of NYTimes APIs
     public void createQuery(Criteria criteria) {
 
         // Create filters

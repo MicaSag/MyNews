@@ -178,8 +178,6 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         // Create the Intent to destination of the BroadcastReceiver
         Intent alarmIntent = new Intent(NotificationsActivity.this,
                 NotificationsAlarmReceiver.class);
-        // Put mNbrArticleFound in the intent
-        alarmIntent.putExtra(BUNDLE_NBR_ARTICLE_FOUND,mNbrArticleFound);
         mPendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0,
                 alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -188,23 +186,22 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // SCHEDULE TASK  : AlarmManager
     // ------------------------------
     private Calendar createCalendar() {
-        /* Set the alarm to start at 12:00 AM */
+        /* Set the alarm to start at 00:00 AM */
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
-        calendar.set(Calendar.MINUTE, 32);
-        return calendar;
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.add(Calendar.DAY_OF_YEAR,1);
+        calendar.set(Calendar.MILLISECOND, 1);
+         return calendar;
     }
     // Start Alarm
     private void startAlarm() {
-        int timeInSec = 5;
-        long startTime = System.currentTimeMillis();
-        Log.d(TAG, "startAlarm: = Times Millis system = "+startTime);
-        //Log.d(TAG, "startAlarm: = Times Millis = "+createCalendar().getTimeInMillis());
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setInexactRepeating(  AlarmManager.RTC_WAKEUP,   // which will wake up the device when it goes off
-                                            createCalendar().getTimeInMillis(),     //
-                                            1000*60,  // Will trigger every 15 minutes
+                                            createCalendar().getTimeInMillis(),      // First start at 00:00
+                                            mAlarmManager.INTERVAL_DAY,  // Will trigger every day
                                             mPendingIntent);
         Snackbar.make(mCoordinatorLayout,"Notifications set !",Snackbar.LENGTH_LONG).show();
     }
