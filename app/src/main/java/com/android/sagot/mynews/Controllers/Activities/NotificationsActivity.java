@@ -186,10 +186,10 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // SCHEDULE TASK  : AlarmManager
     // ------------------------------
     private Calendar createCalendar() {
-        /* Set the alarm to start at 00:00 AM */
+        /* Set the alarm to start at 11:00 AM */
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.add(Calendar.DAY_OF_YEAR,1);
@@ -200,7 +200,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     private void startAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mAlarmManager.setInexactRepeating(  AlarmManager.RTC_WAKEUP,   // which will wake up the device when it goes off
-                                            createCalendar().getTimeInMillis(),      // First start at 00:00
+                                            createCalendar().getTimeInMillis(),      // First start at 11:00
                                             mAlarmManager.INTERVAL_DAY,  // Will trigger every day
                                             mPendingIntent);
         Snackbar.make(mCoordinatorLayout,"Notifications set !",Snackbar.LENGTH_LONG).show();
