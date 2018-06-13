@@ -186,16 +186,25 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // SCHEDULE TASK  : AlarmManager
     // ------------------------------
     private Calendar createCalendar() {
-        /* Set the alarm to start at 11:00 AM */
+        /* Set the alarm to start at 12:00 AM */
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.HOUR_OF_DAY, 12);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.add(Calendar.DAY_OF_YEAR,1);
         calendar.set(Calendar.MILLISECOND, 1);
-         return calendar;
+        long noon = 12*60*60*1000;
+        //if we are in the afternoon
+        Log.d(TAG, "createCalendar: noon = "+noon);
+        Log.d(TAG, "createCalendar: current time = "+System.currentTimeMillis());
+        if (System.currentTimeMillis() > noon){
+            calendar.add(Calendar.DAY_OF_YEAR,1);
+            Log.d(TAG, "createCalendar: Afternoon");
+        }else Log.d(TAG, "createCalendar: Morning");
+
+        return calendar;
     }
+
     // Start Alarm
     private void startAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
