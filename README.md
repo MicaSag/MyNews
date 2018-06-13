@@ -1,20 +1,3 @@
-![Top Stories List](/app/src/main/res/drawable/top_stories_list.png)
-![Most Popular List](/app/src/main/res/drawable/most_popular_list.png)
-![Business List](/app/src/main/res/drawable/business_list.png)
-![Sports List](/app/src/main/res/drawable/sports_list.png)
----------------------------------------------------------------------
-![Top Stories Web view Img](/app/src/main/res/drawable/top_stories_web_view.png)
-![Drawer Menu Img](/app/src/main/res/drawable/drawer_menu.png)
----------------------------------------------------------------------
-![Search Articles not article found Img](/app/src/main/res/drawable/search_articles_not_articles_found.png)
-![Search Articles required data Img](/app/src/main/res/drawable/search_articles_required_data.png)
-![Search Articles calendar Img](/app/src/main/res/drawable/search_articles_calendar.png)
-![Search Articles keyboard Img](/app/src/main/res/drawable/search_articles_keyboard.png)
-![Search Articles list already read Img](/app/src/main/res/drawable/search_articles_already_read.png)
-![Search Articles Web View Img](/app/src/main/res/drawable/search_articles_web_view.png)
----------------------------------------------------------------------
-![Notifications Set Img](/app/src/main/res/drawable/notification_set.png)
-![Notifications canceled Img](/app/src/main/res/drawable/notification_canceled.png)
 
 # MyNews
 
@@ -52,3 +35,21 @@ Its intuitive and user-friendly interface is very easy to use.
 # Contact
 
 You can contact me for any questions : contact_moodtracker@sfr.fr
+
+![Top Stories List](/app/src/main/res/drawable/top_stories_list.png)
+![Most Popular List](/app/src/main/res/drawable/most_popular_list.png)
+![Business List](/app/src/main/res/drawable/business_list.png)
+![Sports List](/app/src/main/res/drawable/sports_list.png)
+---------------------------------------------------------------------
+![Top Stories Web view Img](/app/src/main/res/drawable/top_stories_web_view.png)
+![Drawer Menu Img](/app/src/main/res/drawable/drawer_menu.png)
+---------------------------------------------------------------------
+![Search Articles not article found Img](/app/src/main/res/drawable/search_articles_not_articles_found.png)
+![Search Articles required data Img](/app/src/main/res/drawable/search_articles_required_data.png)
+![Search Articles calendar Img](/app/src/main/res/drawable/search_articles_calendar.png)
+![Search Articles keyboard Img](/app/src/main/res/drawable/search_articles_keyboard.png)
+![Search Articles list already read Img](/app/src/main/res/drawable/search_articles_already_read.png)
+![Search Articles Web View Img](/app/src/main/res/drawable/search_articles_web_view.png)
+---------------------------------------------------------------------
+![Notifications Set Img](/app/src/main/res/drawable/notifications_set.png)
+![Notifications canceled Img](/app/src/main/res/drawable/notifications_canceled.png)
