@@ -17,10 +17,12 @@ import android.widget.Switch;
 import com.android.sagot.mynews.Models.Criteria;
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.R;
+import com.android.sagot.mynews.Utils.DateUtilities;
 import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NotificationsAlarmReceiver;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -193,11 +195,8 @@ public class NotificationsActivity extends BaseCriteriaActivity {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 1);
-        long noon = 12*60*60*1000;
         //if we are in the afternoon
-        Log.d(TAG, "createCalendar: noon = "+noon);
-        Log.d(TAG, "createCalendar: current time = "+System.currentTimeMillis());
-        if (System.currentTimeMillis() > noon){
+        if (DateUtilities.getHourOfDay() > 11){
             calendar.add(Calendar.DAY_OF_YEAR,1);
             Log.d(TAG, "createCalendar: Afternoon");
         }else Log.d(TAG, "createCalendar: Morning");
@@ -208,9 +207,9 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // Start Alarm
     private void startAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mAlarmManager.setInexactRepeating(  AlarmManager.RTC_WAKEUP,   // which will wake up the device when it goes off
-                                            createCalendar().getTimeInMillis(),      // First start at 11:00
-                                            mAlarmManager.INTERVAL_DAY,  // Will trigger every day
+        mAlarmManager.setInexactRepeating(  AlarmManager.RTC_WAKEUP,            // which will wake up the device when it goes off
+                                            createCalendar().getTimeInMillis(), // First start at 12:00
+                                            mAlarmManager.INTERVAL_DAY,         // Will trigger every day
                                             mPendingIntent);
         Snackbar.make(mCoordinatorLayout,"Notifications set !",Snackbar.LENGTH_LONG).show();
     }

@@ -1,5 +1,10 @@
 package com.android.sagot.mynews.Utils;
 
+import android.util.Log;
+
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * class utilities for calculations and date conversions
  *
@@ -47,5 +52,22 @@ public class DateUtilities {
         String JJ = date.substring(8,10);            // Day
 
         return SSAA+MM+JJ;
+    }
+
+    /**
+     * @since 1.0
+     *
+     * Return Hour of Day
+     *
+     * @return String in : hour of day
+     */
+    public static int getHourOfDay() {
+
+        Date date = new Date();
+        Log.d(TAG, "newCalendar: Date = "+date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        Log.d(TAG, "newCalendar: Calendar.getTime = "+cal.get(Calendar.HOUR_OF_DAY));
+        return cal.get(Calendar.HOUR_OF_DAY);
     }
 }
