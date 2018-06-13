@@ -1,5 +1,6 @@
 ![Top Stories List](/app/src/main/res/drawable/top_stories_list.png)
 ![MyNews Img](/app/src/main/res/drawable/top_stories_list.png)
+---------------------------------------------------------------------
 ![MyNews Img](/app/src/main/res/drawable/top_stories_list.png)
 
 ![MyNews Img](/app/src/main/res/drawable/top_stories_list.png)
