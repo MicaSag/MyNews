@@ -1,10 +1,10 @@
-![MyNews Img](/app/src/main/res/drawable/TopStories.png)
+![MyNews Img](/app/src/main/res/drawable/top_stories_list.png)
 
-![MyNews Img](/app/src/main/res/drawable/MostPopular.png)
+![MyNews Img](/app/src/main/res/drawable/top_stories_list.png)
 
-![MyNews Img](/app/src/main/res/drawable/Business.png)
+![MyNews Img](/app/src/main/res/drawable/top_stories_list.png)
 
-![MyNews Img](/app/src/main/res/drawable/Sports.png)
+![MyNews Img](/app/src/main/res/drawable/top_stories_list.png)
 
 # MyNews
 
