@@ -34,7 +34,7 @@ Its intuitive and user-friendly interface is very easy to use.
 
 # Contact
 
-You can contact me for any questions : contact_moodtracker@sfr.fr
+You can contact me for any questions : contact_mynews@sfr.fr
 
 ![Top Stories List](/app/src/main/res/drawable/top_stories_list.png)
 ![Most Popular List](/app/src/main/res/drawable/most_popular_list.png)
