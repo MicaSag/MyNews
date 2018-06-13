@@ -48,7 +48,7 @@ You can contact me for any questions : contact_moodtracker@sfr.fr
 ![Search Articles required data Img](/app/src/main/res/drawable/search_articles_required_data.png)
 ![Search Articles calendar Img](/app/src/main/res/drawable/search_articles_calendar.png)
 ![Search Articles keyboard Img](/app/src/main/res/drawable/search_articles_keyboard.png)
-![Search Articles list already read Img](/app/src/main/res/drawable/search_articles_already_read.png)
+![Search Articles list already read Img](/app/src/main/res/drawable/search_articles_list_already_read.png)
 ![Search Articles Web View Img](/app/src/main/res/drawable/search_articles_web_view.png)
 ---------------------------------------------------------------------
 ![Notifications Set Img](/app/src/main/res/drawable/notifications_set.png)
