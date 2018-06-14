@@ -15,7 +15,7 @@ env:
   - ANDROID_BUILD_TOOLS_VERSION=27.0.3
    
   #Install Timeout (by default 2min is not enough for slow computers)
-  #  - ADB_INSTALL_TIMEOUT=30
+  - ADB_INSTALL_TIMEOUT=5 # minutes
 
 android:
   components:
@@ -23,9 +23,6 @@ android:
     # Android SDK Tools
     - tools
     - platform-tools
-
-    #repeat tools to get newer Android SDK Tools
-    - tools 
 
     # The BuildTools version used by your project
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
@@ -59,12 +56,13 @@ before_script:
   - chmod +x gradlew
   #- ./gradlew build jacocoTestReport assembleAndroidTest
   - echo no | android create avd --force -n test -t android-$EMULATOR_API_LEVEL --abi armeabi-v7a
-  - emulator -avd test -no-audio -no-window &
+  - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 & 
 
-script: 
-  - ./gradlew connectedCheck
+#Executes instrumentation tests located in src/androidTests/
+script:
+  - "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
