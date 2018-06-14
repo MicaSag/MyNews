@@ -12,15 +12,15 @@ android:
   components:
   
   #Android SDK Tools
-    - tools
-    - platform-tools
+  #  - tools
+  # - platform-tools
     
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$EMULATOR_API_LEVEL
     - sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
 
   #Additional components
-    - extra-android-m2repository
+  #  - extra-android-m2repository
 
 before_install:
   - yes | sdkmanager "platforms;android-27"
