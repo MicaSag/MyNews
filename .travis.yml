@@ -8,7 +8,7 @@ env:
   - ANDROID_API_LEVEL=27
    
   #Android API Version for the emulator 
-  - EMULATOR_API_LEVEL=19
+  - EMULATOR_API_LEVEL=22
    
   #Android Build Tools Version ( same as specified in your projects build.gradle file ) 
   - ANDROID_BUILD_TOOLS_VERSION=27.0.3
@@ -37,10 +37,11 @@ android:
     - sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
 
     # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
     - extra-android-m2repository
-    
-    - add-on
-    - extra
+    - addon-google_apis-google-27
+
 
 #So that cache isn’t always uploaded
 before_cache:
@@ -65,7 +66,7 @@ before_script:
 
 #Executes instrumentation tests located in src/androidTests/
 script:
-  - "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
+  - ./gradlew connectedCheck 
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
