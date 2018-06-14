@@ -1,5 +1,4 @@
 language: android
-sudo: required
 jdk: oraclejdk8
 
 env:
@@ -23,6 +22,7 @@ android:
     # Android SDK Tools
     - tools
     - platform-tools
+    - tools
 
     # The BuildTools version used by your project
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
@@ -38,6 +38,9 @@ android:
 
     # Additional components
     - extra-android-m2repository
+    
+    - add-on
+    - extra
 
 #So that cache isn’t always uploaded
 before_cache:
