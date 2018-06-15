@@ -31,9 +31,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
 }
 
-//jacoco {
-//    toolVersion = '0.8.1'
-//}
+jacoco {
+    toolVersion = "0.8.1"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
 
 //tasks.withType(Test) {
 //   jacoco.includeNoLocationClasses = true
