@@ -2,43 +2,17 @@ apply plugin: 'com.android.application'
 
 // continuous integration with travis-ci and jacoco
 apply plugin: 'jacoco'
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
-
-//    reports {
-//        xml.enabled = true
- //       html.enabled = true
- //   }
-
-    //def fileFilter = ['**/R.class',
-    //                  '**/R$*.class',
-    //                  '**/BuildConfig.*',
-    //                  '**/Manifest*.*',
-    //                  '**/*Test*.*',
-    //                  'android/**/*.*',
-    //                  '**/data/models/*']
-
-    //def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug")
-
-    def mainSrc = "${project.projectDir}/src/main/java"
-
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testDebugUnitTest.exec",
-            "outputs/code-coverage/connected/*coverage.ec"
-   ])
-
-}
 
 jacoco {
     toolVersion = "0.8.1"
-    reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
-//tasks.withType(Test) {
-//   jacoco.includeNoLocationClasses = true
-//}
+task jacocoTestReport {
+   reports {
+       xml.enabled  = true
+       html.enabled = true
+   }
+}
 
 android {
     compileSdkVersion 27
