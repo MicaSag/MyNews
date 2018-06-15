@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco-android'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.8.1'
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
 
 android {
     compileSdkVersion 27
