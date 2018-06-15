@@ -19,21 +19,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
             android:text="Arts"
-            android:onClick="onCheckboxClicked"/>
+            android:onClick="onCheckboxArtsClicked"/>
 
         <CheckBox android:id="@+id/checkbox_business"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
             android:text="Business"
-            android:onClick="onCheckboxClicked"/>
+            android:onClick="onCheckboxBusinessClicked"/>
 
         <CheckBox android:id="@+id/checkbox_entrepreneurs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
             android:text="Entrepreneurs"
-            android:onClick="onCheckboxClicked"/>
+            android:onClick="onCheckboxEntrepreneursClicked"/>
 
     </LinearLayout>
 
@@ -48,21 +48,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
             android:text="Politics"
-            android:onClick="onCheckboxClicked"/>
+            android:onClick="onCheckboxPoliticsClicked"/>
 
         <CheckBox android:id="@+id/checkbox_sports"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
             android:text="Sports"
-            android:onClick="onCheckboxClicked"/>
+            android:onClick="onCheckboxSportsClicked"/>
 
         <CheckBox android:id="@+id/checkbox_travel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_top"
             android:text="Travel"
-            android:onClick="onCheckboxClicked"/>
+            android:onClick="onCheckboxTravelClicked"/>
 
     </LinearLayout>
 </LinearLayout>
