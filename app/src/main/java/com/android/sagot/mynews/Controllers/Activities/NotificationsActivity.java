@@ -5,9 +5,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,15 +17,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.android.sagot.mynews.Models.Criteria;
-import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.R;
-import com.android.sagot.mynews.Utils.DateUtilities;
-import com.android.sagot.mynews.Utils.NYTimesRequest;
 import com.android.sagot.mynews.Utils.NotificationsAlarmReceiver;
 
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -187,30 +184,44 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // ------------------------------
     // SCHEDULE TASK  : AlarmManager
     // ------------------------------
-    private Calendar createCalendar() {
-        /* Set the alarm to start at 12:00 AM */
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 12);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 1);
-        //if we are in the afternoon
-        if (DateUtilities.getHourOfDay() > 11){
-            calendar.add(Calendar.DAY_OF_YEAR,1);
-            Log.d(TAG, "createCalendar: Afternoon");
-        }else Log.d(TAG, "createCalendar: Morning");
+    private long nextNotification(long notificationStartTime) {
+        Log.d(TAG, "nextNotification: ");
+        // Time in millisecond since the ignition of the phone ( can not be corrupted )
+        long oneMinute = 60 * 1000;
+        long oneHour = oneMinute * 60;
+        long oneDay = oneHour * 24;
+        //long startNotification = oneHour * 12;
 
-        return calendar;
+        // Time in millisecond since the ignition of the phone ( can not be corrupted )
+        long elapsedTime = SystemClock.elapsedRealtime();
+        // Clock time in millisecond ( can be corrupted by the user or the phone network )
+        long  currentTimeMillis = System.currentTimeMillis();
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        Log.d(TAG, "nextNotification: HOUR ="+cal.get(Calendar.HOUR_OF_DAY));
+        Log.d(TAG, "nextNotification: MINUTE ="+cal.get(Calendar.MINUTE));
+        Log.d(TAG, "nextNotification: SECOND ="+cal.get(Calendar.SECOND));
+        Log.d(TAG, "nextNotification: MILLI ="+cal.get(Calendar.MILLISECOND));
+Time time = new Time();
+time.setToNow();
+        Log.d(TAG, "nextNotification: aaa ="+time.toMillis(false));
+
+        Log.d(TAG, "nextNotification: in mmili ="+Calendar.getInstance().getTimeInMillis());
+        long deltaTime = oneDay - currentTimeMillis;
+
+
+        return elapsedTime + ( deltaTime - (notificationStartTime * oneMinute) );
     }
 
     // Start Alarm
     private void startAlarm() {
+        Log.d(TAG, "startAlarm: ");
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mAlarmManager.setInexactRepeating(  AlarmManager.RTC_WAKEUP,            // which will wake up the device when it goes off
-                                            createCalendar().getTimeInMillis(), // First start at 12:00
-                                            mAlarmManager.INTERVAL_DAY,         // Will trigger every day
-                                            mPendingIntent);
+        mAlarmManager.setRepeating( AlarmManager.ELAPSED_REALTIME_WAKEUP,            // which will wake up the device when it goes off
+                                    nextNotification(1), // First start at 12:00
+                                    mAlarmManager.INTERVAL_FIFTEEN_MINUTES,         // Will trigger every day
+                                    mPendingIntent);
         Snackbar.make(mCoordinatorLayout,"Notifications set !",Snackbar.LENGTH_LONG).show();
     }
     // Stop Alarm
