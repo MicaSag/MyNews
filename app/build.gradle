@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
 
+// continuous integration with travis-ci and jacoco
+apply plugin: 'jacoco'
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
     reports {
@@ -34,12 +35,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 //}
 
 //tasks.withType(Test) {
-//    jacoco.includeNoLocationClasses = true
+//   jacoco.includeNoLocationClasses = true
 //}
 
 android {
     compileSdkVersion 27
-//    buildToolsVersion "27.0.3"
+
     defaultConfig {
         applicationId "com.android.sagot.mynews"
         minSdkVersion 19
@@ -53,15 +54,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
- //       // continuous integration with travis-ci
- //      debug {
- //          testCoverageEnabled true
- //      }
+        // continuous integration with travis-ci
+       debug {
+           testCoverageEnabled true
+       }
     }
- //   compileOptions {
- //       targetCompatibility 1.8
- //       sourceCompatibility 1.8
- //   }
 }
 
 
