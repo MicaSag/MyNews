@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 // continuous integration with travis-ci and jacoco
 apply plugin: 'jacoco'
 
-task jacocoTestReport {
+jacocoTestReport {
    reports {
        xml.enabled  true
        html.enabled true
