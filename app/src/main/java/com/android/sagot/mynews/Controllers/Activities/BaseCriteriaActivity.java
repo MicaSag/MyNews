@@ -122,7 +122,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_arts)
-    protected void checkBoxArts(View view) {
+    protected void onCheckboxArtsClicked(View view) {
         getCriteria().setArts(mCheckBoxArts.isChecked());
     }
 
@@ -134,7 +134,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     // click on Search Button and call ResultSearchActivity
         @OnClick(R.id.checkbox_business)
-    protected void checkBoxBusiness(View view) {
+    protected void onCheckboxBusinessClicked(View view) {
         getCriteria().setBusiness(mCheckBoxBusiness.isChecked());
     }
 
@@ -146,7 +146,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_entrepreneurs)
-    protected void checkBoxEntrepreneurs(View view) {
+    protected void onCheckboxEntrepreneursClicked(View view) {
         getCriteria().setEntrepreneurs(mCheckBoxEntrepreneurs.isChecked());
     }
 
@@ -158,7 +158,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_politics)
-    protected void checkBoxPolitics(View view) {
+    protected void pnCheckboxPoliticsClicked(View view) {
         getCriteria().setPolitics(mCheckBoxPolitics.isChecked());
     }
 
@@ -170,7 +170,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_sports)
-    protected void checkBoxSports(View view) {
+    protected void onCheckboxSportsClicked(View view) {
         getCriteria().setSports(mCheckBoxSports.isChecked());
     }
 
@@ -182,7 +182,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_travel)
-    protected void checkBoxTravel(View view) {
+    protected void onCheckboxTravelClicked(View view) {
         getCriteria().setTravel(mCheckBoxTravel.isChecked());
     }
 
