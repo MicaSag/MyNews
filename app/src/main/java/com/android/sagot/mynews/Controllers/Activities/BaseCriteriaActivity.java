@@ -158,7 +158,7 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
     }
     // click on Search Button and call ResultSearchActivity
     @OnClick(R.id.checkbox_politics)
-    public void pnCheckboxPoliticsClicked(View view) {
+    public void onCheckboxPoliticsClicked(View view) {
         getCriteria().setPolitics(mCheckBoxPolitics.isChecked());
     }
 
