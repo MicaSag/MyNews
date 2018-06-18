@@ -41,7 +41,7 @@ public class Doc {
     @SerializedName("document_type")
     @Expose
     private String documentType;
-    @SerializedName("new_desk")
+    @SerializedName("news_desk")
     @Expose
     private String newDesk;
     @SerializedName("section_name")
