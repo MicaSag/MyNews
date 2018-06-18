@@ -36,9 +36,10 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 //    reportsDir = file("$buildDir/customJacocoReportDir")
 //}
 
-//tasks.withType(Test) {
-//   jacoco.includeNoLocationClasses = true
-//}
+// For Unit Test
+tasks.withType(Test) {
+   jacoco.includeNoLocationClasses = true
+}
 
 android {
     compileSdkVersion 27
