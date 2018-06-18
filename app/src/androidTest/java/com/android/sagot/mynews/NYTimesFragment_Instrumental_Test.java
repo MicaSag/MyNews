@@ -71,7 +71,7 @@ public class NYTimesFragment_Instrumental_Test {
         // Criteria of the query
         Map<String, String> query =  new HashMap<>();
         query.put("q", "Obama");
-        query.put("fq", "news_desk:( Sports , Business , Politics");
+        query.put("fq", "news_desk:( Sports , Business , Politics )");
         // Get the stream
         Observable<NYTimesArticleSearch> observableNews =
                 NYTimesStreams.streamFetchArticleSearch("de9402ab67114b3c8f08f3d58562b310", query);
