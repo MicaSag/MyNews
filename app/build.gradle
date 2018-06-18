@@ -4,21 +4,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
 
-//    reports {
-//        xml.enabled = true
- //       html.enabled = true
- //   }
+   reports {
+       xml.enabled = true
+    html.enabled = true
+    }
 
-    //def fileFilter = ['**/R.class',
-    //                  '**/R$*.class',
-    //                  '**/BuildConfig.*',
-    //                  '**/Manifest*.*',
-    //                  '**/*Test*.*',
-    //                  'android/**/*.*',
-    //                  '**/data/models/*']
+    def fileFilter = ['**/R.class',
+                      '**/R$*.class',
+                      '**/BuildConfig.*',
+                      '**/Manifest*.*',
+                      '**/*Test*.*',
+                     'android/**/*.*',
+                      '**/data/models/*']
 
-    //def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug")
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
 
     def mainSrc = "${project.projectDir}/src/main/java"
 
@@ -29,12 +28,13 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
             "outputs/code-coverage/connected/*coverage.ec"
    ])
 
+    // Always regenerate report
+    outputs.upToDateWhen { false }
 }
 
-//jacoco {
-//    toolVersion = "0.8.1"
-//    reportsDir = file("$buildDir/customJacocoReportDir")
-//}
+jacoco {
+    toolVersion = "0.8.1"
+}
 
 // For Unit Test
 tasks.withType(Test) {
