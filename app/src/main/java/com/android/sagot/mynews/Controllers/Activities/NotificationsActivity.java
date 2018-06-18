@@ -184,43 +184,29 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     // ------------------------------
     // SCHEDULE TASK  : AlarmManager
     // ------------------------------
-    private long nextNotification(long notificationStartTime) {
+    // @Return The hour it milliseconds of release of the first alarm
+    private long nextNotification() {
         Log.d(TAG, "nextNotification: ");
-        // Time in millisecond since the ignition of the phone ( can not be corrupted )
-        long oneMinute = 60 * 1000;
-        long oneHour = oneMinute * 60;
-        long oneDay = oneHour * 24;
-        //long startNotification = oneHour * 12;
-
-        // Time in millisecond since the ignition of the phone ( can not be corrupted )
-        long elapsedTime = SystemClock.elapsedRealtime();
-        // Clock time in millisecond ( can be corrupted by the user or the phone network )
-        long  currentTimeMillis = System.currentTimeMillis();
 
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(System.currentTimeMillis());
-        Log.d(TAG, "nextNotification: HOUR ="+cal.get(Calendar.HOUR_OF_DAY));
-        Log.d(TAG, "nextNotification: MINUTE ="+cal.get(Calendar.MINUTE));
-        Log.d(TAG, "nextNotification: SECOND ="+cal.get(Calendar.SECOND));
-        Log.d(TAG, "nextNotification: MILLI ="+cal.get(Calendar.MILLISECOND));
-Time time = new Time();
-time.setToNow();
-        Log.d(TAG, "nextNotification: aaa ="+time.toMillis(false));
-
-        Log.d(TAG, "nextNotification: in mmili ="+Calendar.getInstance().getTimeInMillis());
-        long deltaTime = oneDay - currentTimeMillis;
-
-
-        return elapsedTime + ( deltaTime - (notificationStartTime * oneMinute) );
+        // If it is after noon then we add one day to the meter of release of the alarm
+        if (cal.get(Calendar.HOUR_OF_DAY) > 12 ) cal.add(Calendar.DATE, 1);
+        // The alarm next one will thus be at 12:00 am tomorrow
+        cal.set(Calendar.HOUR_OF_DAY, 12);
+        cal.set(Calendar.MINUTE, 00);
+        cal.set(Calendar.SECOND, 00);
+        cal.set(Calendar.MILLISECOND, 0);
+        //The hour it milliseconds of release of the first alarm
+        return cal.getTimeInMillis();
     }
 
     // Start Alarm
     private void startAlarm() {
         Log.d(TAG, "startAlarm: ");
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mAlarmManager.setRepeating( AlarmManager.ELAPSED_REALTIME_WAKEUP,            // which will wake up the device when it goes off
-                                    nextNotification(1), // First start at 12:00
-                                    mAlarmManager.INTERVAL_FIFTEEN_MINUTES,         // Will trigger every day
+        mAlarmManager.setRepeating( AlarmManager.RTC_WAKEUP,     // which will wake up the device when it goes off
+                                    nextNotification(),          // First start at 12:00
+                                    mAlarmManager.INTERVAL_DAY,  // Will trigger every day
                                     mPendingIntent);
         Snackbar.make(mCoordinatorLayout,"Notifications set !",Snackbar.LENGTH_LONG).show();
     }

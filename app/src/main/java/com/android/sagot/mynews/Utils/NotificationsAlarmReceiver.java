@@ -135,6 +135,7 @@ public class NotificationsAlarmReceiver extends BroadcastReceiver {
                     .setStyle(new Notification.BigTextStyle().bigText(notificationDescription))
                     .setContentText(notificationDescription)
                     .setSmallIcon(R.drawable.ic_fiber_new_black_24dp)
+                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                     .build();
             NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(1, notification);
