@@ -1,7 +1,5 @@
 package com.android.sagot.mynews.Utils;
 
-import android.util.Log;
-
 import com.android.sagot.mynews.Models.Model;
 import com.android.sagot.mynews.Models.NYTimesNews;
 import com.android.sagot.mynews.Models.NYTimesStreams.ArticleSearch.Doc;
@@ -10,9 +8,7 @@ import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.NYTimesMostPop
 import com.android.sagot.mynews.Models.NYTimesStreams.MostPopular.ResultMostPopular;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.NYTimesTopStories;
 import com.android.sagot.mynews.Models.NYTimesStreams.TopStories.Result;
-import com.android.sagot.mynews.Utils.DateUtilities;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

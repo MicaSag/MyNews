@@ -1,10 +1,5 @@
 package com.android.sagot.mynews.Utils;
 
-import android.util.Log;
-
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  * class utilities for calculations and date conversions
  *
