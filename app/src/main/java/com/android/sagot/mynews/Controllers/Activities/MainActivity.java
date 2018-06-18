@@ -348,6 +348,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Mark as selected the menu item corresponding to the current tab selected
         this.mNavigationView.getMenu().getItem(position).setChecked(true);
 
+        // Change color of the menu item corresponding to the current tab selected
+        colors[0] = getResources()
+                .obtainTypedArray(R.array.primary_colors).getColor(position, 0);
+
         // Change Color of the Tab selected
         this.mTabLayout.setBackgroundColor(getResources()
                 .obtainTypedArray(R.array.primary_colors).getColor(position, 0));

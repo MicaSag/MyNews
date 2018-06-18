@@ -190,10 +190,10 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         Calendar cal = Calendar.getInstance();
         // If it is after noon then we add one day to the meter of release of the alarm
-        //if (cal.get(Calendar.HOUR_OF_DAY) > 12 ) cal.add(Calendar.DATE, 1);
+        if (cal.get(Calendar.HOUR_OF_DAY) > 12 ) cal.add(Calendar.DATE, 1);
         // The alarm next one will thus be at 12:00 am tomorrow
-        cal.set(Calendar.HOUR_OF_DAY, 18);
-        cal.set(Calendar.MINUTE, 50);
+        cal.set(Calendar.HOUR_OF_DAY, 12);
+        cal.set(Calendar.MINUTE, 00);
         cal.set(Calendar.SECOND, 00);
         cal.set(Calendar.MILLISECOND, 0);
         //The hour it milliseconds of release of the first alarm
@@ -204,7 +204,7 @@ public class NotificationsActivity extends BaseCriteriaActivity {
     private void startAlarm() {
         Log.d(TAG, "startAlarm: ");
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mAlarmManager.setRepeating( AlarmManager.RTC_WAKEUP,     // which will wake up the device when it goes off
+        mAlarmManager.setInexactRepeating( AlarmManager.RTC_WAKEUP,     // which will wake up the device when it goes off
                                     nextNotification(),          // First start at 12:00
                                     mAlarmManager.INTERVAL_DAY,  // Will trigger every day
                                     mPendingIntent);
