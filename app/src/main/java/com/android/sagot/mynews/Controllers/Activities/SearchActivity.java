@@ -115,12 +115,14 @@ public class SearchActivity extends BaseCriteriaActivity {
     // Hide the keyboard when the editText loses the focus and begin date obtains it
     @OnTouch(R.id.activity_search_begin_date)
     public boolean onTouchBeginDate(View v, MotionEvent event){
+        mBeginDate.setText("");
         hideKeyboardFrom(this);
         return false;
     }
     // Hide the keyboard when the editText loses the focus and end date obtains it
     @OnTouch(R.id.activity_search_end_date)
     public boolean onTouchEndDate(View v, MotionEvent event) {
+        mEndDate.setText("");
         hideKeyboardFrom(this);
         return false;
     }
