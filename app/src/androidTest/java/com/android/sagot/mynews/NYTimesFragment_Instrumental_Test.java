@@ -1,5 +1,6 @@
 package com.android.sagot.mynews;
 
+import android.content.Context;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
@@ -36,7 +37,6 @@ public class NYTimesFragment_Instrumental_Test {
 
         // Get list of news fetched
         NYTimesTopStories newsFetched = testObserver.values().get(0);
-        Log.d("JUNIT_TEST", "fetchNewsTest:newsFetched.getNumResults() = "+newsFetched.getNumResults());
         // Verify if status: "OK"
         assertThat("The status of the Stream was read correctly", newsFetched.getStatus().equals("OK"));
         // Verify if section: "home"
@@ -59,7 +59,6 @@ public class NYTimesFragment_Instrumental_Test {
 
         // Get list of news fetched
         NYTimesMostPopular newsFetched = testObserver.values().get(0);
-        Log.d("JUNIT_TEST", "fetchNewsTest:newsFetched.getNumResults() = "+newsFetched.getNumResults());
         // Verify if status: "OK"
         assertThat("The status of the Stream was read correctly", newsFetched.getStatus().equals("OK"));
         // Verify if Results Exist
@@ -85,7 +84,6 @@ public class NYTimesFragment_Instrumental_Test {
 
         // Get list of news fetched
         NYTimesArticleSearch newsFetched = testObserver.values().get(0);
-        Log.d("JUNIT_TEST", "fetchNewsTest:newsFetched.getNumResults() = "+newsFetched.getResponse());
         // Verify if status: "OK"
         assertThat("The status of the Stream was read correctly", newsFetched.getStatus().equals("OK"));
         // Verify if Results Exist

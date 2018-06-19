@@ -116,6 +116,8 @@ public class SearchActivity extends BaseCriteriaActivity {
     @OnTouch(R.id.activity_search_begin_date)
     public boolean onTouchBeginDate(View v, MotionEvent event){
         mBeginDate.setText("");
+        // Save date selected
+        getModel().getSearchCriteria().setBeginDate(null);
         hideKeyboardFrom(this);
         return false;
     }
@@ -123,6 +125,7 @@ public class SearchActivity extends BaseCriteriaActivity {
     @OnTouch(R.id.activity_search_end_date)
     public boolean onTouchEndDate(View v, MotionEvent event) {
         mEndDate.setText("");
+        getModel().getSearchCriteria().setEndDate(null);
         hideKeyboardFrom(this);
         return false;
     }
