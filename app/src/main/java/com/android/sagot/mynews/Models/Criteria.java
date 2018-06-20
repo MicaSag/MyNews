@@ -24,7 +24,7 @@ public class Criteria implements Serializable {
         this.mEntrepreneurs = false;        // Not cheked by default
         this.mPolitics      = false;        // Not cheked by default
         this.mSports        = false;        // Not cheked by default
-        this.mtravel        = false;        // Not cheked by default
+        this.mTravel        = false;        // Not cheked by default
     }
     
     // Getter an Setter Methods
