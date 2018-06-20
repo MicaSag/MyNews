@@ -1,6 +1,6 @@
-language: android
-jdk: oraclejdk8
-email: false
+language: android #Applicable to an android App
+jdk: oraclejdk8   #Use Jdk8
+email: false      #No email sent when the process is complete
 
 env:
   # Global Reference Values for the file
