@@ -8,14 +8,26 @@ import java.io.Serializable;
 
 public class Criteria implements Serializable {
 
-    private String mKeysWords ="";                  // Backing up keywords
-    private boolean mArts = false;                  // CheckBox Arts status
-    private boolean mBusiness = false;              // CheckBox Business status
-    private boolean mEntrepreneurs = false;         // CheckBox Entrepreneurs status
-    private boolean mPolitics = false;              // CheckBox Politics status
-    private boolean mSports = false;                // CheckBox Sports status
-    private boolean mTravel = false;                // CheckBox Travel status
+    private String mKeysWords;              // Backing up keywords
+    private boolean mArts;                  // CheckBox Arts status
+    private boolean mBusiness;              // CheckBox Business status
+    private boolean mEntrepreneurs;         // CheckBox Entrepreneurs status
+    private boolean mPolitics;              // CheckBox Politics status
+    private boolean mSports;                // CheckBox Sports status
+    private boolean mTravel;                // CheckBox Travel status
 
+    // Default constructor
+    public Criteria() {
+        this.mKeysWords     = "";           // Not KeyWords by default
+        this.mArts          = false;        // Not cheked by default
+        this.mBusiness      = false;        // Not cheked by default
+        this.mEntrepreneurs = false;        // Not cheked by default
+        this.mPolitics      = false;        // Not cheked by default
+        this.mSports        = false;        // Not cheked by default
+        this.mtravel        = false;        // Not cheked by default
+    }
+    
+    // Getter an Setter Methods
     public String getKeysWords() {
         return mKeysWords;
     }
