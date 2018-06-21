@@ -65,9 +65,6 @@ public abstract class BaseCriteriaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getActivityLayout());
 
-        // Get Model of the App
-        getModel();
-        
         // Get & serialise all views
         ButterKnife.bind(this);
 

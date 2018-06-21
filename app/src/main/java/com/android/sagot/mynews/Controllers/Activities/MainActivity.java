@@ -37,7 +37,8 @@ import static com.android.sagot.mynews.Controllers.Fragments.BaseNewsFragment.BU
 import static com.android.sagot.mynews.Utils.UIUtilities.changeStatusBarColor;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,TabLayout.OnTabSelectedListener {
 
     // FOR TRACES
     private static final String TAG = MainActivity.class.getSimpleName();
