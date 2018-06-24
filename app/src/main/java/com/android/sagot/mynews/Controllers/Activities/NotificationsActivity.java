@@ -184,10 +184,10 @@ public class NotificationsActivity extends BaseCriteriaActivity {
 
         Calendar cal = Calendar.getInstance();
         // If it is after noon then we add one day to the meter of release of the alarm
-        //if (cal.get(Calendar.HOUR_OF_DAY) > 12 ) cal.add(Calendar.DATE, 1);
+        if (cal.get(Calendar.HOUR_OF_DAY) > 12 ) cal.add(Calendar.DATE, 1);
         // The alarm next one will thus be at 12:00 am tomorrow
-        cal.set(Calendar.HOUR_OF_DAY, 20);
-        cal.set(Calendar.MINUTE, 54);
+        cal.set(Calendar.HOUR_OF_DAY, 12);
+        cal.set(Calendar.MINUTE, 00);
         cal.set(Calendar.SECOND, 00);
         cal.set(Calendar.MILLISECOND, 0);
         //The hour it milliseconds of release of the first alarm
