@@ -5,7 +5,7 @@ MyNews is a Android App
 
 Creator : Michaël SAGOT 
 
-Version : Initial Version 1.0
+Version : Initial Version 1.0 
 
 
 # Presentation
