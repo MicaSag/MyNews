@@ -32,7 +32,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTouch;
-import butterknife.internal.Utils;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
