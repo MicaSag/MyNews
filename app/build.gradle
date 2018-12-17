@@ -8,7 +8,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
    reports {
        xml.enabled false
        csv.enabled false
-       html.destination file("${buildDir}/jacocoHtml")
     }
 
     def fileFilter = ['**/R.class',
